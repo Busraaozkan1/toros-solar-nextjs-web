@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getAuthUser } from '@/lib/auth';
+import { uploadImage } from '@/lib/imageStorage';
 
 export const runtime = 'nodejs';
 
@@ -30,26 +31,37 @@ export async function GET(request, { params }) {
 export async function PUT(request, { params }) {
     try {
         const user = await getAuthUser();
-        if (!user) return NextResponse.json({ message: "Yetkisiz" }, { status: 401 });
+        if (!user || user.role !== 'Admin') {
+            return NextResponse.json({ message: 'Bu islem icin yetkiniz yok!' }, { status: 403 });
+        }
 
-        const body = await request.json();
         const id = await getIdFromParams(params);
-        const priceText = String(body.priceText || '').trim();
+        const formData = await request.formData();
+
+        const name = String(formData.get('name') || '').trim();
+        const description = String(formData.get('description') || '').trim();
+        const priceText = String(formData.get('priceText') || '').trim();
+        const currentImageUrl = String(formData.get('imageUrl') || '').trim() || null;
+        const uploadedImageUrl = await uploadImage(formData.get('imageFile'), 'toros-solar/products');
+
+        if (!name || !description || !priceText) {
+            return NextResponse.json({ message: 'Lutfen zorunlu alanlari doldurun.' }, { status: 400 });
+        }
 
         const updatedProduct = await prisma.product.update({
             where: { id: id },
             data: {
-                name: body.name,
-                description: body.description,
+                name,
+                description,
                 price: parsePriceTextToNumber(priceText),
                 priceText: priceText || null,
-                imageUrl: body.imageUrl, // Resim değişmediyse eski URL'yi gönderin
+                imageUrl: uploadedImageUrl || currentImageUrl,
             }
         });
 
         return NextResponse.json({ success: true, updatedProduct });
     } catch (error) {
-        return NextResponse.json({ message: "Güncelleme hatası" }, { status: 500 });
+        return NextResponse.json({ message: error?.message || 'Guncelleme hatasi' }, { status: 500 });
     }
 }
 

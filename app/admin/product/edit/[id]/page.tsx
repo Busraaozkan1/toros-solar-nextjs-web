@@ -1,20 +1,66 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
-export default function ProductEditPage({ params }: { params: { id: string } }) {
+type ProductFormData = {
+    id: string;
+    name: string;
+    priceText: string;
+    description: string;
+    imageUrl: string;
+};
+
+export default function ProductEditPage() {
     const router = useRouter();
+    const params = useParams<{ id: string }>();
+    const productId = String(params?.id || '').trim();
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     
-    // Form State Yönetimi
-    const [formData, setFormData] = useState({
-        id: params.id,
-        name: '450W Mono Perc Panel',
-        priceText: '1250 TL',
-        description: 'Yuksek verimlilik orani\nDayanikli temperli cam',
-        imageUrl: '/img/panel-sample.jpg'
+    const [formData, setFormData] = useState<ProductFormData>({
+        id: '',
+        name: '',
+        priceText: '',
+        description: '',
+        imageUrl: ''
     });
+        useEffect(() => {
+            const loadProduct = async () => {
+                if (!productId) {
+                    setError('Gecersiz urun id.');
+                    setLoading(false);
+                    return;
+                }
+
+                try {
+                    const res = await fetch(`/api/admin/products/${productId}`, { cache: 'no-store' });
+                    const data = await res.json().catch(() => ({}));
+
+                    if (!res.ok) {
+                        throw new Error(data?.message || 'Urun bilgisi yuklenemedi.');
+                    }
+
+                    setFormData({
+                        id: String(data.id),
+                        name: String(data.name || ''),
+                        priceText: String(data.priceText || data.price || ''),
+                        description: String(data.description || ''),
+                        imageUrl: String(data.imageUrl || '')
+                    });
+                } catch (err) {
+                    const message = err instanceof Error ? err.message : 'Urun yuklenirken hata olustu.';
+                    setError(message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            loadProduct();
+        }, [productId]);
+
     
     const [newImage, setNewImage] = useState<File | null>(null);
 
@@ -31,23 +77,47 @@ export default function ProductEditPage({ params }: { params: { id: string } }) 
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setSaving(true);
+        setError(null);
 
-        // FormData hazırlığı (Dosya yükleme desteği için)
         const data = new FormData();
-        data.append('id', formData.id);
         data.append('name', formData.name);
         data.append('priceText', formData.priceText);
         data.append('description', formData.description);
-        data.append('imageUrl', formData.imageUrl); // Eski resim yolu (eğer yenisi seçilmezse)
+        data.append('imageUrl', formData.imageUrl);
         
         if (newImage) {
             data.append('imageFile', newImage);
         }
 
-        console.log("Güncelleme isteği gönderiliyor...", formData);
-        alert("Ürün başarıyla güncellendi!");
-        router.push('/admin/product'); // Başarılı işlem sonrası listeye dön
+        try {
+            const res = await fetch(`/api/admin/products/${formData.id}`, {
+                method: 'PUT',
+                body: data
+            });
+
+            const payload = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                throw new Error(payload?.message || 'Urun guncellenemedi.');
+            }
+
+            alert('Urun basariyla guncellendi!');
+            router.push('/admin/product');
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Guncelleme sirasinda hata olustu.';
+            setError(message);
+        } finally {
+            setSaving(false);
+        }
     };
+
+    if (loading) {
+        return <div className="container py-4">Urun bilgileri yukleniyor...</div>;
+    }
+
+    if (error && !formData.id) {
+        return <div className="container py-4 text-danger">{error}</div>;
+    }
 
     return (
         <div className="container py-4">
@@ -67,9 +137,13 @@ export default function ProductEditPage({ params }: { params: { id: string } }) 
                         </div>
 
                         <div className="card-body p-4 bg-white text-dark">
+                            {error && (
+                                <div className="alert alert-danger" role="alert">
+                                    {error}
+                                </div>
+                            )}
+
                             <form onSubmit={handleSubmit} encType="multipart/form-data">
-                                {/* Hidden Inputs (ASP.NET asp-for="Id" karşılığı) */}
-                                <input type="hidden" name="id" value={formData.id} />
                                 <input type="hidden" name="imageUrl" value={formData.imageUrl} />
 
                                 <div className="row">
@@ -138,7 +212,7 @@ export default function ProductEditPage({ params }: { params: { id: string } }) 
 
                                 {/* Güncelleme Butonu */}
                                 <div className="d-grid gap-2">
-                                    <button type="submit" className="btn btn-primary btn-lg shadow fw-bold">
+                                    <button type="submit" disabled={saving} className="btn btn-primary btn-lg shadow fw-bold">
                                         <i className="bi bi-arrow-repeat me-2"></i>Değişiklikleri Güncelle
                                     </button>
                                 </div>
