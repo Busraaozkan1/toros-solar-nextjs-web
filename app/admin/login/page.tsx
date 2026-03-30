@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { login } from '@/app/actions/auth';
-import { useRouter } from 'next/navigation';
 
 function createSecurityNumbers() {
     return {
@@ -12,7 +11,6 @@ function createSecurityNumbers() {
 }
 
 export default function AdminLoginPage() {
-    const router = useRouter();
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -80,7 +78,8 @@ export default function AdminLoginPage() {
             return;
         }
 
-        router.push('/admin/product');
+        // Cookie'nin middleware tarafından okunabilmesi için tam sayfa yüklemesi yapiyoruz
+        window.location.href = '/admin/product';
     };
 
     return (

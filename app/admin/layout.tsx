@@ -61,7 +61,7 @@ export default function AdminLayout({
                         </Link>
                         
                         {/* Logout - Alt kısma sabitlemek için mt-5 ve text-danger korundu */}
-                        <Link href="/api/auth/logout?next=/admin/login" className="mt-5 text-danger border-0">
+                        <Link href="/api/auth/logout?next=/" className="mt-5 text-danger border-0">
                             <i className="bi bi-sign-out-alt me-2"></i> Çıkış Yap
                         </Link>
                     </nav>
