@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { uploadImage } from '@/lib/imageStorage';
+import { getAuthUser } from '@/lib/auth';
 
 function parsePriceTextToNumber(priceText) {
     const normalized = String(priceText || '').replace(',', '.');
@@ -29,6 +30,11 @@ export async function GET() {
 
 export async function POST(request) {
     try {
+        const user = await getAuthUser();
+        if (!user || user.role !== 'Admin') {
+            return NextResponse.json({ message: 'Yetkisiz' }, { status: 401 });
+        }
+
         const formData = await request.formData();
         const name = String(formData.get('name') || '').trim();
         const description = String(formData.get('description') || '').trim();
