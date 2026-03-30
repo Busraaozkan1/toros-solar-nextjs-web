@@ -199,7 +199,7 @@ export default function UrunKatalogu() {
                                     
                                     <div className="product-info flex-grow-1 d-flex flex-column justify-content-between mt-3 text-start">
                                         <div>
-                                            <h5 style={{ color: '#f8fafc', fontWeight: 700, letterSpacing: '0.2px' }}>{item.name}</h5>
+                                            <h5 style={{ color: '#f8fafc', fontWeight: 700, letterSpacing: '0.2px', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>{item.name}</h5>
                                             <h4 className="text-gold">{item.priceText || item.price.toLocaleString('tr-TR')}</h4>
                                         </div>
                                         
@@ -218,7 +218,7 @@ export default function UrunKatalogu() {
                                     <div className="modal-dialog modal-dialog-centered">
                                         <div className="modal-content bg-dark text-white border-gold-thin">
                                             <div className="modal-header border-secondary">
-                                                <h5 className="modal-title">{item.name}</h5>
+                                                <h5 className="modal-title" style={{ overflowWrap: 'anywhere', wordBreak: 'break-word' }}>{item.name}</h5>
                                                 <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                             </div>
                                             <div className="modal-body p-4 text-start">

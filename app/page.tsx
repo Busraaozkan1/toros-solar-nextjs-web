@@ -337,7 +337,7 @@ export default function HomePage() {
                     )}
                   </div>
                   <div className="product-info p-4">
-                    <h5 className="fw-bold" style={{ color: '#1f2937', letterSpacing: '0.3px' }}>{item.name}</h5>
+                    <h5 className="fw-bold" style={{ color: '#1f2937', letterSpacing: '0.3px', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>{item.name}</h5>
                     <div className="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary border-opacity-25">
                       <span className="text-gold fw-bold fs-5">{item.priceText || item.price.toLocaleString('tr-TR')}</span>
                       <button className="btn btn-link text-gold text-decoration-none p-0" data-bs-toggle="modal" data-bs-target={`#modal-${item.id}`}>
@@ -456,8 +456,8 @@ export default function HomePage() {
                   </div>
 
                   <div className="p-4 text-start">
-                    <h4 className="text-white fw-bold mb-3" style={{ minHeight: '64px', lineHeight: 1.25 }}>{item.name}</h4>
-                    <p className="mb-0" style={{ color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, minHeight: '120px' }}>
+                    <h4 className="text-white fw-bold mb-3" style={{ minHeight: '64px', lineHeight: 1.25, overflowWrap: 'anywhere', wordBreak: 'break-word' }}>{item.name}</h4>
+                    <p className="mb-0" style={{ color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, minHeight: '120px', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                       {truncateText(item.description, 145)}
                     </p>
                   </div>

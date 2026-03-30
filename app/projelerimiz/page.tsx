@@ -100,8 +100,8 @@ export default function ProjectsPage() {
                                             <i className="bi bi-lightning-charge-fill" style={{ color: '#d4af37' }}></i>
                                         </div>
 
-                                        <h4 className="text-white fw-bold mb-3" style={{ minHeight: '64px' }}>{item.name}</h4>
-                                        <p className="mb-0" style={{ color: 'rgba(255,255,255,0.72)', lineHeight: 1.75 }}>
+                                        <h4 className="text-white fw-bold mb-3" style={{ minHeight: '64px', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>{item.name}</h4>
+                                        <p className="mb-0" style={{ color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                                             {item.description}
                                         </p>
                                     </div>
