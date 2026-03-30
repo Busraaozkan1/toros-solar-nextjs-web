@@ -11,6 +11,14 @@ export default function AdminLayout({
 }) {
     const pathname = usePathname();
 
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST' });
+        } finally {
+            window.location.href = '/';
+        }
+    };
+
     if (pathname === '/admin/login') {
         return <>{children}</>;
     }
@@ -25,8 +33,21 @@ export default function AdminLayout({
                 body { background-color: #f4f7f6 !important; }
                 .sidebar { min-height: 100vh; background: #2c3e50; color: white; padding-top: 20px; }
                 .sidebar a { color: #bdc3c7; text-decoration: none; padding: 15px; display: block; transition: 0.3s; }
+                .sidebar .logout-btn {
+                    width: 100%;
+                    text-align: left;
+                    color: #dc3545;
+                    text-decoration: none;
+                    padding: 15px;
+                    display: block;
+                    transition: 0.3s;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                }
                 .sidebar a:hover { background: #34495e; color: white; border-left: 4px solid #3498db; }
                 .sidebar a.active { background: #34495e; color: white; border-left: 4px solid #f1c40f; }
+                .sidebar .logout-btn:hover { background: #34495e; color: white; border-left: 4px solid #e74c3c; }
                 .main-content { padding: 30px; }
                 .card { border: none; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); }
             `}</style>
@@ -60,10 +81,10 @@ export default function AdminLayout({
                             <i className="bi bi-key me-2"></i> Şifre Değiştir
                         </Link>
                         
-                        {/* Logout - Alt kısma sabitlemek için mt-5 ve text-danger korundu */}
-                        <Link href="/api/auth/logout?next=/" className="mt-5 text-danger border-0">
+                        {/* Logout'u POST ile yapıyoruz; GET prefetch token silmesin */}
+                        <button type="button" className="mt-5 logout-btn" onClick={handleLogout}>
                             <i className="bi bi-sign-out-alt me-2"></i> Çıkış Yap
-                        </Link>
+                        </button>
                     </nav>
 
                     {/* Ana İçerik Alanı (RenderBody karşılığı) */}
