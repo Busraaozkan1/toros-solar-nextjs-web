@@ -66,13 +66,19 @@ body {
 
 .nav-link {
     color: #2D3748 !important;
-    font-weight: 800 !important; /* DÜZELTME: Eski sitedeki gibi kalın yapıldı */
-    font-size: 0.85rem;
+    font-weight: 800 !important;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    margin: 0 15px;
+    margin: 0 4px;
     transition: 0.4s ease;
     position: relative;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+}
+
+.navbar-nav {
+    gap: 0.35rem;
+    margin-left: auto;
 }
 
 .nav-link::after {
@@ -206,8 +212,14 @@ body {
     border: 2px solid var(--accent) !important;
     color: var(--accent) !important;
     font-weight: 800 !important; /* DÜZELTME: Yazı kalınlığı artırıldı */
-    padding: 14px 35px;
+    padding: 12px 28px;
     transition: 0.4s;
+}
+
+.nav-login-btn {
+    padding: 6px 18px !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.7px !important;
 }
 
 .btn-outline-light:hover {
@@ -447,7 +459,7 @@ body {
 
 /* --- FOOTER --- */
 .footer, footer {
-    padding: 60px 0;
+    padding: 10px 0 !important;
     background-color: #1A202C !important; 
     color: #de4e01 !important;
     border-top: 6px solid var(--accent) !important;
@@ -464,7 +476,7 @@ body {
     background: linear-gradient(145deg, rgba(15, 23, 42, 0.84), rgba(30, 41, 59, 0.78));
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 20px;
-    padding: 24px 26px;
+    padding: 6px 8px;
     box-shadow: 0 14px 30px rgba(2, 6, 23, 0.32);
 }
 
@@ -478,7 +490,7 @@ body {
     background: linear-gradient(145deg, rgba(15, 23, 42, 0.58), rgba(30, 41, 59, 0.32));
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 16px;
-    padding: 20px 22px;
+    padding: 4px 6px;
     transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease, background 260ms ease;
 }
 
@@ -549,11 +561,11 @@ body {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     background: linear-gradient(145deg, rgba(9, 15, 30, 0.8), rgba(17, 45, 78, 0.68));
     border: 1px solid rgba(125, 211, 252, 0.36);
     border-radius: 16px;
-    padding: 20px 22px;
+    padding: 4px 6px;
     box-shadow: 0 14px 30px rgba(2, 6, 23, 0.42);
     transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
 }
@@ -576,6 +588,50 @@ body {
 .freelancer-signature-text {
     max-width: 420px;
     text-align: center;
+}
+
+.freelancer-signature-name {
+    color: #e2e8f0;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    margin-bottom: 2px;
+}
+
+.freelancer-signature-role {
+    color: rgba(226, 232, 240, 0.72);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.freelancer-action-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.freelancer-icon-linkedin {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: #0e76a8;
+    border: 1px solid rgba(14, 118, 168, 0.35);
+    background: rgba(255, 255, 255, 0.03);
+    transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease, border-color 220ms ease;
+    font-size: 1.2rem;
+}
+
+.freelancer-icon-linkedin:hover {
+    transform: translateY(-2px);
+    border-color: rgba(14, 118, 168, 0.65);
+    box-shadow: 0 8px 18px rgba(14, 118, 168, 0.18);
+    color: #79b9e5;
+    filter: brightness(1.05);
 }
 
 .freelancer-signature-kicker {

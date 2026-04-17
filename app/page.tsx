@@ -409,6 +409,7 @@ export default function HomePage() {
 
       {/* PROJELERİMİZ SECTION */}
       <section
+        id="projelerimiz"
         className="section-padding bg-darker"
         style={{
           position: 'relative',

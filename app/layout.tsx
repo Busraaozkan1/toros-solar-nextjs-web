@@ -95,6 +95,7 @@ export default function RootLayout({
                     <li className="nav-item"><Link className="nav-link" href="/#hakkimizda">Hakkımızda</Link></li>
                     <li className="nav-item"><Link className="nav-link" href="/#hizmetlerimiz">Hizmetlerimiz</Link></li>
                     <li className="nav-item"><Link className="nav-link" href="/#urunlerimiz">Ürünlerimiz</Link></li>
+                    <li className="nav-item"><Link className="nav-link" href="/#projelerimiz">Projelerimiz</Link></li>
                     <li className="nav-item"><Link className="nav-link" href="/#iletisim">İletişim</Link></li>
 
                     {isAuthenticated ? (
@@ -120,13 +121,13 @@ export default function RootLayout({
                         </li>
                       </>
                     ) : (
-                      <li className="nav-item">
+                      <li className="nav-item ms-lg-auto">
                         <Link
-                          className="nav-link btn btn-sm btn-outline-light ms-lg-3 px-3"
+                          className="nav-link btn btn-sm btn-outline-light nav-login-btn"
                           style={{ borderRadius: "20px" }}
                           href="/user-login"
                         >
-                          Giris Yap / Kayit Ol
+                          Giriş Yap / Kayıt Ol
                         </Link>
                       </li>
                     )}
@@ -143,10 +144,10 @@ export default function RootLayout({
 
         {/* Admin sayfalarinda site footer'ini gizle */}
         {!isAdminPath && (
-          <footer className="footer py-5">
+          <footer className="footer py-3">
             <div className="container">
               <div className="footer-band-shell">
-                <div className="row align-items-stretch g-4">
+                <div className="row align-items-stretch g-3">
                   <div className="col-lg-6 text-center">
                     <div className="footer-company-panel">
                       <h4 className="footer-brand-title mb-2">TOROSSOLAR</h4>
@@ -158,22 +159,20 @@ export default function RootLayout({
                   <div className="col-lg-6">
                     <div className="footer-freelancer-panel freelancer-signature-wrap">
                       <div className="freelancer-signature-text text-center">
-                        <span className="d-inline-block freelancer-signature-badge mb-1">BAĞIMSIZ PROFESYONEL ÇÖZÜMLER</span>
-                        <span className="d-block freelancer-signature-kicker">BÜŞRA ÖZKAN | Web Teknolojileri Geliştiricisi</span>
-                        <span className="d-block freelancer-signature-main">Markanıza özel, modern ve yüksek performanslı web çözümleri geliştiriyorum.</span>
-                        <span className="d-block freelancer-signature-sub">Projeniz için benimle iletişime geçebilirsiniz.</span>
+                        <span className="d-block freelancer-signature-name">BÜŞRA ÖZKAN</span>
+                        <span className="d-block freelancer-signature-role">Web Tasarım & Yazılım</span>
                       </div>
 
                       <div className="freelancer-action-icons" aria-label="Iletisim baglantilari">
                         <a
-                          href="https://wa.me/905309088271"
+                          href="https://www.linkedin.com/in/busranurozkan/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bquoa%2BacpShKxTnVy851fuw%3D%3D"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="freelancer-icon-btn freelancer-icon-whatsapp"
-                          aria-label="WhatsApp ile iletisime gec"
-                          title="WhatsApp"
+                          className="freelancer-icon-btn freelancer-icon-linkedin"
+                          aria-label="LinkedIn profilime git"
+                          title="LinkedIn"
                         >
-                          <i className="bi bi-whatsapp"></i>
+                          <i className="bi bi-linkedin"></i>
                         </a>
 
                         <a
