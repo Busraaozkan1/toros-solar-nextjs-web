@@ -157,13 +157,10 @@ export default function RootLayout({
                   </div>
 
                   <div className="col-lg-6">
-                    <div className="footer-freelancer-panel freelancer-signature-wrap">
-                      <div className="freelancer-signature-text text-center">
-                        <span className="d-block freelancer-signature-name">BÜŞRA ÖZKAN</span>
-                        <span className="d-block freelancer-signature-role">Web Tasarım & Yazılım</span>
-                      </div>
+                    <div className="footer-freelancer-panel freelancer-signature-wrap d-flex justify-content-center align-items-center gap-3 text-center py-2">
+                      <span className="text-white-50 small mb-0">powered by Büşra Özkan</span>
 
-                      <div className="freelancer-action-icons" aria-label="Iletisim baglantilari">
+                      <div className="freelancer-action-icons d-flex gap-2" aria-label="Iletisim baglantilari">
                         <a
                           href="https://www.linkedin.com/in/busranurozkan/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bquoa%2BacpShKxTnVy851fuw%3D%3D"
                           target="_blank"
