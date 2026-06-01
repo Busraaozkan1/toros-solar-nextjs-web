@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const poppins = Poppins({ 
@@ -185,6 +186,7 @@ export default function RootLayout({
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
           defer
         ></script>
+        <Analytics />
       </body>
     </html>
   );
