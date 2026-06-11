@@ -68,9 +68,14 @@ export default function ProductIndexPage() {
                 <h2 className="mb-0 text-dark">
                     <i className="bi bi-boxes text-primary me-2"></i> Ürün Yönetimi
                 </h2>
-                <Link href="/admin/product/create" className="btn btn-success d-flex align-items-center">
-                    <i className="bi bi-plus-lg me-2"></i> Yeni Ürün Ekle
-                </Link>
+                <div className="d-flex gap-2">
+                    <Link href="/admin/product/bulk" className="btn btn-outline-success d-flex align-items-center">
+                        <i className="bi bi-file-earmark-spreadsheet me-2"></i> Toplu İçe Aktar
+                    </Link>
+                    <Link href="/admin/product/create" className="btn btn-success d-flex align-items-center">
+                        <i className="bi bi-plus-lg me-2"></i> Yeni Ürün Ekle
+                    </Link>
+                </div>
             </div>
 
             {/* Tablo Alanı */}
