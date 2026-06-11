@@ -154,8 +154,11 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                       <li><Link href="/cati-ges" className="text-white-50 text-decoration-none">Çatı GES Sistemleri</Link></li>
                       <li><Link href="/tarimsal-sulama" className="text-white-50 text-decoration-none">Tarımsal Sulama Sistemleri</Link></li>
                       <li><Link href="/gunes-paneli-adana" className="text-white-50 text-decoration-none">Adana Güneş Paneli</Link></li>
+                      <li><Link href="/ev-sarj-istasyonu" className="text-white-50 text-decoration-none">Elektrikli Araç Şarj İstasyonu</Link></li>
                       <li><Link href="/rehber/ev-icin-kac-panel" className="text-white-50 text-decoration-none">Rehber: Eve Kaç Panel Gerekir?</Link></li>
                       <li><Link href="/rehber/cati-ges-maliyeti" className="text-white-50 text-decoration-none">Rehber: Çatı GES Maliyeti</Link></li>
+                      <li><Link href="/rehber/mersin-gunes-enerjisi-uretimi" className="text-white-50 text-decoration-none">Rehber: Mersin&apos;de Üretim Verileri</Link></li>
+                      <li><Link href="/rehber/ciftciler-icin-solar-sulama" className="text-white-50 text-decoration-none">Rehber: Çiftçiler İçin Solar Sulama</Link></li>
                     </ul>
                   </div>
                 </div>
