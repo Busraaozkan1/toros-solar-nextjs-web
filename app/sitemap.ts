@@ -14,8 +14,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/cati-ges`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/tarimsal-sulama`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/gunes-paneli-adana`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE_URL}/ev-sarj-istasyonu`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/rehber/ev-icin-kac-panel`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/rehber/cati-ges-maliyeti`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE_URL}/rehber/mersin-gunes-enerjisi-uretimi`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE_URL}/rehber/ciftciler-icin-solar-sulama`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/privacy`, changeFrequency: "yearly", priority: 0.1 },
   ];
 

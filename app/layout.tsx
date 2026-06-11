@@ -55,7 +55,7 @@ const localBusinessJsonLd = {
   "@id": "https://www.torossolar.com/#business",
   name: "Toros Solar",
   description:
-    "Mersin merkezli güneş enerjisi sistemleri firması. Çatı GES, güneş paneli kurulumu, tarımsal sulama ve off-grid solar çözümleri.",
+    "Mersin merkezli güneş enerjisi sistemleri firması. Çatı GES, güneş paneli kurulumu, tarımsal sulama, elektrikli araç şarj istasyonu ve off-grid solar çözümleri.",
   url: "https://www.torossolar.com",
   telephone: "+905367333678",
   email: "info@torossolar.com",
@@ -66,6 +66,13 @@ const localBusinessJsonLd = {
     addressRegion: "Mersin",
     addressCountry: "TR",
   },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 36.7890625,
+    longitude: 34.6028143,
+  },
+  hasMap:
+    "https://www.google.com/maps/place/Cumhuriyet,+1653.+Sk.+No:3,+33110+Yeni%C5%9Fehir%2FMersin/@36.7890625,34.6028143,17z",
   areaServed: [
     { "@type": "AdministrativeArea", name: "Mersin" },
     { "@type": "AdministrativeArea", name: "Adana" },
