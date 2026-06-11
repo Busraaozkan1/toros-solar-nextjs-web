@@ -1039,3 +1039,30 @@ body {
     font-size: 1.2rem;
     vertical-align: middle;
 }
+
+/* --- Navbar dropdown: hover on desktop, tap inside burger on mobile --- */
+@media (min-width: 992px) {
+    .custom-nav .dropdown:hover > .dropdown-menu {
+        display: block;
+        margin-top: 0;
+    }
+
+    .custom-nav .dropdown > .dropdown-menu {
+        top: 100%;
+        border: 1px solid rgba(236, 125, 50, 0.35);
+        border-radius: 10px;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+        padding: 8px 0;
+    }
+}
+
+.custom-nav .dropdown-item {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 8px 18px;
+}
+
+.custom-nav .dropdown-item:hover {
+    background: rgba(236, 125, 50, 0.12);
+    color: var(--accent, #ec7d32);
+}

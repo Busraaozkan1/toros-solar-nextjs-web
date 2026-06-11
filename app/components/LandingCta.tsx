@@ -2,7 +2,12 @@ import React from "react";
 
 export default function LandingCta({ title }: { title?: string }) {
   return (
-    <div className="contact-card p-4 border-gold-thin bg-darker rounded-3 shadow-lg text-center my-5">
+    <div
+      className="p-4 border-gold-thin rounded-3 shadow-lg text-center my-5"
+      style={{
+        background: "linear-gradient(165deg, rgba(15, 23, 42, 0.97), rgba(17, 24, 39, 0.95))",
+      }}
+    >
       <h3 className="text-gold fw-bold mb-3">{title || "Ücretsiz Keşif ve Fiyat Teklifi"}</h3>
       <p className="text-white opacity-75 mb-4">
         Çatınıza veya arazinize özel sistem tasarımı ve net fiyat için bugün bize ulaşın.
