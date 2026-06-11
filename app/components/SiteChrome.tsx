@@ -82,12 +82,50 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
               </button>
 
               <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul className="navbar-nav align-items-center">
-                  <li className="nav-item"><Link className="nav-link" href="/#anasayfa">Anasayfa</Link></li>
+                <ul className="navbar-nav align-items-lg-center">
+                  <li className="nav-item"><Link className="nav-link" href="/">Anasayfa</Link></li>
+
+                  <li className="nav-item dropdown">
+                    <a
+                      className="nav-link dropdown-toggle"
+                      href="#"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Hizmetlerimiz
+                    </a>
+                    <ul className="dropdown-menu">
+                      <li><Link className="dropdown-item" href="/gunes-paneli-mersin">Mersin Güneş Paneli Kurulumu</Link></li>
+                      <li><Link className="dropdown-item" href="/cati-ges">Çatı GES Sistemleri</Link></li>
+                      <li><Link className="dropdown-item" href="/tarimsal-sulama">Tarımsal Sulama Sistemleri</Link></li>
+                      <li><Link className="dropdown-item" href="/ev-sarj-istasyonu">Elektrikli Araç Şarj İstasyonu</Link></li>
+                      <li><Link className="dropdown-item" href="/gunes-paneli-adana">Adana Güneş Paneli</Link></li>
+                    </ul>
+                  </li>
+
+                  <li className="nav-item"><Link className="nav-link" href="/urunler">Ürünlerimiz</Link></li>
+                  <li className="nav-item"><Link className="nav-link" href="/projelerimiz">Projelerimiz</Link></li>
+
+                  <li className="nav-item dropdown">
+                    <a
+                      className="nav-link dropdown-toggle"
+                      href="#"
+                      role="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Rehber
+                    </a>
+                    <ul className="dropdown-menu">
+                      <li><Link className="dropdown-item" href="/rehber/ev-icin-kac-panel">Eve Kaç Panel Gerekir?</Link></li>
+                      <li><Link className="dropdown-item" href="/rehber/cati-ges-maliyeti">Çatı GES Maliyeti</Link></li>
+                      <li><Link className="dropdown-item" href="/rehber/mersin-gunes-enerjisi-uretimi">Mersin&apos;de Üretim Verileri</Link></li>
+                      <li><Link className="dropdown-item" href="/rehber/ciftciler-icin-solar-sulama">Çiftçiler İçin Solar Sulama</Link></li>
+                    </ul>
+                  </li>
+
                   <li className="nav-item"><Link className="nav-link" href="/#hakkimizda">Hakkımızda</Link></li>
-                  <li className="nav-item"><Link className="nav-link" href="/#hizmetlerimiz">Hizmetlerimiz</Link></li>
-                  <li className="nav-item"><Link className="nav-link" href="/#urunlerimiz">Ürünlerimiz</Link></li>
-                  <li className="nav-item"><Link className="nav-link" href="/#projelerimiz">Projelerimiz</Link></li>
                   <li className="nav-item"><Link className="nav-link" href="/#iletisim">İletişim</Link></li>
 
                   {isAuthenticated ? (
