@@ -1,141 +1,105 @@
-"use client";
+import React from "react";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
+import ProductDetailClient from "./ProductDetailClient";
 
-import React, { use, useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+export const dynamic = "force-dynamic";
 
-export default function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
-    const router = useRouter();
-    const resolvedParams = use(params);
+async function getProduct(id: string) {
+  const numericId = Number(id);
+  if (!Number.isInteger(numericId) || numericId <= 0) {
+    return null;
+  }
 
-    const [product, setProduct] = useState<null | {
-        id: number;
-        name: string;
-        imageUrl: string | null;
-        price: number;
-        priceText?: string | null;
-        description: string;
-    }>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+  try {
+    const product = await prisma.product.findUnique({ where: { id: numericId } });
+    if (!product) return null;
+    return {
+      ...product,
+      imageUrl:
+        typeof product.imageUrl === "string" && product.imageUrl.trim() === ""
+          ? null
+          : product.imageUrl,
+    };
+  } catch {
+    return null;
+  }
+}
 
-    useEffect(() => {
-        const loadProduct = async () => {
-            try {
-                const response = await fetch(`/api/admin/products/${resolvedParams.id}`, { cache: 'no-store' });
-                if (!response.ok) {
-                    throw new Error('Urun detaylari getirilemedi.');
-                }
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProduct(id);
 
-                const data = await response.json();
-                setProduct(data);
-            } catch (err) {
-                const message = err instanceof Error ? err.message : 'Bir hata olustu.';
-                setError(message);
-            } finally {
-                setLoading(false);
-            }
-        };
+  if (!product) {
+    return { title: "Ürün Bulunamadı" };
+  }
 
-        loadProduct();
-    }, [resolvedParams.id]);
+  const description = product.description
+    ? product.description.replace(/\s+/g, " ").slice(0, 155)
+    : `${product.name} - Toros Solar ürün detayı, fiyat ve teknik özellikler.`;
 
-    // ASP.NET'teki açıklama satırlarını bölme mantığı (Split)
-    const features = useMemo(() => {
-        return product?.description
-            ? product.description.split(/\r?\n/).filter((line) => line.trim() !== '')
-            : [];
-    }, [product?.description]);
+  return {
+    title: product.name,
+    description,
+    alternates: { canonical: `/urunler/${product.id}` },
+    openGraph: {
+      title: `${product.name} | Toros Solar`,
+      description,
+      images: product.imageUrl ? [product.imageUrl] : undefined,
+    },
+  };
+}
 
-    // WhatsApp mesajı için ürün ismini escape etme
-    const encodedProductName = encodeURIComponent(product?.name || 'Urun');
-    const whatsappUrl = `https://wa.me/905367333678?text=Merhaba,%20TorosSolar%20sitenizden%20'${encodedProductName}'%20ürünü%20hakkında%20bilgi%20almak%20istiyorum.`;
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const product = await getProduct(id);
 
-    if (loading) {
-        return (
-            <div className="container mt-5 pt-5">
-                <div className="alert alert-secondary">Urun detaylari yukleniyor...</div>
-            </div>
-        );
-    }
+  if (!product) {
+    notFound();
+  }
 
-    if (error || !product) {
-        return (
-            <div className="container mt-5 pt-5">
-                <div className="alert alert-danger">{error || 'Urun bulunamadi.'}</div>
-                <button onClick={() => router.back()} className="btn btn-outline-secondary">Geri Don</button>
-            </div>
-        );
-    }
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.imageUrl || undefined,
+    brand: { "@type": "Brand", name: "Toros Solar" },
+    offers: {
+      "@type": "Offer",
+      url: `https://www.torossolar.com/urunler/${product.id}`,
+      priceCurrency: "TRY",
+      price: product.price,
+      availability: "https://schema.org/InStock",
+      seller: { "@type": "Organization", name: "Toros Solar" },
+    },
+  };
 
-    return (
-        <div className="container mt-5 pt-5">
-            <div className="card bg-dark text-white p-4 shadow-lg" style={{ border: '1px solid #d4af37', borderRadius: '15px' }}>
-                <div className="row">
-                    {/* Ürün Görseli */}
-                    <div className="col-md-5 text-center d-flex align-items-center justify-content-center" 
-                         style={{ backgroundColor: 'white', borderRadius: '10px', padding: '20px' }}>
-                        {product.imageUrl ? (
-                            <img 
-                                src={product.imageUrl} 
-                                className="img-fluid" 
-                                alt={product.name} 
-                                style={{ maxHeight: '450px', objectFit: 'contain' }} 
-                            />
-                        ) : (
-                            <div className="text-secondary">Gorsel bulunamadi</div>
-                        )}
-                    </div>
-
-                    {/* Ürün Bilgileri */}
-                    <div className="col-md-7 ps-md-5 mt-4 mt-md-0 text-start">
-                        <h1 className="display-5 fw-bold" style={{ color: '#d4af37' }}>{product.name}</h1>
-                        <hr className="border-secondary" />
-                        
-                        <div className="my-4">
-                            <h2 className="fw-bold">{product.priceText || product.price.toLocaleString('tr-TR')}</h2>
-                            <span className="badge bg-success">Stokta Var</span>
-                        </div>
-
-                        <div className="product-description mt-4">
-                            <h5 className="mb-3" style={{ color: '#d4af37' }}>Teknik Özellikler</h5>
-                            
-                            <ul className="list-unstyled">
-                                {features.length > 0 ? (
-                                    features.map((feature, index) => (
-                                        <li key={index} className="text-secondary mb-2 d-flex align-items-start">
-                                            <i className="bi bi-check2-circle me-2 mt-1" style={{ color: '#d4af37' }}></i>
-                                            <span>{feature}</span>
-                                        </li>
-                                    ))
-                                ) : (
-                                    <li className="text-secondary">Teknik özellik belirtilmedi.</li>
-                                )}
-                            </ul>
-                        </div>
-
-                        {/* Buton Grubu */}
-                        <div className="mt-5 d-grid gap-2 d-md-flex">
-                            <button 
-                                onClick={() => router.back()} 
-                                className="btn btn-outline-light px-4 d-flex align-items-center justify-content-center"
-                            >
-                                <i className="bi bi-arrow-left me-2"></i> Geri Dön
-                            </button>
-
-                            {/* WhatsApp İletişim Butonu */}
-                            <a 
-                                href={whatsappUrl}
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="btn px-5 fw-bold d-flex align-items-center justify-content-center" 
-                                style={{ backgroundColor: '#25D366', border: 'none', color: 'white', minHeight: '45px' }}
-                            >
-                                <i className="bi bi-whatsapp me-2" style={{ fontSize: '1.2rem' }}></i> İletişime Geç
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <ProductDetailClient
+        product={{
+          id: product.id,
+          name: product.name,
+          imageUrl: product.imageUrl,
+          price: product.price,
+          priceText: product.priceText,
+          description: product.description,
+        }}
+      />
+    </>
+  );
 }

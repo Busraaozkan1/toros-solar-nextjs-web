@@ -1,194 +1,94 @@
-﻿"use client";
-
-import React, { useState, useEffect } from "react";
+import React from "react";
+import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import Link from "next/link";
-import { usePathname } from 'next/navigation';
 import { Analytics } from "@vercel/analytics/react";
+import SiteChrome from "./components/SiteChrome";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
 
-const poppins = Poppins({ 
-  subsets: ["latin"], 
+const poppins = Poppins({
+  subsets: ["latin"],
   weight: ["300", "400", "600", "800"],
-  variable: "--font-poppins" 
+  variable: "--font-poppins",
 });
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://www.torossolar.com"),
+  title: {
+    default: "Toros Solar | Mersin Güneş Enerjisi Sistemleri ve Güneş Paneli Kurulumu",
+    template: "%s | Toros Solar",
+  },
+  description:
+    "Mersin ve Adana'da anahtar teslim güneş enerjisi sistemleri: çatı GES, güneş paneli kurulumu, tarımsal sulama ve off-grid çözümler. Ücretsiz keşif için arayın: 0536 733 36 78.",
+  keywords: [
+    "güneş paneli mersin",
+    "güneş enerjisi mersin",
+    "çatı ges",
+    "güneş paneli kurulumu",
+    "tarımsal sulama güneş paneli",
+    "güneş enerjisi sistemleri",
+    "solar panel mersin",
+    "ges kurulumu",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "tr_TR",
+    url: "https://www.torossolar.com",
+    siteName: "Toros Solar",
+    title: "Toros Solar | Mersin Güneş Enerjisi Sistemleri",
+    description:
+      "Mersin ve Adana'da anahtar teslim güneş enerjisi sistemleri. 15 yıllık tecrübe, ücretsiz keşif.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://www.torossolar.com/#business",
+  name: "Toros Solar",
+  description:
+    "Mersin merkezli güneş enerjisi sistemleri firması. Çatı GES, güneş paneli kurulumu, tarımsal sulama ve off-grid solar çözümleri.",
+  url: "https://www.torossolar.com",
+  telephone: "+905367333678",
+  email: "info@torossolar.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Cumhuriyet Mah. 1653 Sokak No.3",
+    addressLocality: "Yenişehir",
+    addressRegion: "Mersin",
+    addressCountry: "TR",
+  },
+  areaServed: [
+    { "@type": "AdministrativeArea", name: "Mersin" },
+    { "@type": "AdministrativeArea", name: "Adana" },
+  ],
+  sameAs: ["https://wa.me/905367333678"],
+  priceRange: "₺₺",
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [role, setRole] = useState<'User' | 'Admin' | null>(null);
-
-  // Admin sayfalarinda ana site navbar/footer'ini gizle
-  const isAdminPath = pathname.startsWith('/admin');
-
-  const handleNavbarLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-    } finally {
-      setIsAuthenticated(false);
-      setRole(null);
-      // Cikis sonrasi her zaman ana sayfaya yonlendir (admin login'e degil)
-      window.location.href = '/';
-    }
-  };
-
-  useEffect(() => {
-    let mounted = true;
-
-    const loadAuthState = async () => {
-      try {
-        const response = await fetch('/api/auth/me', { cache: 'no-store' });
-        const data = await response.json().catch(() => ({}));
-
-        if (!mounted) return;
-
-        setIsAuthenticated(Boolean(data?.authenticated));
-        setRole(data?.role === 'Admin' ? 'Admin' : data?.authenticated ? 'User' : null);
-      } catch {
-        if (!mounted) return;
-        setIsAuthenticated(false);
-        setRole(null);
-      }
-    };
-
-    loadAuthState();
-
-    return () => {
-      mounted = false;
-    };
-  }, [pathname]);
-
   return (
     <html lang="tr">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>TorosSolar - Geleceğin Enerjisi</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
-      </head>
       <body className={`${poppins.className}`}>
-        {/* Admin sayfalarinda ana site navbari gizle */}
-        {!isAdminPath && (
-          <header>
-            <nav className="navbar navbar-expand-lg custom-nav fixed-top">
-              <div className="container">
-                <Link className="navbar-brand fw-bold" href="/">
-                  TOROS<span style={{ color: "rgb(59, 59, 59)" }}>SOLAR</span>
-                </Link>
-
-                <button
-                  className="navbar-toggler"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarNav"
-                >
-                  <span className="navbar-toggler-icon" style={{ filter: "invert(1)" }}></span>
-                </button>
-
-                <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-                  <ul className="navbar-nav align-items-center">
-                    <li className="nav-item"><Link className="nav-link" href="/#anasayfa">Anasayfa</Link></li>
-                    <li className="nav-item"><Link className="nav-link" href="/#hakkimizda">Hakkımızda</Link></li>
-                    <li className="nav-item"><Link className="nav-link" href="/#hizmetlerimiz">Hizmetlerimiz</Link></li>
-                    <li className="nav-item"><Link className="nav-link" href="/#urunlerimiz">Ürünlerimiz</Link></li>
-                    <li className="nav-item"><Link className="nav-link" href="/#projelerimiz">Projelerimiz</Link></li>
-                    <li className="nav-item"><Link className="nav-link" href="/#iletisim">İletişim</Link></li>
-
-                    {isAuthenticated ? (
-                      <>
-                        <li className="nav-item">
-                          <Link
-                            className="nav-link btn btn-sm btn-outline-warning ms-lg-3 px-3 me-2"
-                            style={{ borderRadius: "20px" }}
-                            href={role === 'Admin' ? '/admin/product' : '/account/profile'}
-                          >
-                            <i className="bi bi-person-circle"></i> Profilim
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <button
-                            className="nav-link btn btn-sm btn-outline-danger px-3"
-                            style={{ borderRadius: "20px", border: "1px solid", background: "transparent" }}
-                            type="button"
-                            onClick={handleNavbarLogout}
-                          >
-                            Cikis Yap
-                          </button>
-                        </li>
-                      </>
-                    ) : (
-                      <li className="nav-item ms-lg-auto">
-                        <Link
-                          className="nav-link btn btn-sm btn-outline-light nav-login-btn"
-                          style={{ borderRadius: "20px" }}
-                          href="/user-login"
-                        >
-                          Giriş Yap / Kayıt Ol
-                        </Link>
-                      </li>
-                    )}
-                  </ul>
-                </div>
-              </div>
-            </nav>
-          </header>
-        )}
-
-        <main role="main">
-          {children}
-        </main>
-
-        {/* Admin sayfalarinda site footer'ini gizle */}
-        {!isAdminPath && (
-          <footer className="footer py-3">
-            <div className="container">
-              <div className="footer-band-shell">
-                <div className="row align-items-stretch g-3">
-                  <div className="col-lg-6 text-center">
-                    <div className="footer-company-panel">
-                      <h4 className="footer-brand-title mb-2">TOROSSOLAR</h4>
-                      <p className="text-white-50 mb-2">Mersin'den Dünyaya Sürdürülebilir Enerji</p>
-                      <span className="text-white-50 small">© 2026 - Geleceğin Enerjisi - Tüm Hakları Saklıdır.</span>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6">
-                    <div className="footer-freelancer-panel d-flex justify-content-center align-items-center text-center py-2">
-                      <a
-                        href="https://www.thecodely.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          textDecoration: "none",
-                          display: "inline-block",
-                          transition: "transform 0.2s ease, opacity 0.2s ease",
-                        }}
-                        onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.15)")}
-                        onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-                      >
-                        <span className="text-white-50 small mb-0">powered by </span>
-                        <span style={{ color: "#ff7a00", fontSize: "1rem", fontWeight: 600 }}>codely</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </footer>
-        )}
-
         <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-          defer
-        ></script>
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
+        />
+        <SiteChrome>{children}</SiteChrome>
         <Analytics />
       </body>
     </html>
   );
 }
-
