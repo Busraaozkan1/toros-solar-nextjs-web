@@ -62,8 +62,14 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
         <header>
           <nav className="navbar navbar-expand-lg custom-nav fixed-top">
             <div className="container">
-              <Link className="navbar-brand fw-bold" href="/">
-                TOROS<span style={{ color: "rgb(59, 59, 59)" }}>SOLAR</span>
+              <Link className="navbar-brand fw-bold d-flex align-items-center" href="/">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo.png"
+                  alt="Toros Solar"
+                  height={46}
+                  style={{ display: "block", width: "auto" }}
+                />
               </Link>
 
               <button

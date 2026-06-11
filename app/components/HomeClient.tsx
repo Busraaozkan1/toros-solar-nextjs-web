@@ -86,9 +86,30 @@ export default function HomeClient({
     return isAuthenticated ? favoriteIds : [];
   }, [favoriteIds, isAuthenticated]);
 
+  // Bir urun modali acikken carousel donmesin: modal acikken kart degisirse
+  // Bootstrap backdrop sahipsiz kaliyor ve sayfa kilitleniyordu.
+  const isModalOpenRef = React.useRef(false);
+
+  useEffect(() => {
+    const onShow = () => {
+      isModalOpenRef.current = true;
+    };
+    const onHidden = () => {
+      isModalOpenRef.current = document.querySelector(".modal.show") !== null;
+    };
+
+    document.addEventListener("show.bs.modal", onShow);
+    document.addEventListener("hidden.bs.modal", onHidden);
+
+    return () => {
+      document.removeEventListener("show.bs.modal", onShow);
+      document.removeEventListener("hidden.bs.modal", onHidden);
+    };
+  }, []);
+
   useEffect(() => {
     const intervalId = window.setInterval(() => {
-      setProductSeed((prev) => prev + 1);
+      setProductSeed((prev) => (isModalOpenRef.current ? prev : prev + 1));
     }, 4500);
 
     return () => window.clearInterval(intervalId);
@@ -96,7 +117,7 @@ export default function HomeClient({
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
-      setProjectSeed((prev) => prev + 1);
+      setProjectSeed((prev) => (isModalOpenRef.current ? prev : prev + 1));
     }, 5200);
 
     return () => window.clearInterval(intervalId);

@@ -67,9 +67,14 @@ export default function ProjectIndexPage() {
                     </h2>
                     <p className="text-muted mb-0">Tamamlanan referans projeleri burada yonetin.</p>
                 </div>
-                <Link href="/admin/project/create" className="btn btn-success d-flex align-items-center">
-                    <i className="bi bi-plus-lg me-2"></i> Yeni Proje Ekle
-                </Link>
+                <div className="d-flex gap-2">
+                    <Link href="/admin/project/bulk" className="btn btn-outline-success d-flex align-items-center">
+                        <i className="bi bi-file-earmark-spreadsheet me-2"></i> Toplu İçe Aktar
+                    </Link>
+                    <Link href="/admin/project/create" className="btn btn-success d-flex align-items-center">
+                        <i className="bi bi-plus-lg me-2"></i> Yeni Proje Ekle
+                    </Link>
+                </div>
             </div>
 
             <div className="row g-4">
