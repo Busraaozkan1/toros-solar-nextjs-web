@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { PRODUCT_CATEGORIES } from "@/lib/categories";
 import UrunlerClient from "./UrunlerClient";
 
 export const revalidate = 600;
@@ -33,16 +34,26 @@ export default async function UrunlerPage() {
     category?: string | null;
   };
 
-  const initialProducts = products.map((p: DbProduct) => ({
-    id: p.id,
-    name: p.name,
-    description: p.description,
-    price: p.price,
-    priceText: p.priceText,
-    category: p.category ?? null,
-    imageUrl:
-      typeof p.imageUrl === "string" && p.imageUrl.trim() === "" ? null : p.imageUrl,
-  }));
+  const categoryOrder = new Map(PRODUCT_CATEGORIES.map((c, i) => [c.label, i]));
+
+  const initialProducts = products
+    .map((p: DbProduct) => ({
+      id: p.id,
+      name: p.name,
+      description: p.description,
+      price: p.price,
+      priceText: p.priceText,
+      category: p.category ?? null,
+      imageUrl:
+        typeof p.imageUrl === "string" && p.imageUrl.trim() === "" ? null : p.imageUrl,
+    }))
+    // Kategori sirasina gore grupla (kategorisizler en sona), kategori icinde ada gore sirala
+    .sort((a: { category: string | null; name: string }, b: { category: string | null; name: string }) => {
+      const ai = a.category != null ? (categoryOrder.get(a.category) ?? 99) : 99;
+      const bi = b.category != null ? (categoryOrder.get(b.category) ?? 99) : 99;
+      if (ai !== bi) return ai - bi;
+      return a.name.localeCompare(b.name, "tr");
+    });
 
   return <UrunlerClient initialProducts={initialProducts} />;
 }

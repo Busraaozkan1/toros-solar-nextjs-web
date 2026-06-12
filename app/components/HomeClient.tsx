@@ -327,7 +327,6 @@ export default function HomeClient({
                   >
                     <i className={`bi ${visibleFavoriteIds.includes(item.id) ? 'bi-heart-fill' : 'bi-heart'} text-danger fs-4 shadow-sm`}></i>
                   </button>
-                  <div className="product-badge">Premium Seçim</div>
                   <div className="product-img-container">
                     {item.imageUrl && item.imageUrl.trim() ? (
                       <img src={item.imageUrl} alt={item.name} style={{ width: '100%', height: '250px', objectFit: 'cover' }} />
