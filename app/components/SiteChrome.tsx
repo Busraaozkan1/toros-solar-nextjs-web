@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -18,8 +18,6 @@ const EN_TO_TR: Record<string, string> = {
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [role, setRole] = useState<"User" | "Admin" | null>(null);
 
   // Admin sayfalarinda ana site navbar/footer'ini gizle
   const isAdminPath = pathname.startsWith("/admin");
@@ -30,48 +28,11 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     ? EN_TO_TR[pathname] || "/"
     : TR_TO_EN[pathname] || "/en";
 
-  const handleNavbarLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "POST" });
-    } finally {
-      setIsAuthenticated(false);
-      setRole(null);
-      // Cikis sonrasi her zaman ana sayfaya yonlendir (admin login'e degil)
-      window.location.href = "/";
-    }
-  };
-
   // Bootstrap JS (modal, collapse vb.) - CDN yerine paketten yukle
   useEffect(() => {
     // @ts-expect-error bootstrap bundle has no types
     import("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const loadAuthState = async () => {
-      try {
-        const response = await fetch("/api/auth/me", { cache: "no-store" });
-        const data = await response.json().catch(() => ({}));
-
-        if (!mounted) return;
-
-        setIsAuthenticated(Boolean(data?.authenticated));
-        setRole(data?.role === "Admin" ? "Admin" : data?.authenticated ? "User" : null);
-      } catch {
-        if (!mounted) return;
-        setIsAuthenticated(false);
-        setRole(null);
-      }
-    };
-
-    loadAuthState();
-
-    return () => {
-      mounted = false;
-    };
-  }, [pathname]);
 
   return (
     <>
@@ -185,39 +146,6 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                     </Link>
                   </li>
 
-                  {isAuthenticated ? (
-                    <>
-                      <li className="nav-item">
-                        <Link
-                          className="nav-link btn btn-sm btn-outline-warning ms-lg-3 px-3 me-2"
-                          style={{ borderRadius: "20px" }}
-                          href={role === "Admin" ? "/admin/product" : "/account/profile"}
-                        >
-                          <i className="bi bi-person-circle"></i> Profilim
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <button
-                          className="nav-link btn btn-sm btn-outline-danger px-3"
-                          style={{ borderRadius: "20px", border: "1px solid", background: "transparent" }}
-                          type="button"
-                          onClick={handleNavbarLogout}
-                        >
-                          Cikis Yap
-                        </button>
-                      </li>
-                    </>
-                  ) : (
-                    <li className="nav-item ms-lg-auto">
-                      <Link
-                        className="nav-link btn btn-sm btn-outline-light nav-login-btn"
-                        style={{ borderRadius: "20px" }}
-                        href="/user-login"
-                      >
-                        {isEn ? "Sign In" : "Giriş Yap / Kayıt Ol"}
-                      </Link>
-                    </li>
-                  )}
                 </ul>
               </div>
             </div>

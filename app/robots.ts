@@ -6,14 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: [
-          "/admin",
-          "/api/",
-          "/account",
-          "/login",
-          "/register",
-          "/user-login",
-        ],
+        disallow: ["/admin", "/api/", "/login"],
       },
     ],
     sitemap: "https://www.torossolar.com/sitemap.xml",

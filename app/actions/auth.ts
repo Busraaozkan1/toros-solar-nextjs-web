@@ -1,18 +1,10 @@
-type RegisterInput = {
-    fullName: string;
-    email: string;
-    username: string;
-    password: string;
-    confirmPassword?: string;
-};
-
 type LoginInput = {
     username: string;
     password: string;
     securityAnswer: string;
     number1: number;
     number2: number;
-    portal?: 'user' | 'admin';
+    portal?: 'admin';
 };
 
 type AuthResult = {
@@ -48,17 +40,6 @@ async function postJson<TBody>(url: string, body: TBody): Promise<AuthResult> {
             error: 'Sunucuya bağlanırken bir hata oluştu.'
         };
     }
-}
-
-export async function register(input: RegisterInput): Promise<AuthResult> {
-    const { fullName, username, email, password } = input;
-
-    return postJson('/api/auth/register', {
-        fullName,
-        username,
-        email,
-        password
-    });
 }
 
 export async function login(input: LoginInput): Promise<AuthResult> {

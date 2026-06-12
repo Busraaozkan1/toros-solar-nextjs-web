@@ -10,27 +10,16 @@ datasource db {
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
-// 1. Kullanıcı Tablosu (User.cs karşılığı)
-model User {
-  id        Int        @id @default(autoincrement())
-  username  String     @unique
-  password  String
-  email     String?    @unique
-  fullName  String?    // <--- Formdaki 'Ad Soyad' buraya gelecek, bunu ekledik!
-  favorites Favorite[] 
-}
-
-// 2. Ürün Tablosu (Product.cs karşılığı)
+// Urun Tablosu
 model Product {
-  id          Int        @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   price       Float
   priceText   String?
   description String
   imageUrl    String?
   category    String?
-  createdDate DateTime   @default(now())
-  favorites   Favorite[]
+  createdDate DateTime @default(now())
 }
 
 model Project {
@@ -41,15 +30,3 @@ model Project {
   createdDate DateTime @default(now())
 }
 
-// 3. Favoriler Tablosu (Favorite.cs karşılığı)
-model Favorite {
-  id        Int     @id @default(autoincrement())
-  
-  userId    Int     
-  user      User    @relation(fields: [userId], references: [id])
-  
-  productId Int
-  product   Product @relation(fields: [productId], references: [id])
-
-  @@unique([userId, productId])
-}

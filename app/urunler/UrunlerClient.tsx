@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { PRODUCT_CATEGORIES } from '@/lib/categories';
 
 // Ürün Modeli Tanımı
@@ -37,14 +36,10 @@ export default function UrunlerClient({
     subtitle?: string;
     showFilters?: boolean;
 }) {
-    const router = useRouter();
-    const pathname = usePathname();
     // State Yönetimi
     const products = initialProducts;
     const loading = false;
     const error: string | null = null;
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
     const [activeCategory, setActiveCategory] = useState<string>('');
 
     // Sadece urunu olan kategoriler icin filtre cipi goster
@@ -54,81 +49,6 @@ export default function UrunlerClient({
     const filteredProducts = activeCategory
         ? products.filter((p) => p.category === activeCategory)
         : products;
-
-    useEffect(() => {
-        const loadAuth = async () => {
-            try {
-                const response = await fetch('/api/auth/me', { cache: 'no-store' });
-                const data = await response.json().catch(() => ({}));
-                setIsAuthenticated(Boolean(data?.authenticated));
-            } catch {
-                setIsAuthenticated(false);
-            }
-        };
-
-        loadAuth();
-    }, []);
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            setFavoriteIds([]);
-            return;
-        }
-
-        const loadFavorites = async () => {
-            try {
-                const response = await fetch('/api/user/favorites', { cache: 'no-store' });
-                if (!response.ok) {
-                    return;
-                }
-
-                const data = await response.json().catch(() => []);
-                if (Array.isArray(data)) {
-                    setFavoriteIds(data.map((item) => Number(item.id)).filter((id) => !Number.isNaN(id)));
-                }
-            } catch {
-                // ignore
-            }
-        };
-
-        loadFavorites();
-    }, [isAuthenticated]);
-
-    // Favori Ekleme Fonksiyonu (ASP.NET'teki AJAX karşılığı)
-    const handleFavoriteClick = async (productId: number) => {
-        if (!isAuthenticated) {
-            router.push(`/user-login?next=${encodeURIComponent(pathname || '/urunler')}`);
-            return;
-        }
-
-        const res = await fetch('/api/user/favorites', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ productId })
-        });
-
-        const result = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-            return;
-        }
-
-        setFavoriteIds((prev) => {
-            const exists = prev.includes(productId);
-
-            if (result?.action === 'removed' || (exists && result?.action !== 'added')) {
-                return prev.filter((id) => id !== productId);
-            }
-
-            if (exists) {
-                return prev;
-            }
-
-            return [...prev, productId];
-        });
-    };
 
     return (
         <section
@@ -212,16 +132,6 @@ export default function UrunlerClient({
                                     className="product-card h-100 d-flex flex-column position-relative bg-dark border-gold-thin p-3 shadow"
                                     style={{ borderRadius: '18px', overflow: 'hidden' }}
                                 >
-                                    
-                                    <button 
-                                        className="btn border-0 position-absolute top-0 end-0 m-2 p-0 favorite-btn" 
-                                        onClick={() => handleFavoriteClick(item.id)}
-                                        style={{ zIndex: 10, background: 'none' }} 
-                                        title="Favorilere Ekle"
-                                    >
-                                        <i className={`bi ${favoriteIds.includes(item.id) ? 'bi-heart-fill' : 'bi-heart'} text-danger fs-4 shadow-sm`}></i>
-                                    </button>
-
                                     <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '12px' }}>
                                         {item.imageUrl && item.imageUrl.trim() ? (
                                             <img 
