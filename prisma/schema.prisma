@@ -24,12 +24,13 @@ model User {
 model Product {
   id          Int        @id @default(autoincrement())
   name        String
-  price       Float      
+  price       Float
   priceText   String?
   description String
   imageUrl    String?
+  category    String?
   createdDate DateTime   @default(now())
-  favorites   Favorite[] 
+  favorites   Favorite[]
 }
 
 model Project {

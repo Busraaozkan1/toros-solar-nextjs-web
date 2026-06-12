@@ -45,6 +45,7 @@ export async function POST(request) {
             const name = String(row?.name || '').trim();
             const description = String(row?.description || '').trim();
             const priceText = String(row?.priceText || '').trim();
+            const category = String(row?.category || '').trim() || null;
             const imageFilename = String(row?.imageFilename || '').trim().toLowerCase();
 
             if (!name || !description || !priceText) {
@@ -66,6 +67,7 @@ export async function POST(request) {
                         description,
                         priceText,
                         price: parsePriceTextToNumber(priceText),
+                        category,
                         imageUrl
                     }
                 });

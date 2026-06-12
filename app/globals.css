@@ -20,7 +20,7 @@
     --accent-hover: #F6A705; 
     --soft-white: #e66920; 
     --text-gray: #655d5d; 
-    --nav-height: 80px;
+    --nav-height: 66px;
 }
 
 /* --- GENEL SIFIRLAMA --- */
@@ -54,7 +54,12 @@ body {
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 20px rgba(251, 102, 2, 0.1);
     transition: all 0.3s ease;
-    padding: 15px 0;
+    padding: 8px 0;
+}
+
+/* Dropdown ok isaretini (caret) gizle */
+.custom-nav .dropdown-toggle::after {
+    display: none;
 }
 
 .navbar-brand {

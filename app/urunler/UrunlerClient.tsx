@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { PRODUCT_CATEGORIES } from '@/lib/categories';
 
 // Ürün Modeli Tanımı
 interface Product {
@@ -11,6 +12,7 @@ interface Product {
     price: number;
     priceText?: string | null;
     imageUrl: string | null;
+    category?: string | null;
 }
 
 function extractDescriptionItems(description?: string | null) {
@@ -24,7 +26,17 @@ function extractDescriptionItems(description?: string | null) {
         .filter((line) => line.length > 0);
 }
 
-export default function UrunlerClient({ initialProducts }: { initialProducts: Product[] }) {
+export default function UrunlerClient({
+    initialProducts,
+    title = 'Ürün Kataloğumuz',
+    subtitle,
+    showFilters = true,
+}: {
+    initialProducts: Product[];
+    title?: string;
+    subtitle?: string;
+    showFilters?: boolean;
+}) {
     const router = useRouter();
     const pathname = usePathname();
     // State Yönetimi
@@ -33,6 +45,15 @@ export default function UrunlerClient({ initialProducts }: { initialProducts: Pr
     const error: string | null = null;
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
+    const [activeCategory, setActiveCategory] = useState<string>('');
+
+    // Sadece urunu olan kategoriler icin filtre cipi goster
+    const visibleCategories = PRODUCT_CATEGORIES.filter((c) =>
+        products.some((p) => p.category === c.label)
+    );
+    const filteredProducts = activeCategory
+        ? products.filter((p) => p.category === activeCategory)
+        : products;
 
     useEffect(() => {
         const loadAuth = async () => {
@@ -130,8 +151,47 @@ export default function UrunlerClient({ initialProducts }: { initialProducts: Pr
             ></div>
 
             <div className="container position-relative">
-                <h2 className="section-title text-center mb-5 text-white">Ürün Kataloğumuz</h2>
-                
+                <h2 className="section-title text-center mb-4 text-white">{title}</h2>
+
+                {subtitle && (
+                    <p className="text-center mx-auto mb-4" style={{ maxWidth: 720, color: '#b9c3d1' }}>
+                        {subtitle}
+                    </p>
+                )}
+
+                {!showFilters && (
+                    <div className="text-center mb-5">
+                        <a href="/urunler" className="btn btn-outline-light btn-sm rounded-pill px-4">
+                            ← Tüm Ürünler
+                        </a>
+                    </div>
+                )}
+
+                {showFilters && visibleCategories.length > 0 && (
+                    <div className="d-flex flex-wrap justify-content-center gap-2 mb-5">
+                        <button
+                            type="button"
+                            className={`btn btn-sm rounded-pill px-3 ${activeCategory === '' ? 'btn-gold' : 'btn-outline-light'}`}
+                            onClick={() => setActiveCategory('')}
+                        >
+                            Tümü ({products.length})
+                        </button>
+                        {visibleCategories.map((c) => {
+                            const count = products.filter((p) => p.category === c.label).length;
+                            return (
+                                <button
+                                    key={c.slug}
+                                    type="button"
+                                    className={`btn btn-sm rounded-pill px-3 ${activeCategory === c.label ? 'btn-gold' : 'btn-outline-light'}`}
+                                    onClick={() => setActiveCategory(c.label)}
+                                >
+                                    {c.label} ({count})
+                                </button>
+                            );
+                        })}
+                    </div>
+                )}
+
                 {loading ? (
                     <div className="alert alert-secondary bg-dark text-light border-secondary text-center">
                         Urunler yukleniyor...
@@ -146,7 +206,7 @@ export default function UrunlerClient({ initialProducts }: { initialProducts: Pr
                     </div>
                 ) : (
                     <div className="row g-4">
-                        {products.map((item) => (
+                        {filteredProducts.map((item) => (
                             <div key={item.id} className="col-lg-3 col-md-6 col-sm-6">
                                 <div
                                     className="product-card h-100 d-flex flex-column position-relative bg-dark border-gold-thin p-3 shadow"

@@ -2,11 +2,13 @@
 
 import React, { useMemo, useRef, useState } from "react";
 import * as XLSX from "xlsx";
+import { CATEGORY_LABELS, categoryByLabel } from "@/lib/categories";
 
 interface BulkRow {
     name: string;
     priceText?: string;
     description: string;
+    category?: string;
     imageFilename?: string;
 }
 
@@ -29,6 +31,7 @@ const HEADER_ALIASES: Record<string, string> = {
     description: "description", aciklama: "description", "açıklama": "description",
     imagefilename: "imageFilename", gorsel: "imageFilename", "görsel": "imageFilename",
     image: "imageFilename", resim: "imageFilename", foto: "imageFilename",
+    category: "category", kategori: "category",
 };
 
 function normalizeHeader(h: string): string {
@@ -72,6 +75,7 @@ export default function BulkImport({ kind }: BulkImportProps) {
                     name: out.name || "",
                     priceText: out.priceText || "",
                     description: out.description || "",
+                    category: out.category || "",
                     imageFilename: out.imageFilename || "",
                 };
             }).filter((r) => r.name || r.description || r.priceText);
@@ -89,10 +93,10 @@ export default function BulkImport({ kind }: BulkImportProps) {
 
     const downloadTemplate = () => {
         const header = isProduct
-            ? ["name", "priceText", "description", "imageFilename"]
+            ? ["name", "priceText", "kategori", "description", "imageFilename"]
             : ["name", "description", "imageFilename"];
         const example = isProduct
-            ? ["Solinved 550W Monokristal Panel", "4.250 TL", "550W guc\n%21.3 verim\n25 yil garanti", "panel-550w.jpg"]
+            ? ["Solinved 550W Monokristal Panel", "4.250 TL", "Güneş Panelleri", "550W guc\n%21.3 verim\n25 yil garanti", "panel-550w.jpg"]
             : ["Mersin Mezitli 10kW Cati GES", "10kW cati kurulumu, 18 panel", "mezitli-ges.jpg"];
         const ws = XLSX.utils.aoa_to_sheet([header, example]);
         const wb = XLSX.utils.book_new();
@@ -104,6 +108,9 @@ export default function BulkImport({ kind }: BulkImportProps) {
         if (!r.name) return "name bos";
         if (!r.description) return "description bos";
         if (isProduct && !r.priceText) return "priceText bos";
+        if (isProduct && r.category && !categoryByLabel(r.category)) {
+            return `kategori taninmadi: "${r.category}"`;
+        }
         if (r.imageFilename && !/^https?:\/\//i.test(r.imageFilename) && !imageNames.has(r.imageFilename.toLowerCase())) {
             return "gorsel dosyasi secilmedi";
         }
@@ -117,7 +124,12 @@ export default function BulkImport({ kind }: BulkImportProps) {
         setResults(null);
         try {
             const fd = new FormData();
-            fd.append("rows", JSON.stringify(rows));
+            // kategori etiketlerini kanonik haline cevir (buyuk/kucuk harf farklari icin)
+            const normalizedRows = rows.map((r) => ({
+                ...r,
+                category: r.category ? (categoryByLabel(r.category)?.label || r.category) : "",
+            }));
+            fd.append("rows", JSON.stringify(normalizedRows));
             for (const f of images) fd.append("images", f);
 
             const res = await fetch(`/api/admin/${isProduct ? "products" : "projects"}/bulk`, {
@@ -159,7 +171,13 @@ export default function BulkImport({ kind }: BulkImportProps) {
                                 onChange={(e) => handleSheet(e.target.files?.[0])}
                             />
                             <div className="form-text">
-                                Kolonlar: name{isProduct ? ", priceText" : ""}, description, imageFilename
+                                Kolonlar: name{isProduct ? ", priceText, kategori" : ""}, description, imageFilename
+                                {isProduct && (
+                                    <>
+                                        <br />
+                                        Kategoriler: {CATEGORY_LABELS.join(" · ")}
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="col-md-5">
@@ -216,6 +234,7 @@ export default function BulkImport({ kind }: BulkImportProps) {
                                     <th>#</th>
                                     <th>name</th>
                                     {isProduct && <th>priceText</th>}
+                                    {isProduct && <th>kategori</th>}
                                     <th>description</th>
                                     <th>görsel</th>
                                     <th>durum</th>
@@ -229,6 +248,7 @@ export default function BulkImport({ kind }: BulkImportProps) {
                                             <td>{i + 1}</td>
                                             <td style={{ maxWidth: 220, overflowWrap: "anywhere" }}>{r.name}</td>
                                             {isProduct && <td>{r.priceText}</td>}
+                                            {isProduct && <td>{r.category || <span className="text-muted">—</span>}</td>}
                                             <td style={{ maxWidth: 320, overflowWrap: "anywhere" }}>
                                                 {r.description.length > 80 ? `${r.description.slice(0, 80)}...` : r.description}
                                             </td>

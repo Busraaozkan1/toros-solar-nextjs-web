@@ -47,8 +47,10 @@ export default async function HomePage() {
       prisma.product.findMany({ orderBy: { id: "desc" } }),
       prisma.project.findMany({ orderBy: { id: "desc" } }),
     ]);
-  } catch {
-    // DB erisilemezse bos listelerle render et
+  } catch (err) {
+    // Build sirasinda DB yoksa bos listelerle devam et; canlida hata firlat ki
+    // Next.js bos sayfayi cache'lemek yerine son saglam sayfayi sunmaya devam etsin
+    if (process.env.NEXT_PHASE !== "phase-production-build") throw err;
   }
 
   const initialProducts = products.map(normalizeImage).map((p: DbProduct) => ({

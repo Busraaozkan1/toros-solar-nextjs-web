@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { PRODUCT_CATEGORIES } from '@/lib/categories';
 
 type Notice = {
     type: 'success' | 'error';
@@ -14,7 +15,8 @@ export default function ProductCreatePage() {
     const [formData, setFormData] = useState({
         name: '',
         priceText: '',
-        description: ''
+        description: '',
+        category: ''
     });
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
@@ -29,7 +31,7 @@ export default function ProductCreatePage() {
         };
     }, [imagePreviewUrl]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
@@ -61,6 +63,7 @@ export default function ProductCreatePage() {
         data.append('name', formData.name);
         data.append('priceText', formData.priceText);
         data.append('description', formData.description);
+        data.append('category', formData.category);
         if (imageFile) {
             data.append('imageFile', imageFile);
         }
@@ -78,7 +81,7 @@ export default function ProductCreatePage() {
             }
 
             setNotice({ type: 'success', text: 'Urun basariyla kaydedildi. Urun yonetimine yonlendiriliyorsunuz...' });
-            setFormData({ name: '', priceText: '', description: '' });
+            setFormData({ name: '', priceText: '', description: '', category: '' });
             setImageFile(null);
             if (imagePreviewUrl) {
                 URL.revokeObjectURL(imagePreviewUrl);
@@ -157,6 +160,23 @@ export default function ProductCreatePage() {
                                             required
                                         />
                                         <small className="text-muted">Istediginiz formatta yazabilirsiniz.</small>
+                                    </div>
+
+                                    {/* Kategori */}
+                                    <div className="col-md-12 mb-3 text-start">
+                                        <label className="form-label fw-bold">Kategori</label>
+                                        <select
+                                            name="category"
+                                            className="form-select form-select-lg shadow-sm"
+                                            value={formData.category}
+                                            onChange={handleChange}
+                                            required
+                                        >
+                                            <option value="">Kategori seçin...</option>
+                                            {PRODUCT_CATEGORIES.map((c) => (
+                                                <option key={c.slug} value={c.label}>{c.label}</option>
+                                            ))}
+                                        </select>
                                     </div>
 
                                     {/* Görsel Yükleme */}

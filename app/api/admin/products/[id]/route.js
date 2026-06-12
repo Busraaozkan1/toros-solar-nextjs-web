@@ -41,6 +41,7 @@ export async function PUT(request, { params }) {
         const name = String(formData.get('name') || '').trim();
         const description = String(formData.get('description') || '').trim();
         const priceText = String(formData.get('priceText') || '').trim();
+        const category = String(formData.get('category') || '').trim() || null;
         const currentImageUrl = String(formData.get('imageUrl') || '').trim() || null;
         const uploadedImageUrl = await uploadImage(formData.get('imageFile'), 'toros-solar/products');
 
@@ -55,6 +56,7 @@ export async function PUT(request, { params }) {
                 description,
                 price: parsePriceTextToNumber(priceText),
                 priceText: priceText || null,
+                category,
                 imageUrl: uploadedImageUrl || currentImageUrl,
             }
         });
