@@ -7,7 +7,10 @@ export const metadata: Metadata = {
   title: "Mersin Güneş Paneli Kurulumu | Anahtar Teslim GES",
   description:
     "Mersin'de güneş paneli kurulumu: çatı GES, ev tipi güneş enerjisi sistemleri ve tarımsal sulama. 15 yıllık tecrübe, ücretsiz keşif. Tarsus, Erdemli, Silifke dahil tüm ilçelere hizmet.",
-  alternates: { canonical: "/gunes-paneli-mersin" },
+  alternates: {
+    canonical: "/gunes-paneli-mersin",
+    languages: { tr: "/gunes-paneli-mersin", en: "/en/solar-installation-mersin" },
+  },
   openGraph: {
     title: "Mersin Güneş Paneli Kurulumu | Toros Solar",
     description:

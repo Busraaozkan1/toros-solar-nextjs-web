@@ -31,10 +31,15 @@ function categorize(name) {
   if (n.includes("panel") && n.includes("gunes")) return "Güneş Panelleri";
   if (n.includes("pompa")) return "Solar Pompa ve Sürücüler";
   if (n.includes("sarj kontrol") || n.includes("pwm")) return "Şarj Kontrol Cihazları";
-  if (n.includes("aku") || n.includes("batarya") || n.includes("batterybox") || n.includes("lityum")) return "Aküler";
+  if (n.includes("aku") || n.includes("batarya") || n.includes("battery") || n.includes("lityum")) return "Aküler";
   if (n.includes("invert") || n.includes("sinus")) return "İnverterler";
   if (n.includes("aydinlatma") || n.includes("kamera")) return "Solar Aydınlatma ve Kamera";
-  if (n.includes("salter") || n.includes("konstruksiyon") || n.includes("sehpa")) return "Aksesuar ve Montaj";
+  if (
+    n.includes("salter") || n.includes("konstruksiyon") || n.includes("sehpa") ||
+    n.includes("diyot") || n.includes("kablo") || n.includes("sayac") ||
+    n.includes("pano") || n.includes("router") || n.includes("power manager") ||
+    n.includes("epm") || n.includes("konnektor") || n.includes("mc4") || n.includes("sigorta")
+  ) return "Aksesuar ve Montaj";
   if (n.includes("sarj istasyonu") || n.includes("ev sarj")) return "EV Şarj İstasyonları";
   if (n.includes("paket")) return "Hazır Solar Paketler";
   return null;

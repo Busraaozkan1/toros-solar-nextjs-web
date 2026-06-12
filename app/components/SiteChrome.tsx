@@ -4,6 +4,18 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const TR_TO_EN: Record<string, string> = {
+  "/": "/en",
+  "/gunes-paneli-mersin": "/en/solar-installation-mersin",
+  "/ev-sarj-istasyonu": "/en/ev-charging-stations",
+};
+
+const EN_TO_TR: Record<string, string> = {
+  "/en": "/",
+  "/en/solar-installation-mersin": "/gunes-paneli-mersin",
+  "/en/ev-charging-stations": "/ev-sarj-istasyonu",
+};
+
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -11,6 +23,12 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
 
   // Admin sayfalarinda ana site navbar/footer'ini gizle
   const isAdminPath = pathname.startsWith("/admin");
+
+  // Ingilizce sayfalar
+  const isEn = pathname === "/en" || pathname.startsWith("/en/");
+  const langTarget = isEn
+    ? EN_TO_TR[pathname] || "/"
+    : TR_TO_EN[pathname] || "/en";
 
   const handleNavbarLogout = async () => {
     try {
@@ -83,50 +101,89 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
 
               <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul className="navbar-nav align-items-lg-center">
-                  <li className="nav-item"><Link className="nav-link" href="/">Anasayfa</Link></li>
+                  {!isEn ? (
+                    <>
+                      <li className="nav-item"><Link className="nav-link" href="/">Anasayfa</Link></li>
 
-                  <li className="nav-item dropdown">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
+                      <li className="nav-item dropdown">
+                        <a
+                          className="nav-link dropdown-toggle"
+                          href="#"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Hizmetlerimiz
+                        </a>
+                        <ul className="dropdown-menu">
+                          <li><Link className="dropdown-item" href="/gunes-paneli-mersin">Mersin Güneş Paneli Kurulumu</Link></li>
+                          <li><Link className="dropdown-item" href="/cati-ges">Çatı GES Sistemleri</Link></li>
+                          <li><Link className="dropdown-item" href="/tarimsal-sulama">Tarımsal Sulama Sistemleri</Link></li>
+                          <li><Link className="dropdown-item" href="/ev-sarj-istasyonu">Elektrikli Araç Şarj İstasyonu</Link></li>
+                          <li><Link className="dropdown-item" href="/gunes-paneli-adana">Adana Güneş Paneli</Link></li>
+                        </ul>
+                      </li>
+
+                      <li className="nav-item"><Link className="nav-link" href="/urunler">Ürünlerimiz</Link></li>
+                      <li className="nav-item"><Link className="nav-link" href="/projelerimiz">Projelerimiz</Link></li>
+
+                      <li className="nav-item dropdown">
+                        <a
+                          className="nav-link dropdown-toggle"
+                          href="#"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Rehber
+                        </a>
+                        <ul className="dropdown-menu">
+                          <li><Link className="dropdown-item" href="/rehber/ev-icin-kac-panel">Eve Kaç Panel Gerekir?</Link></li>
+                          <li><Link className="dropdown-item" href="/rehber/cati-ges-maliyeti">Çatı GES Maliyeti</Link></li>
+                          <li><Link className="dropdown-item" href="/rehber/mersin-gunes-enerjisi-uretimi">Mersin&apos;de Üretim Verileri</Link></li>
+                          <li><Link className="dropdown-item" href="/rehber/ciftciler-icin-solar-sulama">Çiftçiler İçin Solar Sulama</Link></li>
+                        </ul>
+                      </li>
+
+                      <li className="nav-item"><Link className="nav-link" href="/#hakkimizda">Hakkımızda</Link></li>
+                      <li className="nav-item"><Link className="nav-link" href="/#iletisim">İletişim</Link></li>
+                    </>
+                  ) : (
+                    <>
+                      <li className="nav-item"><Link className="nav-link" href="/en">Home</Link></li>
+
+                      <li className="nav-item dropdown">
+                        <a
+                          className="nav-link dropdown-toggle"
+                          href="#"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Services
+                        </a>
+                        <ul className="dropdown-menu">
+                          <li><Link className="dropdown-item" href="/en/solar-installation-mersin">Solar Installation in Mersin</Link></li>
+                          <li><Link className="dropdown-item" href="/en/ev-charging-stations">EV Charging Stations</Link></li>
+                        </ul>
+                      </li>
+
+                      <li className="nav-item"><Link className="nav-link" href="/urunler">Products</Link></li>
+                      <li className="nav-item"><Link className="nav-link" href="/en#contact">Contact</Link></li>
+                    </>
+                  )}
+
+                  {/* Dil degistirici */}
+                  <li className="nav-item ms-lg-2">
+                    <Link
+                      className="nav-link btn btn-sm btn-outline-secondary px-3 fw-bold"
+                      style={{ borderRadius: "20px" }}
+                      href={langTarget}
+                      title={isEn ? "Türkçe'ye geç" : "Switch to English"}
                     >
-                      Hizmetlerimiz
-                    </a>
-                    <ul className="dropdown-menu">
-                      <li><Link className="dropdown-item" href="/gunes-paneli-mersin">Mersin Güneş Paneli Kurulumu</Link></li>
-                      <li><Link className="dropdown-item" href="/cati-ges">Çatı GES Sistemleri</Link></li>
-                      <li><Link className="dropdown-item" href="/tarimsal-sulama">Tarımsal Sulama Sistemleri</Link></li>
-                      <li><Link className="dropdown-item" href="/ev-sarj-istasyonu">Elektrikli Araç Şarj İstasyonu</Link></li>
-                      <li><Link className="dropdown-item" href="/gunes-paneli-adana">Adana Güneş Paneli</Link></li>
-                    </ul>
+                      <i className="bi bi-globe2 me-1"></i>{isEn ? "TR" : "EN"}
+                    </Link>
                   </li>
-
-                  <li className="nav-item"><Link className="nav-link" href="/urunler">Ürünlerimiz</Link></li>
-                  <li className="nav-item"><Link className="nav-link" href="/projelerimiz">Projelerimiz</Link></li>
-
-                  <li className="nav-item dropdown">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Rehber
-                    </a>
-                    <ul className="dropdown-menu">
-                      <li><Link className="dropdown-item" href="/rehber/ev-icin-kac-panel">Eve Kaç Panel Gerekir?</Link></li>
-                      <li><Link className="dropdown-item" href="/rehber/cati-ges-maliyeti">Çatı GES Maliyeti</Link></li>
-                      <li><Link className="dropdown-item" href="/rehber/mersin-gunes-enerjisi-uretimi">Mersin&apos;de Üretim Verileri</Link></li>
-                      <li><Link className="dropdown-item" href="/rehber/ciftciler-icin-solar-sulama">Çiftçiler İçin Solar Sulama</Link></li>
-                    </ul>
-                  </li>
-
-                  <li className="nav-item"><Link className="nav-link" href="/#hakkimizda">Hakkımızda</Link></li>
-                  <li className="nav-item"><Link className="nav-link" href="/#iletisim">İletişim</Link></li>
 
                   {isAuthenticated ? (
                     <>
@@ -157,7 +214,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                         style={{ borderRadius: "20px" }}
                         href="/user-login"
                       >
-                        Giriş Yap / Kayıt Ol
+                        {isEn ? "Sign In" : "Giriş Yap / Kayıt Ol"}
                       </Link>
                     </li>
                   )}
@@ -179,25 +236,38 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                 <div className="col-lg-4 text-center">
                   <div className="footer-company-panel">
                     <h4 className="footer-brand-title mb-2">TOROSSOLAR</h4>
-                    <p className="text-white-50 mb-2">Mersin&apos;den Dünyaya Sürdürülebilir Enerji</p>
-                    <span className="text-white-50 small">© 2026 - Geleceğin Enerjisi - Tüm Hakları Saklıdır.</span>
+                    <p className="text-white-50 mb-2">
+                      {isEn ? "Sustainable Energy from Mersin to the World" : "Mersin'den Dünyaya Sürdürülebilir Enerji"}
+                    </p>
+                    <span className="text-white-50 small">
+                      {isEn ? "© 2026 - The Energy of the Future - All Rights Reserved." : "© 2026 - Geleceğin Enerjisi - Tüm Hakları Saklıdır."}
+                    </span>
                   </div>
                 </div>
 
                 <div className="col-lg-4 text-center">
                   <div className="footer-company-panel">
-                    <h6 className="text-white-50 mb-2">Hizmetlerimiz</h6>
-                    <ul className="list-unstyled mb-0 small">
-                      <li><Link href="/gunes-paneli-mersin" className="text-white-50 text-decoration-none">Mersin Güneş Paneli Kurulumu</Link></li>
-                      <li><Link href="/cati-ges" className="text-white-50 text-decoration-none">Çatı GES Sistemleri</Link></li>
-                      <li><Link href="/tarimsal-sulama" className="text-white-50 text-decoration-none">Tarımsal Sulama Sistemleri</Link></li>
-                      <li><Link href="/gunes-paneli-adana" className="text-white-50 text-decoration-none">Adana Güneş Paneli</Link></li>
-                      <li><Link href="/ev-sarj-istasyonu" className="text-white-50 text-decoration-none">Elektrikli Araç Şarj İstasyonu</Link></li>
-                      <li><Link href="/rehber/ev-icin-kac-panel" className="text-white-50 text-decoration-none">Rehber: Eve Kaç Panel Gerekir?</Link></li>
-                      <li><Link href="/rehber/cati-ges-maliyeti" className="text-white-50 text-decoration-none">Rehber: Çatı GES Maliyeti</Link></li>
-                      <li><Link href="/rehber/mersin-gunes-enerjisi-uretimi" className="text-white-50 text-decoration-none">Rehber: Mersin&apos;de Üretim Verileri</Link></li>
-                      <li><Link href="/rehber/ciftciler-icin-solar-sulama" className="text-white-50 text-decoration-none">Rehber: Çiftçiler İçin Solar Sulama</Link></li>
-                    </ul>
+                    <h6 className="text-white-50 mb-2">{isEn ? "Services" : "Hizmetlerimiz"}</h6>
+                    {!isEn ? (
+                      <ul className="list-unstyled mb-0 small">
+                        <li><Link href="/gunes-paneli-mersin" className="text-white-50 text-decoration-none">Mersin Güneş Paneli Kurulumu</Link></li>
+                        <li><Link href="/cati-ges" className="text-white-50 text-decoration-none">Çatı GES Sistemleri</Link></li>
+                        <li><Link href="/tarimsal-sulama" className="text-white-50 text-decoration-none">Tarımsal Sulama Sistemleri</Link></li>
+                        <li><Link href="/gunes-paneli-adana" className="text-white-50 text-decoration-none">Adana Güneş Paneli</Link></li>
+                        <li><Link href="/ev-sarj-istasyonu" className="text-white-50 text-decoration-none">Elektrikli Araç Şarj İstasyonu</Link></li>
+                        <li><Link href="/rehber/ev-icin-kac-panel" className="text-white-50 text-decoration-none">Rehber: Eve Kaç Panel Gerekir?</Link></li>
+                        <li><Link href="/rehber/cati-ges-maliyeti" className="text-white-50 text-decoration-none">Rehber: Çatı GES Maliyeti</Link></li>
+                        <li><Link href="/rehber/mersin-gunes-enerjisi-uretimi" className="text-white-50 text-decoration-none">Rehber: Mersin&apos;de Üretim Verileri</Link></li>
+                        <li><Link href="/rehber/ciftciler-icin-solar-sulama" className="text-white-50 text-decoration-none">Rehber: Çiftçiler İçin Solar Sulama</Link></li>
+                      </ul>
+                    ) : (
+                      <ul className="list-unstyled mb-0 small">
+                        <li><Link href="/en/solar-installation-mersin" className="text-white-50 text-decoration-none">Solar Installation in Mersin</Link></li>
+                        <li><Link href="/en/ev-charging-stations" className="text-white-50 text-decoration-none">Home EV Charging Stations</Link></li>
+                        <li><Link href="/urunler" className="text-white-50 text-decoration-none">Product Catalogue</Link></li>
+                        <li><Link href="/en#contact" className="text-white-50 text-decoration-none">Contact / Free Survey</Link></li>
+                      </ul>
+                    )}
                   </div>
                 </div>
 

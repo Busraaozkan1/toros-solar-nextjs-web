@@ -21,6 +21,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/rehber/mersin-gunes-enerjisi-uretimi`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/rehber/ciftciler-icin-solar-sulama`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/privacy`, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${BASE_URL}/en`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE_URL}/en/solar-installation-mersin`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE_URL}/en/ev-charging-stations`, changeFrequency: "monthly", priority: 0.7 },
   ];
 
   const categoryRoutes: MetadataRoute.Sitemap = PRODUCT_CATEGORIES.map((c) => ({

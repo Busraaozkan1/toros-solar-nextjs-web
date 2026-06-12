@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Toros Solar | Mersin Güneş Enerjisi Sistemleri ve Güneş Paneli Kurulumu",
   description:
     "Mersin ve Adana'da anahtar teslim güneş enerjisi: çatı GES, güneş paneli kurulumu, tarımsal sulama ve off-grid çözümler. 15 yıllık tecrübe, ücretsiz keşif: 0536 733 36 78.",
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", languages: { tr: "/", en: "/en" } },
 };
 
 type DbProduct = {
