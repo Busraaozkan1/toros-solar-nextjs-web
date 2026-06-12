@@ -7,7 +7,10 @@ export const metadata: Metadata = {
   title: "Evde Elektrikli Araç Şarj İstasyonu | Satış ve Kurulum",
   description:
     "Mersin ve Adana'da ev tipi elektrikli araç şarj istasyonu satışı ve anahtar teslim montajı. Evde şarj benzine göre 7-8 kat ucuz; çatı GES ile birleştirin, aracınızı çatınızdan şarj edin.",
-  alternates: { canonical: "/ev-sarj-istasyonu" },
+  alternates: {
+    canonical: "/ev-sarj-istasyonu",
+    languages: { tr: "/ev-sarj-istasyonu", en: "/en/ev-charging-stations" },
+  },
 };
 
 const faqJsonLd = {
