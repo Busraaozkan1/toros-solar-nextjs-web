@@ -17,8 +17,10 @@ export default async function ProjelerPage() {
 
   try {
     projects = await prisma.project.findMany({ orderBy: { id: "desc" } });
-  } catch {
-    // DB erisilemezse bos listeyle render et
+  } catch (err) {
+    // Build sirasinda DB yoksa bos listeyle devam et; canlida hata firlat ki
+    // Next.js bos sayfayi cache'lemek yerine son saglam sayfayi sunmaya devam etsin
+    if (process.env.NEXT_PHASE !== "phase-production-build") throw err;
   }
 
   type DbProject = {

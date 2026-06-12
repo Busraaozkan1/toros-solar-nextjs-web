@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import { PRODUCT_CATEGORIES } from '@/lib/categories';
 
 type ProductFormData = {
     id: string;
@@ -10,6 +11,7 @@ type ProductFormData = {
     priceText: string;
     description: string;
     imageUrl: string;
+    category: string;
 };
 
 export default function ProductEditPage() {
@@ -25,7 +27,8 @@ export default function ProductEditPage() {
         name: '',
         priceText: '',
         description: '',
-        imageUrl: ''
+        imageUrl: '',
+        category: ''
     });
         useEffect(() => {
             const loadProduct = async () => {
@@ -48,7 +51,8 @@ export default function ProductEditPage() {
                         name: String(data.name || ''),
                         priceText: String(data.priceText || data.price || ''),
                         description: String(data.description || ''),
-                        imageUrl: String(data.imageUrl || '')
+                        imageUrl: String(data.imageUrl || ''),
+                        category: String(data.category || '')
                     });
                 } catch (err) {
                     const message = err instanceof Error ? err.message : 'Urun yuklenirken hata olustu.';
@@ -64,7 +68,7 @@ export default function ProductEditPage() {
     
     const [newImage, setNewImage] = useState<File | null>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
@@ -85,6 +89,7 @@ export default function ProductEditPage() {
         data.append('priceText', formData.priceText);
         data.append('description', formData.description);
         data.append('imageUrl', formData.imageUrl);
+        data.append('category', formData.category);
         
         if (newImage) {
             data.append('imageFile', newImage);
@@ -170,6 +175,22 @@ export default function ProductEditPage() {
                                             placeholder="Orn: 588 TL, 500 $, 500 dolar"
                                             required 
                                         />
+                                    </div>
+
+                                    {/* Kategori */}
+                                    <div className="col-md-12 mb-3 text-start">
+                                        <label className="form-label fw-bold">Kategori</label>
+                                        <select
+                                            name="category"
+                                            className="form-select"
+                                            value={formData.category}
+                                            onChange={handleChange}
+                                        >
+                                            <option value="">Kategori seçin...</option>
+                                            {PRODUCT_CATEGORIES.map((c) => (
+                                                <option key={c.slug} value={c.label}>{c.label}</option>
+                                            ))}
+                                        </select>
                                     </div>
 
                                     {/* Mevcut Görsel */}

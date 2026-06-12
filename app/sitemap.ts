@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
+import { PRODUCT_CATEGORIES } from "@/lib/categories";
 
 const BASE_URL = "https://www.torossolar.com";
 
@@ -22,6 +23,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/privacy`, changeFrequency: "yearly", priority: 0.1 },
   ];
 
+  const categoryRoutes: MetadataRoute.Sitemap = PRODUCT_CATEGORIES.map((c) => ({
+    url: `${BASE_URL}/urunler/kategori/${c.slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
   let productRoutes: MetadataRoute.Sitemap = [];
   try {
     const products = await prisma.product.findMany({ select: { id: true } });
@@ -34,5 +41,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // DB erisilemezse statik rotalarla devam et
   }
 
-  return [...staticRoutes, ...productRoutes];
+  return [...staticRoutes, ...categoryRoutes, ...productRoutes];
 }

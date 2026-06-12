@@ -39,6 +39,7 @@ export async function POST(request) {
         const name = String(formData.get('name') || '').trim();
         const description = String(formData.get('description') || '').trim();
         const priceText = String(formData.get('priceText') || '').trim();
+        const category = String(formData.get('category') || '').trim() || null;
         const price = parsePriceTextToNumber(priceText);
 
         if (!name || !description || !priceText) {
@@ -55,6 +56,7 @@ export async function POST(request) {
                 description,
                 price,
                 priceText,
+                category,
                 imageUrl
             }
         });

@@ -17,8 +17,10 @@ export default async function UrunlerPage() {
 
   try {
     products = await prisma.product.findMany({ orderBy: { id: "desc" } });
-  } catch {
-    // DB erisilemezse bos listeyle render et
+  } catch (err) {
+    // Build sirasinda DB yoksa bos listeyle devam et; canlida hata firlat ki
+    // Next.js bos sayfayi cache'lemek yerine son saglam sayfayi sunmaya devam etsin
+    if (process.env.NEXT_PHASE !== "phase-production-build") throw err;
   }
 
   type DbProduct = {
@@ -28,6 +30,7 @@ export default async function UrunlerPage() {
     price: number;
     priceText: string | null;
     imageUrl: string | null;
+    category?: string | null;
   };
 
   const initialProducts = products.map((p: DbProduct) => ({
@@ -36,6 +39,7 @@ export default async function UrunlerPage() {
     description: p.description,
     price: p.price,
     priceText: p.priceText,
+    category: p.category ?? null,
     imageUrl:
       typeof p.imageUrl === "string" && p.imageUrl.trim() === "" ? null : p.imageUrl,
   }));
