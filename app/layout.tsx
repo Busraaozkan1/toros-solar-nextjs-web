@@ -1,5 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import SiteChrome from "./components/SiteChrome";
@@ -95,6 +96,20 @@ export default function RootLayout({
         />
         <SiteChrome>{children}</SiteChrome>
         <Analytics />
+
+        {/* Google Ads tag (gtag.js) - donusum takibi ve remarketing */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18228056020"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-gtag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18228056020');
+          `}
+        </Script>
       </body>
     </html>
   );
