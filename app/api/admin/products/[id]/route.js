@@ -75,10 +75,7 @@ export async function DELETE(request, { params }) {
 
         const id = await getIdFromParams(params);
 
-        await prisma.$transaction([
-            prisma.favorite.deleteMany({ where: { productId: id } }),
-            prisma.product.delete({ where: { id } })
-        ]);
+        await prisma.product.delete({ where: { id } });
 
         return NextResponse.json({ success: true, message: "Ürün silindi" });
     } catch (error) {

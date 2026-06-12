@@ -2,7 +2,6 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
 
 // ASP.NET'teki Product Modelinin Next.js karşılığı
 interface Product {
@@ -61,14 +60,10 @@ export default function HomeClient({
   initialProducts: Product[];
   initialProjects: Project[];
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
   const allProducts = initialProducts;
   const allProjects = initialProjects;
   const [productSeed, setProductSeed] = useState(1);
   const [projectSeed, setProjectSeed] = useState(7);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
   const isDay = useMemo(() => {
     const hour = new Date().getHours();
     return hour >= 7 && hour < 19;
@@ -81,10 +76,6 @@ export default function HomeClient({
   const featuredProjects = useMemo(() => {
     return pickSeededItems(allProjects, 4, projectSeed);
   }, [allProjects, projectSeed]);
-
-  const visibleFavoriteIds = useMemo(() => {
-    return isAuthenticated ? favoriteIds : [];
-  }, [favoriteIds, isAuthenticated]);
 
   // Bir urun modali acikken carousel donmesin: modal acikken kart degisirse
   // Bootstrap backdrop sahipsiz kaliyor ve sayfa kilitleniyordu.
@@ -122,79 +113,6 @@ export default function HomeClient({
 
     return () => window.clearInterval(intervalId);
   }, []);
-
-  useEffect(() => {
-    const loadAuth = async () => {
-      try {
-        const response = await fetch('/api/auth/me', { cache: 'no-store' });
-        const data = await response.json().catch(() => ({}));
-        setIsAuthenticated(Boolean(data?.authenticated));
-      } catch {
-        setIsAuthenticated(false);
-      }
-    };
-
-    loadAuth();
-  }, []);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
-
-    const loadFavorites = async () => {
-      try {
-        const response = await fetch('/api/user/favorites', { cache: 'no-store' });
-        if (!response.ok) {
-          return;
-        }
-
-        const data = await response.json().catch(() => []);
-        if (Array.isArray(data)) {
-          setFavoriteIds(data.map((item) => Number(item.id)).filter((id) => !Number.isNaN(id)));
-        }
-      } catch {
-        // ignore
-      }
-    };
-
-    loadFavorites();
-  }, [isAuthenticated]);
-
-  const handleFavoriteClick = async (productId: number) => {
-    if (!isAuthenticated) {
-      router.push(`/user-login?next=${encodeURIComponent(pathname || '/')}`);
-      return;
-    }
-
-    const res = await fetch('/api/user/favorites', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ productId })
-    });
-
-    const result = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-      return;
-    }
-
-    setFavoriteIds((prev) => {
-      const exists = prev.includes(productId);
-
-      if (result?.action === 'removed' || (exists && result?.action !== 'added')) {
-        return prev.filter((id) => id !== productId);
-      }
-
-      if (exists) {
-        return prev;
-      }
-
-      return [...prev, productId];
-    });
-  };
 
   return (
     <main>
@@ -319,14 +237,6 @@ export default function HomeClient({
             {featuredProducts.map((item) => (
               <div key={item.id} className="col-xl-3 col-md-6">
                 <div className="product-card position-relative">
-                  <button
-                    className="btn border-0 position-absolute top-0 end-0 m-3 p-0"
-                    style={{ zIndex: 5, background: 'none' }}
-                    title="Favorilere Ekle"
-                    onClick={() => handleFavoriteClick(item.id)}
-                  >
-                    <i className={`bi ${visibleFavoriteIds.includes(item.id) ? 'bi-heart-fill' : 'bi-heart'} text-danger fs-4 shadow-sm`}></i>
-                  </button>
                   <div className="product-img-container">
                     {item.imageUrl && item.imageUrl.trim() ? (
                       <img src={item.imageUrl} alt={item.name} style={{ width: '100%', height: '250px', objectFit: 'cover' }} />
