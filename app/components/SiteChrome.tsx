@@ -16,6 +16,25 @@ const EN_TO_TR: Record<string, string> = {
   "/en/ev-charging-stations": "/ev-sarj-istasyonu",
 };
 
+// Mobil menü (burger) açıkken menüyü kapatır. Bootstrap collapse varsayılan
+// olarak menü/buton dışına tıklamada kapanmadığı için elle yönetiyoruz.
+async function hideMobileNav() {
+  const el = document.getElementById("navbarNav");
+  if (!el || !el.classList.contains("show")) return;
+  // @ts-expect-error bootstrap bundle has no types
+  const bs = await import("bootstrap/dist/js/bootstrap.bundle.min.js");
+  (
+    bs as unknown as {
+      Collapse: {
+        getOrCreateInstance: (
+          e: Element,
+          o?: { toggle?: boolean }
+        ) => { hide: () => void };
+      };
+    }
+  ).Collapse.getOrCreateInstance(el, { toggle: false }).hide();
+}
+
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
@@ -33,6 +52,34 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     // @ts-expect-error bootstrap bundle has no types
     import("bootstrap/dist/js/bootstrap.bundle.min.js");
   }, []);
+
+  // Mobil menü açıkken: boş alana dokununca VEYA menü içindeki gerçek bir
+  // linke dokununca kapat. Burger butonu ve dropdown açıcıları hariç.
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      const el = document.getElementById("navbarNav");
+      if (!el || !el.classList.contains("show")) return;
+      const target = e.target as Element | null;
+      // Burger butonunu Bootstrap'in kendisi yönetiyor — karışma
+      const toggler = document.querySelector(".navbar-toggler");
+      if (toggler && target && toggler.contains(target)) return;
+      // Menünün içi: yalnızca gerçek bir linke (dropdown açıcı değil) dokununca kapat
+      if (target && el.contains(target)) {
+        const link = target.closest("a");
+        if (link && !link.classList.contains("dropdown-toggle")) hideMobileNav();
+        return;
+      }
+      // Menü ve burger dışına dokunuldu → kapat
+      hideMobileNav();
+    };
+    document.addEventListener("click", onDocClick);
+    return () => document.removeEventListener("click", onDocClick);
+  }, []);
+
+  // Başka bir sayfaya geçince (bir link'e dokununca) açık menüyü kapat
+  useEffect(() => {
+    hideMobileNav();
+  }, [pathname]);
 
   return (
     <>
