@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import SiteChrome from "./components/SiteChrome";
+import ConversionTracking from "./components/ConversionTracking";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
@@ -95,6 +96,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd) }}
         />
         <SiteChrome>{children}</SiteChrome>
+        <ConversionTracking />
         <Analytics />
 
         {/* Google Ads tag (gtag.js) - donusum takibi ve remarketing */}
