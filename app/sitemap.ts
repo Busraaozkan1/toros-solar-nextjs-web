@@ -11,6 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/`, changeFrequency: "weekly", priority: 1 },
     { url: `${BASE_URL}/urunler`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE_URL}/projelerimiz`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${BASE_URL}/ihtiyac-sihirbazi`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/gunes-paneli-mersin`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/cati-ges`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/tarimsal-sulama`, changeFrequency: "monthly", priority: 0.8 },
