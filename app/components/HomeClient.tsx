@@ -396,8 +396,8 @@ export default function HomeClient({
                   <p className="text-white opacity-75">Cumhuriyet mah. 1653 Sokak No.3 <br /> Yenişehir / MERSİN</p>
                 </div>
                 <div className="contact-info-item mb-4">
-                  <h5 className="text-gold mb-2"><i className="bi bi-whatsapp me-2"></i>WhatsApp</h5>
-                  <a href="https://wa.me/905367333678" target="_blank" className="text-white text-decoration-none fs-5 fw-bold">+90 536 733 36 78</a>
+                  <h5 className="text-gold mb-2"><i className="bi bi-telephone me-2"></i>Telefon</h5>
+                  <a href="tel:+905367333678" className="text-white text-decoration-none fs-5 fw-bold">0536 733 36 78</a>
                 </div>
                 <div className="contact-info-item">
                   <h5 className="text-gold mb-2"><i className="bi bi-envelope me-2"></i>E-Posta</h5>

@@ -68,7 +68,7 @@ export default function MersinUretimPage() {
   const annual = monthlyData.reduce((sum, [, v]) => sum + v, 0);
 
   return (
-    <main style={{ paddingTop: "100px", minHeight: "80vh" }} className="bg-dark text-white">
+    <main style={{ paddingTop: "100px", minHeight: "80vh" }} className="text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}

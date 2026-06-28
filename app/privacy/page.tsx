@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function PrivacyPage() {
     return (
-        <main style={{ paddingTop: '100px', minHeight: '80vh' }} className="bg-dark text-white">
+        <main style={{ paddingTop: '100px', minHeight: '80vh' }} className="text-white">
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-8">
