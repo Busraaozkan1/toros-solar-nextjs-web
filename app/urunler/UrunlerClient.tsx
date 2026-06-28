@@ -2,6 +2,9 @@
 
 import React, { useState } from 'react';
 import { PRODUCT_CATEGORIES } from '@/lib/categories';
+import { getCategoryFacet, parsePriceTRY } from '@/lib/productFacets';
+
+type SortMode = 'onerilen' | 'fiyat-artan' | 'fiyat-azalan';
 
 // Ürün Modeli Tanımı
 interface Product {
@@ -20,7 +23,7 @@ function extractDescriptionItems(description?: string | null) {
     }
 
     return description
-        .split(/\r?\n|•|\u2022|\./)
+        .split(/\r?\n|•|\u2022/)
         .map((line) => line.trim())
         .filter((line) => line.length > 0);
 }
@@ -41,6 +44,8 @@ export default function UrunlerClient({
     const loading = false;
     const error: string | null = null;
     const [activeCategory, setActiveCategory] = useState<string>('');
+    const [activeFacet, setActiveFacet] = useState<string>('');
+    const [sortMode, setSortMode] = useState<SortMode>('onerilen');
 
     // Sadece urunu olan kategoriler icin filtre cipi goster
     const visibleCategories = PRODUCT_CATEGORIES.filter((c) =>
@@ -49,6 +54,47 @@ export default function UrunlerClient({
     const filteredProducts = activeCategory
         ? products.filter((p) => p.category === activeCategory)
         : products;
+
+    // Kategori secince hizli filtreyi sifirla
+    const selectCategory = (label: string) => {
+        setActiveCategory(label);
+        setActiveFacet('');
+    };
+
+    // Hizli filtre cipleri + siralama: sadece 20+ urunlu gorunumlerde
+    const facet = getCategoryFacet(activeCategory);
+    const showToolbar = filteredProducts.length > 20;
+    const facetButtons =
+        facet && showToolbar
+            ? facet.buckets
+                  .map((b) => ({ b, count: filteredProducts.filter((p) => b.test(p)).length }))
+                  .filter((x) => x.count > 0)
+            : [];
+    const activeBucket = facet?.buckets.find((b) => b.key === activeFacet) ?? null;
+
+    let visibleProducts = activeBucket
+        ? filteredProducts.filter((p) => activeBucket.test(p))
+        : filteredProducts;
+
+    if (sortMode !== 'onerilen') {
+        const dir = sortMode === 'fiyat-artan' ? 1 : -1;
+        visibleProducts = [...visibleProducts].sort((a, b) => {
+            const pa = parsePriceTRY(a);
+            const pb = parsePriceTRY(b);
+            const na = !Number.isFinite(pa);
+            const nb = !Number.isFinite(pb);
+            if (na && nb) return 0;
+            if (na) return 1; // fiyatsiz urunler her zaman en sona
+            if (nb) return -1;
+            return (pa - pb) * dir;
+        });
+    }
+
+    const SORT_OPTIONS: { key: SortMode; label: string }[] = [
+        { key: 'onerilen', label: 'Önerilen' },
+        { key: 'fiyat-artan', label: 'Fiyat ↑' },
+        { key: 'fiyat-azalan', label: 'Fiyat ↓' },
+    ];
 
     return (
         <section
@@ -92,7 +138,7 @@ export default function UrunlerClient({
                         <button
                             type="button"
                             className={`btn btn-sm rounded-pill px-3 ${activeCategory === '' ? 'btn-gold' : 'btn-outline-light'}`}
-                            onClick={() => setActiveCategory('')}
+                            onClick={() => selectCategory('')}
                         >
                             Tümü ({products.length})
                         </button>
@@ -103,12 +149,52 @@ export default function UrunlerClient({
                                     key={c.slug}
                                     type="button"
                                     className={`btn btn-sm rounded-pill px-3 ${activeCategory === c.label ? 'btn-gold' : 'btn-outline-light'}`}
-                                    onClick={() => setActiveCategory(c.label)}
+                                    onClick={() => selectCategory(c.label)}
                                 >
                                     {c.label} ({count})
                                 </button>
                             );
                         })}
+                    </div>
+                )}
+
+                {showFilters && showToolbar && (
+                    <div className="mb-5">
+                        {facetButtons.length > 0 && facet && (
+                            <div className="d-flex flex-wrap justify-content-center align-items-center gap-2 mb-3">
+                                <span className="small me-1" style={{ color: '#9fb0c3' }}>{facet.label}:</span>
+                                <button
+                                    type="button"
+                                    className={`btn btn-sm rounded-pill px-3 ${activeFacet === '' ? 'btn-gold' : 'btn-outline-light'}`}
+                                    onClick={() => setActiveFacet('')}
+                                >
+                                    Tümü ({filteredProducts.length})
+                                </button>
+                                {facetButtons.map(({ b, count }) => (
+                                    <button
+                                        key={b.key}
+                                        type="button"
+                                        className={`btn btn-sm rounded-pill px-3 ${activeFacet === b.key ? 'btn-gold' : 'btn-outline-light'}`}
+                                        onClick={() => setActiveFacet(b.key)}
+                                    >
+                                        {b.label} ({count})
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                        <div className="d-flex flex-wrap justify-content-center align-items-center gap-2">
+                            <span className="small me-1" style={{ color: '#9fb0c3' }}>Sırala:</span>
+                            {SORT_OPTIONS.map((opt) => (
+                                <button
+                                    key={opt.key}
+                                    type="button"
+                                    className={`btn btn-sm rounded-pill px-3 ${sortMode === opt.key ? 'btn-gold' : 'btn-outline-light'}`}
+                                    onClick={() => setSortMode(opt.key)}
+                                >
+                                    {opt.label}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 )}
 
@@ -126,7 +212,7 @@ export default function UrunlerClient({
                     </div>
                 ) : (
                     <div className="row g-4">
-                        {filteredProducts.map((item) => (
+                        {visibleProducts.map((item) => (
                             <div key={item.id} className="col-lg-3 col-md-6 col-sm-6">
                                 <div
                                     className="product-card h-100 d-flex flex-column position-relative bg-dark border-gold-thin p-3 shadow"
