@@ -98,13 +98,12 @@ export default function UrunlerClient({
 
     return (
         <section
-            className="section-padding bg-darker"
+            className="section-padding"
             style={{
                 minHeight: '100vh',
                 paddingTop: '100px',
                 position: 'relative',
-                overflow: 'hidden',
-                background: 'linear-gradient(180deg, #2f3a4c 0%, #41536b 58%, #556d8a 100%)'
+                overflow: 'hidden'
             }}
         >
             <div

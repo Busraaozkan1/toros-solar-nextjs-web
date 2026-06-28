@@ -160,7 +160,7 @@ export default function HomeClient({
       </section>
 
       {/* HİZMETLERİMİZ SECTION */}
-      <section id="hizmetlerimiz" className="section-padding bg-darker">
+      <section id="hizmetlerimiz" className="section-padding">
         <div className="container">
           <div className="text-center mb-5">
             <h6 className="text-white text-uppercase fw-bold" style={{ letterSpacing: '2px' }}>
@@ -195,7 +195,7 @@ export default function HomeClient({
       </section>
 
       {/* ÜRÜNLERİMİZ SECTION */}
-      <section id="urunlerimiz" className="section-padding bg-dark">
+      <section id="urunlerimiz" className="section-padding">
         <div className="container">
           <div className="text-center mb-5">
             <h6 className="text-gold text-uppercase fw-bold" style={{ letterSpacing: '2px' }}>Teknolojimiz</h6>
@@ -289,11 +289,10 @@ export default function HomeClient({
       {/* PROJELERİMİZ SECTION */}
       <section
         id="projelerimiz"
-        className="section-padding bg-darker"
+        className="section-padding"
         style={{
           position: 'relative',
-          overflow: 'hidden',
-          background: 'linear-gradient(180deg, #2f3a4c 0%, #41536b 58%, #556d8a 100%)'
+          overflow: 'hidden'
         }}
       >
         <div
@@ -376,10 +375,9 @@ export default function HomeClient({
       {/* İLETİŞİM SECTION */}
       <section
         id="iletisim"
-        className="section-padding bg-darker"
+        className="section-padding"
         style={{
-          position: 'relative',
-          background: 'linear-gradient(180deg, #f08a3a 0%, #eb7b2f 28%, #e86f25 100%)'
+          position: 'relative'
         }}
       >
         <div className="container">

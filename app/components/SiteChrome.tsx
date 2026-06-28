@@ -83,6 +83,8 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
 
   return (
     <>
+      {/* Global parallax arka plan (admin haric) */}
+      {!isAdminPath && <div className="site-bg" aria-hidden="true" />}
       {/* Admin sayfalarinda ana site navbari gizle */}
       {!isAdminPath && (
         <header>
