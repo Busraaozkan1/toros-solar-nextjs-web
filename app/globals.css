@@ -128,6 +128,21 @@ body {
 
 .section-padding { padding: 100px 0; }
 
+.landing-bg {
+    background-color: #0b1220;
+    background-image: linear-gradient(180deg, rgba(11,18,32,0.48), rgba(13,20,38,0.62)), url('/landing-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+@media (max-width: 768px) {
+    .landing-bg {
+        background-image: linear-gradient(180deg, rgba(11,18,32,0.48), rgba(13,20,38,0.62)), url('/landing-bg-mobile.jpg');
+        background-attachment: scroll;
+        background-position: center;
+    }
+}
+
 .section-title {
     font-size: 2.5rem;
     font-weight: 800;
@@ -149,36 +164,6 @@ body {
 .headline-hover-fx {
     position: relative;
     display: inline-block;
-    transition: color 0.26s ease, text-shadow 0.26s ease, letter-spacing 0.26s ease, filter 0.26s ease;
-    will-change: color, text-shadow;
-}
-
-.headline-hover-fx::after {
-    content: '';
-    position: absolute;
-    left: 10%;
-    bottom: -9px;
-    width: 80%;
-    height: 3px;
-    pointer-events: none;
-    opacity: 0;
-    transform: scaleX(0.9);
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(173, 196, 220, 0.95), rgba(233, 205, 148, 0.95), rgba(0, 0, 0, 0));
-    box-shadow: 0 0 10px rgba(173, 196, 220, 0.35), 0 0 14px rgba(233, 205, 148, 0.3);
-    transition: opacity 0.26s ease, transform 0.26s ease;
-}
-
-.headline-hover-fx:hover {
-    color: #f7f2e8 !important;
-    letter-spacing: 2.35px;
-    filter: drop-shadow(0 0 8px rgba(173, 196, 220, 0.22));
-    text-shadow: 0 0 10px rgba(173, 196, 220, 0.24), 0 0 16px rgba(233, 205, 148, 0.22);
-}
-
-.headline-hover-fx:hover::after {
-    opacity: 1;
-    transform: scaleX(1);
 }
 
 /* --- BUTONLAR --- */
@@ -373,22 +358,16 @@ body {
 }
 
 .about-image-wrapper:hover {
-    box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.48), 0 24px 42px rgba(2, 6, 23, 0.42), 0 0 36px rgba(56, 189, 248, 0.18);
-    filter: saturate(1.08);
+    box-shadow: 0 18px 38px rgba(2, 6, 23, 0.40);
 }
 
-.about-image-wrapper:hover::before {
-    opacity: 1;
-}
-
+.about-image-wrapper:hover::before,
 .about-image-wrapper:hover::after {
-    opacity: 1;
-    animation: aboutImageSweep 880ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    opacity: 0;
 }
 
 .about-image-wrapper:hover .border-gold-thin {
-    border-color: rgba(251, 191, 36, 0.7) !important;
-    box-shadow: 0 0 26px rgba(251, 191, 36, 0.28), inset 0 0 22px rgba(56, 189, 248, 0.12);
+    border-color: rgba(251, 191, 36, 0.55) !important;
 }
 
 .about-image-wrapper img {
@@ -396,7 +375,7 @@ body {
 }
 
 .about-image-wrapper:hover img {
-    filter: saturate(1.16) contrast(1.07) brightness(1.04);
+    filter: brightness(1.02);
 }
 
 @keyframes aboutImageSweep {
@@ -460,9 +439,8 @@ body {
 }
 
 .map-container:hover {
-    border-color: rgba(251, 191, 36, 0.72) !important;
-    box-shadow: 0 20px 36px rgba(2, 6, 23, 0.34), 0 0 0 1px rgba(251, 191, 36, 0.28);
-    filter: saturate(1.65) contrast(1.12);
+    border-color: rgba(251, 191, 36, 0.62) !important;
+    box-shadow: 0 20px 36px rgba(2, 6, 23, 0.34);
 }
 
 /* --- FOOTER --- */
@@ -509,7 +487,7 @@ body {
     border-radius: inherit;
     pointer-events: none;
     background: radial-gradient(circle at 18% 22%, rgba(125, 211, 252, 0.16), transparent 45%);
-    opacity: 0.85;
+    opacity: 0;
     transition: opacity 300ms ease;
 }
 
@@ -528,23 +506,21 @@ body {
 
 .footer-company-panel:hover {
     transform: translateY(-4px);
-    border-color: rgba(125, 211, 252, 0.45);
+    border-color: rgba(148, 163, 184, 0.4);
     background: linear-gradient(145deg, rgba(15, 23, 42, 0.72), rgba(30, 41, 59, 0.46));
-    box-shadow: 0 16px 30px rgba(2, 6, 23, 0.34), 0 0 0 1px rgba(125, 211, 252, 0.14);
+    box-shadow: 0 16px 30px rgba(2, 6, 23, 0.34);
 }
 
 .footer-company-panel:hover::before {
-    opacity: 1;
+    opacity: 0;
 }
 
 .footer-company-panel:hover::after {
-    left: 120%;
+    left: -65%;
 }
 
 .footer-company-panel:hover .footer-brand-title {
     color: #f1f5f9;
-    text-shadow: 0 0 16px rgba(148, 163, 184, 0.25);
-    letter-spacing: 2.3px;
 }
 
 .freelancer-promo-card {
@@ -841,9 +817,6 @@ body {
         margin-bottom: 34px;
     }
 
-    .headline-hover-fx:hover {
-        letter-spacing: 2px;
-    }
 
     .btn-gold,
     .btn-outline-light {
@@ -905,9 +878,6 @@ body {
         margin: 14px auto;
     }
 
-    .headline-hover-fx::after {
-        bottom: -6px;
-    }
 
     .about-feature-row {
         padding: 8px 6px;

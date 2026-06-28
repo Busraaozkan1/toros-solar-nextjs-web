@@ -117,7 +117,7 @@ export default function HomeClient({
       <BundleDeals />
 
       {/* HAKKIMIZDA SECTION */}
-      <section id="hakkimizda" className="section-padding" style={{ backgroundColor: '#0b1220', backgroundImage: "linear-gradient(180deg, rgba(11,18,32,0.48) 0%, rgba(13,20,38,0.62) 100%), url('/landing-bg.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
+      <section id="hakkimizda" className="section-padding landing-bg">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6 mb-4 mb-lg-0">
