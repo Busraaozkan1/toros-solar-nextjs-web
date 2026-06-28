@@ -43,7 +43,7 @@ const faqJsonLd = {
 
 export default function EvIcinKacPanelPage() {
   return (
-    <main style={{ paddingTop: "100px", minHeight: "80vh" }} className="bg-dark text-white">
+    <main style={{ paddingTop: "100px", minHeight: "80vh" }} className="text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
