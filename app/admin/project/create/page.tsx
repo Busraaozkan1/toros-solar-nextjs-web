@@ -9,6 +9,44 @@ type Notice = {
     text: string;
 };
 
+// Vercel serverless istek gövdesi ~4.5MB ile sınırlı; büyük telefon
+// fotoğrafları 413 (PAYLOAD_TOO_LARGE) hatası veriyordu. Yüklemeden önce
+// görseli tarayıcıda küçültüp JPEG'e çeviriyoruz.
+async function compressImageForUpload(file: File, maxDim = 1920, quality = 0.82): Promise<File> {
+    if (!file.type.startsWith('image/')) {
+        return file;
+    }
+
+    let bitmap: ImageBitmap;
+    try {
+        bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    } catch {
+        bitmap = await createImageBitmap(file);
+    }
+
+    const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
+    const width = Math.max(1, Math.round(bitmap.width * scale));
+    const height = Math.max(1, Math.round(bitmap.height * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        return file;
+    }
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close?.();
+
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+    if (!blob) {
+        return file;
+    }
+
+    const baseName = file.name.replace(/\.[^/.]+$/, '') || 'gorsel';
+    return new File([blob], `${baseName}.jpg`, { type: 'image/jpeg' });
+}
+
 export default function ProjectCreatePage() {
     const router = useRouter();
     const [formData, setFormData] = useState({
@@ -58,7 +96,12 @@ export default function ProjectCreatePage() {
         data.append('name', formData.name);
         data.append('description', formData.description);
         if (imageFile) {
-            data.append('imageFile', imageFile);
+            try {
+                const optimized = await compressImageForUpload(imageFile);
+                data.append('imageFile', optimized);
+            } catch {
+                data.append('imageFile', imageFile);
+            }
         }
 
         try {

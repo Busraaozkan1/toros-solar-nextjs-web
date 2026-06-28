@@ -19,6 +19,7 @@ type DbProduct = {
   price: number;
   priceText: string | null;
   imageUrl: string | null;
+  category: string | null;
 };
 
 type DbProject = {
@@ -60,6 +61,7 @@ export default async function HomePage() {
     price: p.price,
     priceText: p.priceText,
     imageUrl: p.imageUrl,
+    category: p.category,
   }));
 
   const initialProjects = projects.map(normalizeImage).map((p: DbProject) => ({

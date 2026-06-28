@@ -2,6 +2,8 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import BundleDeals from './BundleDeals';
+import SolarWizard from './SolarWizard';
 
 // ASP.NET'teki Product Modelinin Next.js karşılığı
 interface Product {
@@ -11,6 +13,7 @@ interface Product {
   price: number;
   priceText?: string | null;
   imageUrl: string | null;
+  category?: string | null;
 }
 
 interface Project {
@@ -48,7 +51,7 @@ function extractDescriptionItems(description?: string | null) {
   }
 
   return description
-    .split(/\r?\n|•|\u2022|\./)
+    .split(/\r?\n|•|\u2022/)
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
 }
@@ -224,6 +227,12 @@ export default function HomeClient({
           </div>
         </div>
       </section>
+
+      {/* PAKET FIRSATLARI */}
+      <BundleDeals />
+
+      {/* SOLAR İHTİYAÇ SİHİRBAZI */}
+      <SolarWizard products={allProducts} />
 
       {/* ÜRÜNLERİMİZ SECTION */}
       <section id="urunlerimiz" className="section-padding bg-dark">
