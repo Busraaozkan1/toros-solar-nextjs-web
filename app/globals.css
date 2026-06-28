@@ -107,13 +107,16 @@ body {
 
 /* --- HERO SECTION --- */
 .hero-section {
-    height: 100vh;
-    background: transparent; 
+    height: 72vh;
+    background: transparent;
     margin-top: calc(var(--nav-height) * -1);
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
+}
+@media (max-width: 768px) {
+    .hero-section { height: 56vh; }
 }
 
 /* --- GENEL TASARIM CLASSLARI --- */

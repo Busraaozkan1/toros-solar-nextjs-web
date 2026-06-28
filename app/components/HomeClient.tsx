@@ -3,7 +3,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import BundleDeals from './BundleDeals';
-import SolarWizard from './SolarWizard';
 
 // ASP.NET'teki Product Modelinin Next.js karşılığı
 interface Product {
@@ -121,7 +120,7 @@ export default function HomeClient({
     <main>
       {/* HERO SECTION */}
       <section id="anasayfa" className="hero-section d-flex align-items-center"
-        style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+        style={{ position: 'relative', overflow: 'hidden' }}>
 
         <div id="videoContainer"
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1, backgroundColor: 'black' }}>
@@ -149,6 +148,9 @@ export default function HomeClient({
           </div>
         </div>
       </section>
+
+      {/* PAKET FIRSATLARI — açılışta görünür */}
+      <BundleDeals />
 
       {/* HAKKIMIZDA SECTION */}
       <section id="hakkimizda" className="section-padding bg-dark">
@@ -227,12 +229,6 @@ export default function HomeClient({
           </div>
         </div>
       </section>
-
-      {/* PAKET FIRSATLARI */}
-      <BundleDeals />
-
-      {/* SOLAR İHTİYAÇ SİHİRBAZI */}
-      <SolarWizard products={allProducts} />
 
       {/* ÜRÜNLERİMİZ SECTION */}
       <section id="urunlerimiz" className="section-padding bg-dark">

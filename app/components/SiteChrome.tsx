@@ -112,6 +112,8 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                   {!isEn ? (
                     <>
                       <li className="nav-item"><Link className="nav-link" href="/">Anasayfa</Link></li>
+                      <li className="nav-item"><Link className="nav-link" href="/#paketler">Paketler</Link></li>
+                      <li className="nav-item"><Link className="nav-link" href="/ihtiyac-sihirbazi">İhtiyaç Sihirbazı</Link></li>
 
                       <li className="nav-item dropdown">
                         <a
