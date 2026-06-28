@@ -117,7 +117,7 @@ export default function HomeClient({
       <BundleDeals />
 
       {/* HAKKIMIZDA SECTION */}
-      <section id="hakkimizda" className="section-padding bg-dark">
+      <section id="hakkimizda" className="section-padding" style={{ backgroundColor: '#0b1220', backgroundImage: "linear-gradient(180deg, rgba(11,18,32,0.48) 0%, rgba(13,20,38,0.62) 100%), url('/landing-bg.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6 mb-4 mb-lg-0">
@@ -126,7 +126,7 @@ export default function HomeClient({
                   className="img-fluid rounded-3 shadow-lg border-gold-thin" alt="Premium Toros Solar" />
               </div>
             </div>
-            <div className="col-lg-6 ps-lg-5 text-start">
+            <div className="col-lg-6 ps-lg-5 text-start" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
               <h6 className="text-gold text-uppercase fw-bold" style={{ letterSpacing: '2px' }}>Biz Kimiz?</h6>
               <h2 className="display-5 fw-bold mb-4 text-white">Toros Solar olarak sizi <br /> Güneşin Gücüyle Buluşturuyoruz</h2>
               <p className="text-gold lead mb-4">
