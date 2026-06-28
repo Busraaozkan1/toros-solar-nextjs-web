@@ -27,8 +27,8 @@ const cardStyle: React.CSSProperties = {
 
 function Stepper({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const btn: React.CSSProperties = {
-    width: 34,
-    height: 34,
+    width: 30,
+    height: 30,
     borderRadius: "50%",
     border: "1px solid rgba(251,102,2,0.5)",
     background: "transparent",
@@ -41,7 +41,7 @@ function Stepper({ value, onChange }: { value: number; onChange: (v: number) => 
       <button type="button" style={btn} onClick={() => onChange(Math.max(0, value - 1))} aria-label="azalt">
         −
       </button>
-      <span className="text-white fw-bold" style={{ minWidth: 22, textAlign: "center" }}>
+      <span className="text-white fw-bold" style={{ minWidth: 18, textAlign: "center" }}>
         {value}
       </span>
       <button type="button" style={btn} onClick={() => onChange(value + 1)} aria-label="arttır">
@@ -118,7 +118,7 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
   };
 
   return (
-    <section id="sihirbaz" className="section-padding bg-darker">
+    <section id="sihirbaz" className="section-padding" style={{ background: "linear-gradient(180deg,#0f172a 0%,#111827 100%)" }}>
       <style>{`
         .tsw-range{-webkit-appearance:none;appearance:none;width:100%;max-width:360px;height:6px;border-radius:5px;background:rgba(251,102,2,.28);outline:none;display:block;margin:0 auto}
         .tsw-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent,#FB6602);cursor:pointer;border:3px solid #fff}
@@ -127,7 +127,7 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
 
       <div className="container">
         <div className="text-center mb-5">
-          <h6 className="text-gold text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>
+          <h6 className="text-white text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>
             Size Özel
           </h6>
           <h2 className="section-title text-white headline-hover-fx">Solar İhtiyaç Sihirbazı</h2>
@@ -156,13 +156,13 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
               {mode === "cihaz" && (
                 <div className="row g-3">
                   {APPLIANCES.map((a) => (
-                    <div key={a.key} className="col-md-6">
+                    <div key={a.key} className="col-6">
                       <div
-                        className="d-flex align-items-center justify-content-between p-3 rounded-3"
-                        style={{ background: "rgba(255,255,255,0.04)" }}
+                        className="d-flex align-items-center justify-content-between p-2 px-3 rounded-3 h-100"
+                        style={{ background: "rgba(255,255,255,0.04)", gap: "8px" }}
                       >
-                        <span className="text-white" style={{ fontSize: "0.92rem" }}>
-                          <i className={`bi ${a.icon} text-gold me-2`}></i>
+                        <span className="text-white flex-grow-1" style={{ fontSize: "0.8rem", lineHeight: 1.2, minWidth: 0 }}>
+                          <i className={`bi ${a.icon} text-gold me-1`}></i>
                           {a.label}
                         </span>
                         <Stepper value={counts[a.key] || 0} onChange={(v) => setCount(a.key, v)} />

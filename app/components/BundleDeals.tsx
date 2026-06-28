@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
 import { BUNDLES, type Bundle } from "@/lib/bundles";
 
 const PHONE = "+905367333678";
@@ -8,72 +11,75 @@ function waLink(b: Bundle) {
   return `https://wa.me/905367333678?text=${encodeURIComponent(text)}`;
 }
 
-function BundleCard({ b }: { b: Bundle }) {
-  const accent = b.featured;
+const cardBg = "linear-gradient(165deg, rgba(30,41,59,0.92) 0%, rgba(15,23,42,0.97) 70%)";
+
+function BundleCard({
+  b,
+  expanded,
+  onToggle,
+}: {
+  b: Bundle;
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  // Mobilde detaylar gizli (tıklayınca açılır); md ve üstünde her zaman açık.
+  const detailCls = expanded ? "d-block" : "d-none d-md-block";
   return (
-    <div className="col-xl-3 col-md-6">
+    <div className="col-12 col-md-6 col-xl-3">
       <div
         id={b.id}
-        className="h-100 d-flex flex-column position-relative p-4 shadow"
+        className="h-100 d-flex flex-column position-relative p-3 p-md-4 shadow"
         style={{
-          borderRadius: "20px",
+          borderRadius: "18px",
           scrollMarginTop: "90px",
-          background: "linear-gradient(165deg, rgba(30,41,59,0.92) 0%, rgba(15,23,42,0.97) 70%)",
-          border: accent ? "2px solid var(--accent, #FB6602)" : "1px solid rgba(148,163,184,0.26)",
-          boxShadow: accent ? "0 18px 40px rgba(251,102,2,0.18)" : undefined,
+          background: cardBg,
+          border: b.featured ? "2px solid var(--accent, #FB6602)" : "1px solid rgba(148,163,184,0.26)",
         }}
       >
-        {b.badge && (
+        <div
+          role="button"
+          onClick={onToggle}
+          className="d-flex align-items-center"
+          style={{ gap: "12px", cursor: "pointer" }}
+        >
+          <i className={`bi ${b.icon} text-gold`} style={{ fontSize: "1.9rem" }}></i>
+          <div className="flex-grow-1">
+            <h4 className="text-white fw-bold mb-0" style={{ fontSize: "1.02rem", lineHeight: 1.25 }}>
+              {b.name}
+            </h4>
+            <span style={{ color: "var(--accent, #FB6602)", fontSize: "0.78rem", fontWeight: 600 }}>
+              {b.persona}
+            </span>
+          </div>
           <span
-            className="position-absolute top-0 start-50 translate-middle badge rounded-pill px-3 py-2"
-            style={{
-              background: accent ? "var(--accent, #FB6602)" : "#1f2937",
-              color: "#fff",
-              fontSize: "0.7rem",
-              letterSpacing: "0.5px",
-              border: accent ? "none" : "1px solid rgba(251,102,2,0.5)",
-            }}
-          >
-            {b.badge}
-          </span>
-        )}
-
-        <div className="d-flex align-items-center justify-content-between mt-2 mb-3">
-          <i className={`bi ${b.icon} text-gold`} style={{ fontSize: "2rem" }}></i>
-          <span
-            className="badge rounded-pill px-3 py-2"
-            style={{ background: "rgba(251,102,2,0.14)", color: "var(--accent, #FB6602)", fontWeight: 700 }}
+            className="badge rounded-pill px-2 py-1"
+            style={{ background: "rgba(251,102,2,0.16)", color: "var(--accent, #FB6602)", fontWeight: 700, fontSize: "0.8rem" }}
           >
             {b.power}
           </span>
+          <i className={`bi bi-chevron-${expanded ? "up" : "down"} text-gold d-md-none`}></i>
         </div>
 
-        <h4 className="text-white fw-bold mb-1" style={{ fontSize: "1.15rem", lineHeight: 1.3 }}>
-          {b.name}
-        </h4>
-        <p className="mb-3" style={{ color: "var(--accent, #FB6602)", fontSize: "0.85rem", fontWeight: 600 }}>
-          {b.persona}
-        </p>
-        <p className="mb-3" style={{ color: "rgba(255,255,255,0.72)", fontSize: "0.9rem", lineHeight: 1.6 }}>
-          {b.blurb}
-        </p>
-
-        <ul className="list-unstyled mb-4">
-          {b.components.map((c, i) => (
-            <li key={i} className="d-flex align-items-start mb-2" style={{ color: "#cbd5e1", fontSize: "0.86rem" }}>
-              <i className="bi bi-check2-circle text-gold me-2 mt-1"></i>
-              <span>{c}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-auto d-grid gap-2">
-          <a href={waLink(b)} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
-            <i className="bi bi-whatsapp me-2"></i>Teklif Al
-          </a>
-          <a href={`tel:${PHONE}`} className="btn btn-outline-light btn-sm">
-            <i className="bi bi-telephone me-2"></i>Hemen Ara: 0536 733 36 78
-          </a>
+        <div className={detailCls}>
+          <p className="mt-3 mb-3" style={{ color: "rgba(255,255,255,0.72)", fontSize: "0.88rem", lineHeight: 1.6 }}>
+            {b.blurb}
+          </p>
+          <ul className="list-unstyled mb-3">
+            {b.components.map((c, i) => (
+              <li key={i} className="d-flex align-items-start mb-2" style={{ color: "#cbd5e1", fontSize: "0.84rem" }}>
+                <i className="bi bi-check2-circle text-gold me-2 mt-1"></i>
+                <span>{c}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="d-grid gap-2">
+            <a href={waLink(b)} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
+              <i className="bi bi-whatsapp me-2"></i>Teklif Al
+            </a>
+            <a href={`tel:${PHONE}`} className="btn btn-outline-light btn-sm">
+              <i className="bi bi-telephone me-2"></i>Hemen Ara
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -81,11 +87,13 @@ function BundleCard({ b }: { b: Bundle }) {
 }
 
 export default function BundleDeals() {
+  const [expanded, setExpanded] = useState<string | null>(null);
+
   return (
     <section id="paketler" className="section-padding bg-dark">
       <div className="container">
         <div className="text-center mb-5">
-          <h6 className="text-gold text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>
+          <h6 className="text-white text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>
             Hazır Çözümler
           </h6>
           <h2 className="section-title text-white headline-hover-fx">Paket Fırsatları</h2>
@@ -94,13 +102,37 @@ export default function BundleDeals() {
           </p>
         </div>
 
-        <div className="row g-4 justify-content-center">
+        <div className="row g-3 g-md-4 justify-content-center">
           {BUNDLES.map((b) => (
-            <BundleCard key={b.id} b={b} />
+            <BundleCard
+              key={b.id}
+              b={b}
+              expanded={expanded === b.id}
+              onToggle={() => setExpanded((cur) => (cur === b.id ? null : b.id))}
+            />
           ))}
         </div>
 
-        <p className="text-center mt-4 mb-0" style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.82rem" }}>
+        <p className="text-center mt-3 mb-0 d-md-none" style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.78rem" }}>
+          Detaylar için bir pakete dokunun
+        </p>
+
+        <div className="text-center mt-5">
+          <div
+            className="d-inline-block px-4 py-4 rounded-4"
+            style={{ background: "rgba(251,102,2,0.10)", border: "1px solid rgba(251,102,2,0.35)", maxWidth: "640px" }}
+          >
+            <h5 className="text-white fw-bold mb-2">Hangi paket size uygun?</h5>
+            <p className="mb-3" style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.9rem" }}>
+              Cihazlarınıza, faturanıza veya pompanıza göre 1 dakikada öğrenin.
+            </p>
+            <Link href="/ihtiyac-sihirbazi" className="btn btn-gold px-4">
+              <i className="bi bi-stars me-2"></i>İhtiyaç Sihirbazını Aç
+            </Link>
+          </div>
+        </div>
+
+        <p className="text-center mt-4 mb-0" style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.82rem" }}>
           Tüm paketler anahtar teslim: nakliye ve montaj dahildir. Net fiyat ücretsiz keşifte belirlenir.
         </p>
       </div>
