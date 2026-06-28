@@ -118,7 +118,7 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
   };
 
   return (
-    <section id="sihirbaz" className="section-padding" style={{ background: "linear-gradient(180deg,#0f172a 0%,#111827 100%)" }}>
+    <section id="sihirbaz" className="section-padding">
       <style>{`
         .tsw-range{-webkit-appearance:none;appearance:none;width:100%;max-width:360px;height:6px;border-radius:5px;background:rgba(251,102,2,.28);outline:none;display:block;margin:0 auto}
         .tsw-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent,#FB6602);cursor:pointer;border:3px solid #fff}

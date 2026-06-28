@@ -34,8 +34,12 @@ html {
     scroll-behavior: smooth;
 }
 
+html {
+    background-color: #0b1220;
+}
+
 body {
-    background-color: var(--main-dark-bg); /* Varsayılan olarak açık tema */
+    background-color: transparent;
     color: var(--soft-white);
     font-family: 'Poppins', sans-serif;
     margin: 0;
@@ -128,18 +132,23 @@ body {
 
 .section-padding { padding: 100px 0; }
 
-.landing-bg {
+/* eski landing-bg artik global .site-bg tarafindan kapsaniyor */
+.landing-bg { background: transparent; }
+
+/* GLOBAL parallax arka plan — position:fixed eleman (mobilde de parallax yapar,
+   background-attachment:fixed iOS'ta calismadigi icin) */
+.site-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
     background-color: #0b1220;
-    background-image: linear-gradient(180deg, rgba(11,18,32,0.48), rgba(13,20,38,0.62)), url('/landing-bg.jpg');
+    background-image: linear-gradient(180deg, rgba(11,18,32,0.45), rgba(13,20,38,0.50)), url('/landing-bg.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
 }
 @media (max-width: 768px) {
-    .landing-bg {
-        background-image: linear-gradient(180deg, rgba(11,18,32,0.48), rgba(13,20,38,0.62)), url('/landing-bg-mobile.jpg');
-        background-attachment: scroll;
-        background-position: center;
+    .site-bg {
+        background-image: linear-gradient(180deg, rgba(11,18,32,0.45), rgba(13,20,38,0.50)), url('/landing-bg-mobile.jpg');
     }
 }
 

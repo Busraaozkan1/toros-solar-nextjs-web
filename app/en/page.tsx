@@ -64,7 +64,6 @@ export default function EnHomePage() {
         style={{
           minHeight: "100vh",
           paddingTop: "110px",
-          background: "linear-gradient(180deg, #2f3a4c 0%, #41536b 58%, #556d8a 100%)",
         }}
       >
         <div className="container">
