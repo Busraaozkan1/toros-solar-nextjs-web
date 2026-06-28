@@ -66,11 +66,6 @@ export default function HomeClient({
   const allProjects = initialProjects;
   const [productSeed, setProductSeed] = useState(1);
   const [projectSeed, setProjectSeed] = useState(7);
-  const isDay = useMemo(() => {
-    const hour = new Date().getHours();
-    return hour >= 7 && hour < 19;
-  }, []);
-
   const featuredProducts = useMemo(() => {
     return pickSeededItems(allProducts, 4, productSeed);
   }, [allProducts, productSeed]);
@@ -118,38 +113,7 @@ export default function HomeClient({
 
   return (
     <main>
-      {/* HERO SECTION */}
-      <section id="anasayfa" className="hero-section d-flex align-items-center"
-        style={{ position: 'relative', overflow: 'hidden' }}>
-
-        <div id="videoContainer"
-          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1, backgroundColor: 'black' }}>
-
-          {isDay !== null && (
-            <video autoPlay muted loop playsInline
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
-              <source src={isDay ? "/videos/gunduz.mp4" : "/videos/gece.mp4"} type="video/mp4" />
-            </video>
-          )}
-        </div>
-
-        <div className="container text-center" style={{ zIndex: 1 }}>
-          <h6 className="text-uppercase text-gold mb-3" style={{ letterSpacing: '5px', fontWeight: 700 }}></h6>
-          <h1 className="display-2 fw-bold mb-4 text-white">
-            Sınırsız Enerji, <br /> <span className="text-gold">Sürdürülebilir Gelecek</span>
-          </h1>
-          <p className="lead mb-5 text-white fw-medium"
-            style={{ maxWidth: '700px', margin: '0 auto', textShadow: '1px 1px 3px rgba(0,0,0,0.5)' }}>
-            En verimli güneş paneli çözümleriyle tanışın. Doğayı korurken enerji maliyetlerinizi modern teknolojiyle sıfıra indirin.
-          </p>
-          <div className="hero-btns">
-            <a href="#urunlerimiz" className="btn btn-gold px-5 py-3 me-3">Ürünleri Keşfet</a>
-            <a href="#iletisim" className="btn btn-outline-light px-5 py-3">Bize Ulaşın</a>
-          </div>
-        </div>
-      </section>
-
-      {/* PAKET FIRSATLARI — açılışta görünür */}
+      {/* PAKET FIRSATLARI — sayfanın açılışı (landing) */}
       <BundleDeals />
 
       {/* HAKKIMIZDA SECTION */}

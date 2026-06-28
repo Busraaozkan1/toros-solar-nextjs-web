@@ -158,10 +158,10 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
                   {APPLIANCES.map((a) => (
                     <div key={a.key} className="col-6">
                       <div
-                        className="d-flex align-items-center justify-content-between p-2 px-3 rounded-3 h-100"
-                        style={{ background: "rgba(255,255,255,0.04)", gap: "8px" }}
+                        className="d-flex flex-column align-items-center text-center justify-content-between p-3 rounded-3 h-100"
+                        style={{ background: "rgba(255,255,255,0.04)", gap: "10px", minHeight: "112px" }}
                       >
-                        <span className="text-white flex-grow-1" style={{ fontSize: "0.8rem", lineHeight: 1.2, minWidth: 0 }}>
+                        <span className="text-white" style={{ fontSize: "0.82rem", lineHeight: 1.25 }}>
                           <i className={`bi ${a.icon} text-gold me-1`}></i>
                           {a.label}
                         </span>

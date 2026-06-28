@@ -96,9 +96,9 @@ export default function BundleDeals() {
           <h6 className="text-white text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>
             Hazır Çözümler
           </h6>
-          <h2 className="section-title text-white headline-hover-fx">Paket Fırsatları</h2>
+          <h1 className="section-title text-white headline-hover-fx">Güneş Enerjisi Paket Fırsatları</h1>
           <p className="mx-auto mt-3" style={{ maxWidth: "680px", color: "rgba(255,255,255,0.7)" }}>
-            İhtiyacınıza göre kurgulanmış, anahtar teslim güneş enerjisi paketleri. Net fiyat ve ücretsiz keşif için bize ulaşın.
+            Mersin &amp; Adana&apos;da ihtiyacınıza göre kurgulanmış, anahtar teslim güneş enerjisi paketleri. Net fiyat ve ücretsiz keşif için bize ulaşın.
           </p>
         </div>
 
