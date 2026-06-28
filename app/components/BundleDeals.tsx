@@ -90,7 +90,17 @@ export default function BundleDeals() {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
-    <section id="paketler" className="section-padding bg-dark">
+    <section
+      id="paketler"
+      className="section-padding"
+      style={{
+        backgroundColor: "#0b1220",
+        backgroundImage:
+          "linear-gradient(180deg, rgba(11,18,32,0.84) 0%, rgba(15,23,42,0.92) 100%), url('/landing-bg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="container">
         <div className="text-center mb-5">
           <h6 className="text-white text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>
