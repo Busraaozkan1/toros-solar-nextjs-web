@@ -23,7 +23,7 @@ function BundleCard({
   onToggle: () => void;
 }) {
   // Mobilde detaylar gizli (tıklayınca açılır); md ve üstünde her zaman açık.
-  const detailCls = expanded ? "d-block" : "d-none d-md-block";
+  const detailCls = `flex-column flex-grow-1 ${expanded ? "d-flex" : "d-none d-md-flex"}`;
   return (
     <div className="col-12 col-md-6 col-xl-3">
       <div
@@ -72,7 +72,7 @@ function BundleCard({
               </li>
             ))}
           </ul>
-          <div className="d-grid gap-2">
+          <div className="d-grid gap-2 mt-auto">
             <a href={waLink(b)} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
               <i className="bi bi-whatsapp me-2"></i>Teklif Al
             </a>
