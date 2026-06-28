@@ -96,13 +96,14 @@ export default function BundleDeals() {
       style={{
         backgroundColor: "#0b1220",
         backgroundImage:
-          "linear-gradient(180deg, rgba(11,18,32,0.84) 0%, rgba(15,23,42,0.92) 100%), url('/landing-bg.jpg')",
+          "linear-gradient(180deg, rgba(11,18,32,0.48) 0%, rgba(13,20,38,0.62) 100%), url('/landing-bg.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundAttachment: "fixed",
       }}
     >
       <div className="container">
-        <div className="text-center mb-5">
+        <div className="text-center mb-5" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.55)" }}>
           <h6 className="text-white text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>
             Hazır Çözümler
           </h6>
