@@ -156,6 +156,11 @@ export default function HomeClient({
                   <span className="text-white fw-light fs-5">7/24 Teknik Destek ve İzleme Hizmeti</span>
                 </div>
               </div>
+              <div className="mt-4">
+                <Link href="/hakkimizda" className="btn btn-outline-light">
+                  Hakkımızda <i className="bi bi-arrow-right ms-1"></i>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

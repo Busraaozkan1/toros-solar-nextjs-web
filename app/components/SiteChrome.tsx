@@ -157,7 +157,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                         </ul>
                       </li>
 
-                      <li className="nav-item"><Link className="nav-link" href="/#hakkimizda">Hakkımızda</Link></li>
+                      <li className="nav-item"><Link className="nav-link" href="/hakkimizda">Hakkımızda</Link></li>
                       <li className="nav-item"><Link className="nav-link" href="/#iletisim">İletişim</Link></li>
                     </>
                   ) : (
@@ -210,67 +210,14 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       {!isAdminPath && (
         <footer className="footer py-3">
           <div className="container">
-            <div className="footer-band-shell">
-              <div className="row align-items-stretch g-3">
-                <div className="col-lg-4 text-center">
-                  <div className="footer-company-panel">
-                    <h4 className="footer-brand-title mb-2">TOROSSOLAR</h4>
-                    <p className="text-white-50 mb-2">
-                      {isEn ? "Sustainable Energy from Mersin to the World" : "Mersin'den Dünyaya Sürdürülebilir Enerji"}
-                    </p>
-                    <span className="text-white-50 small">
-                      {isEn ? "© 2026 - The Energy of the Future - All Rights Reserved." : "© 2026 - Geleceğin Enerjisi - Tüm Hakları Saklıdır."}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 text-center">
-                  <div className="footer-company-panel">
-                    <h6 className="text-white-50 mb-2">{isEn ? "Services" : "Hizmetlerimiz"}</h6>
-                    {!isEn ? (
-                      <ul className="list-unstyled mb-0 small">
-                        <li><Link href="/paketler" className="text-white-50 text-decoration-none">Hazır Güneş Paketleri</Link></li>
-                        <li><Link href="/gunes-paneli-mersin" className="text-white-50 text-decoration-none">Mersin Güneş Paneli Kurulumu</Link></li>
-                        <li><Link href="/cati-ges" className="text-white-50 text-decoration-none">Çatı GES Sistemleri</Link></li>
-                        <li><Link href="/tarimsal-sulama" className="text-white-50 text-decoration-none">Tarımsal Sulama Sistemleri</Link></li>
-                        <li><Link href="/gunes-paneli-adana" className="text-white-50 text-decoration-none">Adana Güneş Paneli</Link></li>
-                        <li><Link href="/ev-sarj-istasyonu" className="text-white-50 text-decoration-none">Elektrikli Araç Şarj İstasyonu</Link></li>
-                        <li><Link href="/rehber/ev-icin-kac-panel" className="text-white-50 text-decoration-none">Rehber: Eve Kaç Panel Gerekir?</Link></li>
-                        <li><Link href="/rehber/cati-ges-maliyeti" className="text-white-50 text-decoration-none">Rehber: Çatı GES Maliyeti</Link></li>
-                        <li><Link href="/rehber/mersin-gunes-enerjisi-uretimi" className="text-white-50 text-decoration-none">Rehber: Mersin&apos;de Üretim Verileri</Link></li>
-                        <li><Link href="/rehber/ciftciler-icin-solar-sulama" className="text-white-50 text-decoration-none">Rehber: Çiftçiler İçin Solar Sulama</Link></li>
-                      </ul>
-                    ) : (
-                      <ul className="list-unstyled mb-0 small">
-                        <li><Link href="/en/solar-installation-mersin" className="text-white-50 text-decoration-none">Solar Installation in Mersin</Link></li>
-                        <li><Link href="/en/ev-charging-stations" className="text-white-50 text-decoration-none">Home EV Charging Stations</Link></li>
-                        <li><Link href="/urunler" className="text-white-50 text-decoration-none">Product Catalogue</Link></li>
-                        <li><Link href="/en#contact" className="text-white-50 text-decoration-none">Contact / Free Survey</Link></li>
-                      </ul>
-                    )}
-                  </div>
-                </div>
-
-                <div className="col-lg-4">
-                  <div className="footer-freelancer-panel d-flex justify-content-center align-items-center text-center py-2 h-100">
-                    <a
-                      href="https://www.thecodely.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        textDecoration: "none",
-                        display: "inline-block",
-                        transition: "transform 0.2s ease, opacity 0.2s ease",
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.15)")}
-                      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-                    >
-                      <span className="text-white-50 small mb-0">powered by </span>
-                      <span style={{ color: "#ff7a00", fontSize: "1rem", fontWeight: 600 }}>codely</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
+            <div className="text-center py-2">
+              <h6 className="footer-brand-title mb-1" style={{ fontSize: "1.1rem", letterSpacing: "1px" }}>TOROSSOLAR</h6>
+              <p className="text-white-50 mb-1" style={{ fontSize: "0.8rem" }}>
+                {isEn ? "Sustainable Energy from Mersin to the World" : "Mersin'den Dünyaya Sürdürülebilir Enerji"}
+              </p>
+              <span className="text-white-50" style={{ fontSize: "0.7rem" }}>
+                {isEn ? "© 2026 - The Energy of the Future - All Rights Reserved." : "© 2026 - Geleceğin Enerjisi - Tüm Hakları Saklıdır."}
+              </span>
             </div>
           </div>
         </footer>
