@@ -22,19 +22,20 @@ export default function HakkimizdaPage() {
         <div className="row justify-content-center">
           <div className="col-lg-9">
             <h6 className="text-gold text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>Biz Kimiz?</h6>
-            <h1 className="display-5 fw-bold mb-4 text-gold">Güneşin Gücüyle Buluşturuyoruz</h1>
+            <h1 className="display-5 fw-bold mb-4 text-gold">Şehirdeki çatıdan dağdaki yayla evine</h1>
 
             <p className="lead text-white opacity-75 mb-4">
-              Toros Solar, sürdürülebilir enerji dönüşümünde öncü rol oynamak için kuruldu.
-              Mersin merkezli bir güneş enerjisi firması olarak konutlara, işletmelere ve
-              tarım arazilerine anahtar teslim çözümler sunuyoruz.
+              Toros Solar, Mersin merkezli bir güneş enerjisi firması. 15 yıldır Mersin, Adana
+              ve çevre illerde güneş enerjisi sistemleri kuruyoruz — şehir çatılarından
+              Toroslar&apos;daki yayla evlerine, tavuk çiftliklerinden tarla sulama pompalarına
+              kadar. Şebekeye uzak, zor sahalarda çalışmaya alışkınız.
             </p>
 
             <p className="text-white opacity-75 mb-4">
-              Sadece panel kurmuyoruz: ihtiyacınıza göre depolama (akü) çözümleri ve proje
-              bazlı rüzgar türbini seçenekleriyle, evinizin ya da işletmenizin enerji
-              bağımsızlığını baştan sona tasarlıyoruz. Keşiften projelendirmeye ve montaja
-              kadar kurulum sürecini tek elden yürütürüz.
+              Konut çatısından tarımsal sulamaya, şebekeden bağımsız off-grid sistemlerden EV
+              şarj istasyonuna kadar geniş bir yelpazede çalışıyoruz. Gerektiğinde depolama
+              (akü) çözümleri ve proje bazlı rüzgar türbini de ekliyoruz. Panelden montaja işin
+              tamamı anahtar teslim: nakliye ve montaj fiyata dahil, keşif ücretsizdir.
             </p>
 
             <h2 className="h3 text-gold mt-5 mb-3">Ne Yapıyoruz?</h2>
@@ -50,19 +51,19 @@ export default function HakkimizdaPage() {
               <div className="col-md-4">
                 <div className="h-100 p-3 bg-dark border-gold-thin rounded-3 text-center">
                   <i className="bi bi-patch-check text-gold fs-2"></i>
-                  <p className="mb-0 mt-2 text-white">Sektörde 15 yıllık tecrübe</p>
+                  <p className="mb-0 mt-2 text-white">15 yıllık saha tecrübesi</p>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="h-100 p-3 bg-dark border-gold-thin rounded-3 text-center">
-                  <i className="bi bi-shield-check text-gold fs-2"></i>
-                  <p className="mb-0 mt-2 text-white">Yüksek verimli panel garantisi</p>
+                  <i className="bi bi-check2-circle text-gold fs-2"></i>
+                  <p className="mb-0 mt-2 text-white">50+ tamamlanmış kurulum</p>
                 </div>
               </div>
               <div className="col-md-4">
                 <div className="h-100 p-3 bg-dark border-gold-thin rounded-3 text-center">
-                  <i className="bi bi-headset text-gold fs-2"></i>
-                  <p className="mb-0 mt-2 text-white">7/24 teknik destek ve izleme</p>
+                  <i className="bi bi-droplet-half text-gold fs-2"></i>
+                  <p className="mb-0 mt-2 text-white">Off-grid ve tarımsal sulamada uzman</p>
                 </div>
               </div>
             </div>
