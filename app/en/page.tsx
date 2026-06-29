@@ -22,7 +22,7 @@ const faqJsonLd = {
       name: "Can foreigners install solar panels on their property in Turkey?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. If you own property in Turkey, you can install a rooftop solar system regardless of nationality. For grid-tied systems we handle the utility application and paperwork on your behalf; off-grid systems need no permission at all.",
+        text: "Yes. If you own property in Turkey, you can install a rooftop solar system regardless of nationality. Grid-tied systems require a utility application and approval before connection, while off-grid systems need no permission at all.",
       },
     },
     {
@@ -88,8 +88,8 @@ export default function EnHomePage() {
                 <h4 className="text-white fw-bold mt-3">Rooftop Solar</h4>
                 <p style={{ color: "#b9c3d1" }}>
                   Grid-tied systems that cut your electricity bill to near zero.
-                  We handle the utility application, net-metering paperwork and
-                  installation — you just watch the meter run backwards.
+                  Quality panels and inverters, sized to your consumption and
+                  professionally installed for maximum self-consumption.
                 </p>
                 <Link href="/en/solar-installation-mersin" className="text-gold text-decoration-none fw-bold">
                   Learn more <i className="bi bi-arrow-right"></i>
@@ -186,8 +186,8 @@ export default function EnHomePage() {
                 <li className="d-flex mb-3">
                   <i className="bi bi-check2-circle text-gold me-3 fs-5"></i>
                   <span>
-                    <strong className="text-white">All paperwork handled</strong> — for grid-tied
-                    systems we manage the utility application and approval process for you.
+                    <strong className="text-white">Turnkey installation</strong> — transport,
+                    mounting and professional assembly included in one fixed price.
                   </span>
                 </li>
               </ul>

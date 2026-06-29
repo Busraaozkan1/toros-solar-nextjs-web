@@ -171,27 +171,45 @@ export default function HomeClient({
             <h2 className="section-title text-white headline-hover-fx">Hizmetlerimiz</h2>
           </div>
           <div className="row g-4">
-            <div className="col-md-4">
-              <div className="service-card text-center">
-                <div className="service-icon"><i className="bi bi-house-gear"></i></div>
-                <h4 className="text-black">Güneş Enerjisi Sistemleri</h4>
-                <p className="text-gray">Geleceğin teknolojisini bugünle buluşturuyoruz. Enerji bağımsızlığınızı modern çözümlerle tasarlıyoruz.</p>
-              </div>
+            <div className="col-md-6 col-lg-3">
+              <Link href="/cati-ges" className="service-card text-center d-block h-100 text-decoration-none">
+                <div className="service-icon"><i className="bi bi-buildings"></i></div>
+                <h4 className="text-black">Çatı GES Sistemleri</h4>
+                <p className="text-gray">Ev ve işletme çatılarına şebeke bağlantılı güneş santrali kurulumu. Kendi elektriğinizi üretin, faturanızı düşürün.</p>
+                <span className="fw-bold" style={{ color: 'var(--accent, #FB6602)' }}>Detaylı bilgi <i className="bi bi-arrow-right"></i></span>
+              </Link>
             </div>
-            <div className="col-md-4">
-              <div className="service-card active text-center">
-                <div className="service-icon"><i className="bi bi-factory"></i></div>
-                <h4 className="text-black">Solar Elektrik Üretimi</h4>
-                <p className="text-gray">Kendi enerjinizi üretmenin en prestijli yolu. Süreci kesintisiz ve kârlı bir yatırıma dönüştürüyoruz.</p>
-              </div>
+            <div className="col-md-6 col-lg-3">
+              <Link href="/tarimsal-sulama" className="service-card text-center d-block h-100 text-decoration-none">
+                <div className="service-icon"><i className="bi bi-droplet-half"></i></div>
+                <h4 className="text-black">Tarımsal Sulama</h4>
+                <p className="text-gray">Tarla ve bahçe pompalarınızı güneşle çalıştırın. Mazot ve elektrik gideri olmadan güneş enerjili sulama sistemleri.</p>
+                <span className="fw-bold" style={{ color: 'var(--accent, #FB6602)' }}>Detaylı bilgi <i className="bi bi-arrow-right"></i></span>
+              </Link>
             </div>
-            <div className="col-md-4">
-              <div className="service-card text-center">
-                <div className="service-icon"><i className="bi bi-battery-charging"></i></div>
-                <h4 className="text-black">Güneş Paneli Kurulumu</h4>
-                <p className="text-gray">Mühendislik disipliniyle kusursuz uygulama. Her projeye özel yüksek performans garantisi sunuyoruz.</p>
-              </div>
+            <div className="col-md-6 col-lg-3">
+              <Link href="/paketler" className="service-card text-center d-block h-100 text-decoration-none">
+                <div className="service-icon"><i className="bi bi-box-seam"></i></div>
+                <h4 className="text-black">Off-Grid &amp; Hazır Paketler</h4>
+                <p className="text-gray">Konteyner ev, yayla ve bağ evi için anahtar teslim, şebekeden bağımsız güneş enerjisi paketleri.</p>
+                <span className="fw-bold" style={{ color: 'var(--accent, #FB6602)' }}>Detaylı bilgi <i className="bi bi-arrow-right"></i></span>
+              </Link>
             </div>
+            <div className="col-md-6 col-lg-3">
+              <Link href="/ev-sarj-istasyonu" className="service-card text-center d-block h-100 text-decoration-none">
+                <div className="service-icon"><i className="bi bi-ev-station"></i></div>
+                <h4 className="text-black">EV Şarj İstasyonu</h4>
+                <p className="text-gray">Ev ve işletmeler için elektrikli araç şarj istasyonu kurulumu; dilerseniz güneş enerjisiyle entegre.</p>
+                <span className="fw-bold" style={{ color: 'var(--accent, #FB6602)' }}>Detaylı bilgi <i className="bi bi-arrow-right"></i></span>
+              </Link>
+            </div>
+          </div>
+
+          <div className="text-center mt-4">
+            <span className="text-white-50 me-2">Hizmet bölgelerimiz:</span>
+            <Link href="/gunes-paneli-mersin" className="fw-semibold text-decoration-none" style={{ color: 'var(--accent, #FB6602)' }}>Mersin Güneş Paneli</Link>
+            <span className="text-white-50 mx-2">·</span>
+            <Link href="/gunes-paneli-adana" className="fw-semibold text-decoration-none" style={{ color: 'var(--accent, #FB6602)' }}>Adana Güneş Paneli</Link>
           </div>
         </div>
       </section>

@@ -114,7 +114,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                   {!isEn ? (
                     <>
                       <li className="nav-item"><Link className="nav-link" href="/">Anasayfa</Link></li>
-                      <li className="nav-item"><Link className="nav-link" href="/#paketler">Paketler</Link></li>
+                      <li className="nav-item"><Link className="nav-link" href="/paketler">Paketler</Link></li>
                       <li className="nav-item"><Link className="nav-link" href="/ihtiyac-sihirbazi">İhtiyaç Sihirbazı</Link></li>
 
                       <li className="nav-item dropdown">
@@ -229,6 +229,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
                     <h6 className="text-white-50 mb-2">{isEn ? "Services" : "Hizmetlerimiz"}</h6>
                     {!isEn ? (
                       <ul className="list-unstyled mb-0 small">
+                        <li><Link href="/paketler" className="text-white-50 text-decoration-none">Hazır Güneş Paketleri</Link></li>
                         <li><Link href="/gunes-paneli-mersin" className="text-white-50 text-decoration-none">Mersin Güneş Paneli Kurulumu</Link></li>
                         <li><Link href="/cati-ges" className="text-white-50 text-decoration-none">Çatı GES Sistemleri</Link></li>
                         <li><Link href="/tarimsal-sulama" className="text-white-50 text-decoration-none">Tarımsal Sulama Sistemleri</Link></li>

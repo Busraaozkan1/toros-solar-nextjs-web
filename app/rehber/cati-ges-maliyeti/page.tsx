@@ -83,9 +83,10 @@ export default function CatiGesMaliyetiPage() {
 
             <h2 className="h3 text-gold mt-5 mb-3">5. İzinler ve Bağlantı Süreci</h2>
             <p className="text-white opacity-75">
-              Dağıtım şirketi başvurusu, proje onayı ve sayaç değişimi gibi resmi adımların
-              da bir maliyeti vardır. Anahtar teslim çalışan firmalarda bunlar fiyata
-              dahildir — teklif karşılaştırırken &quot;izinler dahil mi?&quot; sorusunu mutlaka sorun.
+              Şebeke bağlantılı sistemlerde dağıtım şirketi başvurusu, proje onayı ve sayaç
+              değişimi gibi resmi adımlar gerekir; bunların da bir maliyeti ve süresi vardır.
+              Bu işlemlerin kapsamı firmadan firmaya değişir — teklif alırken hangi kalemlerin
+              fiyata dahil olduğunu net olarak sorun.
             </p>
 
             <h2 className="h3 text-gold mt-5 mb-3">Peki Yatırım Ne Zaman Geri Döner?</h2>
