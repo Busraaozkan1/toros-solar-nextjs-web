@@ -9,6 +9,7 @@ export const revalidate = 3600;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, changeFrequency: "weekly", priority: 1 },
+    { url: `${BASE_URL}/paketler`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE_URL}/urunler`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${BASE_URL}/projelerimiz`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${BASE_URL}/ihtiyac-sihirbazi`, changeFrequency: "monthly", priority: 0.8 },

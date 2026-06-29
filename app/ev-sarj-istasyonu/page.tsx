@@ -38,7 +38,7 @@ const faqJsonLd = {
       name: "Güneş paneliyle aracımı şarj edebilir miyim?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Evet. Çatı GES kurulu bir evde gündüz üretilen elektrik mahsuplaşma ile faturanızı dengelerken, aracınız bu üretimin karşılığıyla şarj olur. Şarj istasyonu ve GES tek keşifte birlikte projelendirilebilir.",
+        text: "Evet. Çatı GES kurulu bir evde gündüz üretilen elektrik öz tüketimle faturanızı düşürürken, aracınızı büyük ölçüde güneşten gelen enerjiyle şarj edebilirsiniz. Şarj istasyonu ve GES tek keşifte birlikte projelendirilebilir.",
       },
     },
     {
@@ -116,9 +116,9 @@ export default function EvSarjIstasyonuPage() {
             <h2 className="h3 text-gold mt-5 mb-3">Güneş Enerjisiyle Birlikte: Aracını Çatından Şarj Et</h2>
             <p className="text-white opacity-75">
               Şarj istasyonunu <Link href="/cati-ges" className="text-gold">çatı GES</Link> ile
-              birlikte kurduğunuzda denklem değişir: gündüz üretilen elektrik mahsuplaşma ile
-              faturanızı sıfırlarken, aracınız gece bu üretimin karşılığıyla dolar. Türkiye&apos;de
-              yakıt fiyatları zamlandıkça bu kombinasyonun değeri her yıl artar. İki sistemi tek
+              birlikte kurduğunuzda denklem değişir: aracınızı gündüz doğrudan güneş enerjisiyle
+              şarj eder, evinizin elektrik faturasını da düşürürsünüz. Türkiye&apos;de yakıt
+              fiyatları zamlandıkça bu kombinasyonun değeri her yıl artar. İki sistemi tek
               keşifte projelendiriyoruz.
             </p>
 

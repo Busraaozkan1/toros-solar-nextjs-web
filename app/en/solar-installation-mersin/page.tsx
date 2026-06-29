@@ -51,10 +51,9 @@ export default function SolarInstallationEnPage() {
             <div className="h-100 p-4 bg-dark border-gold-thin rounded-3">
               <h5 className="text-white fw-bold">Grid-tied (most homes)</h5>
               <p style={{ color: "#b9c3d1" }} className="mb-0">
-                Your roof feeds the grid; the utility nets production against your
-                consumption on your bill. Requires a utility application and approval —
-                which we prepare and follow up for you. No batteries needed, lowest
-                cost per kW.
+                Your roof powers your home first, cutting the electricity you draw
+                from the grid. Grid-tied systems require a utility application and
+                approval before connection. No batteries needed, lowest cost per kW.
               </p>
             </div>
           </div>
@@ -81,8 +80,8 @@ export default function SolarInstallationEnPage() {
             every component by brand and model, with a single fixed price.
           </li>
           <li>
-            <strong className="text-white">Paperwork</strong> — for grid-tied systems we submit and
-            track the utility application on your behalf.
+            <strong className="text-white">Equipment supply</strong> — we source the panels,
+            inverter and mounting hardware specified in your quote.
           </li>
           <li>
             <strong className="text-white">Installation</strong> — typically 1–3 days on site for a

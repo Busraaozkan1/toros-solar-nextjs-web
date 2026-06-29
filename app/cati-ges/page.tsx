@@ -6,7 +6,7 @@ import LandingCta from "../components/LandingCta";
 export const metadata: Metadata = {
   title: "Çatı GES Kurulumu | Evler ve İşletmeler İçin Güneş Santrali",
   description:
-    "Anahtar teslim çatı GES: projelendirme, izinler, montaj ve şebeke bağlantısı tek elden. Elektrik faturanızı düşürün, fazla üretimi satın. Mersin ve Adana'da ücretsiz keşif.",
+    "Anahtar teslim çatı GES: keşif, projelendirme, kaliteli ekipman ve montaj. Kendi elektriğinizi üretip elektrik faturanızı düşürün. Mersin ve Adana'da ücretsiz keşif.",
   alternates: { canonical: "/cati-ges" },
   openGraph: {
     title: "Çatı GES Kurulumu | Toros Solar",
@@ -24,14 +24,14 @@ export default function CatiGesPage() {
 
             <p className="lead text-white opacity-75 mb-4">
               Çatı tipi Güneş Enerjisi Santrali (GES), evinizin veya işletmenizin çatısını
-              gelir üreten bir varlığa dönüştürür. Ürettiğiniz elektriği kendiniz kullanır,
-              fazlasını aylık mahsuplaşma ile şebekeye satarsınız.
+              enerji üreten bir varlığa dönüştürür. Ürettiğiniz elektriği doğrudan kullanır,
+              gün içi tüketiminizi büyük ölçüde güneşten karşılayarak elektrik faturanızı düşürürsünüz.
             </p>
 
             <h2 className="h3 text-gold mt-5 mb-3">Çatı GES&apos;in Avantajları</h2>
             <ul className="text-white opacity-75">
               <li className="mb-2"><strong>Fatura tasarrufu:</strong> Doğru boyutlandırılmış sistem elektrik faturanızı sıfıra yaklaştırır.</li>
-              <li className="mb-2"><strong>Mahsuplaşma geliri:</strong> Kullanmadığınız üretim şebekeye satılır, faturanızdan düşülür.</li>
+              <li className="mb-2"><strong>Yüksek öz tüketim:</strong> Gündüz ürettiğiniz enerjiyi doğrudan kullanarak şebekeden çektiğiniz elektriği en aza indirirsiniz.</li>
               <li className="mb-2"><strong>Lisans gerektirmez:</strong> Öz tüketim amaçlı çatı sistemleri üretim lisansından muaftır.</li>
               <li className="mb-2"><strong>Hızlı geri dönüş:</strong> Akdeniz bölgesinde yatırım genellikle 4-7 yılda kendini öder; sistem ömrü 25+ yıldır.</li>
               <li className="mb-2"><strong>Değer artışı:</strong> GES kurulu bir bina, satışta ve kiralamada öne çıkar.</li>
@@ -47,9 +47,9 @@ export default function CatiGesPage() {
 
             <h2 className="h3 text-gold mt-5 mb-3">Anahtar Teslim Sürecimiz</h2>
             <p className="text-white opacity-75">
-              Keşif ve tüketim analizi → sistem tasarımı ve net fiyat teklifi → dağıtım
-              şirketi başvurusu ve izinler → montaj (1-3 gün) → devreye alma ve mahsuplaşma
-              sözleşmesi. Tüm adımları Toros Solar yürütür; siz yalnızca üretimi izlersiniz.
+              Keşif ve tüketim analizi → sistem tasarımı ve net fiyat teklifi → kaliteli
+              ekipman tedariki → montaj (1-3 gün) → devreye alma ve test. Kurulum sürecini
+              Toros Solar yürütür; siz üretimi izlersiniz.
             </p>
 
             <LandingCta title="Çatınız İçin Ücretsiz Keşif" />

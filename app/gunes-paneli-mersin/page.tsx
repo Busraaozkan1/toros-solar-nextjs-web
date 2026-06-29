@@ -27,7 +27,7 @@ const faqJsonLd = {
       name: "Mersin'de güneş paneli kurulumu ne kadar sürer?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Ev tipi bir çatı GES kurulumu, keşif ve projelendirme sonrası genellikle 1-3 gün içinde tamamlanır. Şebeke bağlantı izinleri dahil tüm süreç ortalama 4-8 hafta sürer.",
+        text: "Ev tipi bir çatı GES kurulumunda montaj, keşif ve projelendirme sonrası genellikle 1-3 gün içinde tamamlanır.",
       },
     },
     {
@@ -64,7 +64,7 @@ export default function GunesPaneliMersinPage() {
             <p className="lead text-white opacity-75 mb-4">
               Toros Solar, Mersin merkezli güneş enerjisi firması olarak konutlara,
               işletmelere ve tarım arazilerine <strong>anahtar teslim güneş paneli kurulumu</strong> yapar.
-              Keşiften projelendirmeye, montajdan şebeke bağlantısına kadar tüm süreci tek elden yürütüyoruz.
+              Keşiften projelendirmeye ve montaja kadar kurulum sürecini tek elden yürütüyoruz.
             </p>
 
             <h2 className="h3 text-gold mt-5 mb-3">Neden Mersin&apos;de Güneş Enerjisi?</h2>
@@ -72,8 +72,8 @@ export default function GunesPaneliMersinPage() {
               Mersin, yıllık 3.000 saati aşan güneşlenme süresiyle Türkiye&apos;nin güneş enerjisi
               potansiyeli en yüksek illerinden biridir. Akdeniz ikliminin sunduğu bu avantaj,
               güneş paneli sisteminizin kendini amorti etme süresini kısaltır: doğru
-              boyutlandırılmış bir çatı GES, elektrik faturanızı sıfıra yaklaştırırken
-              fazla üretimi şebekeye satarak ek gelir de sağlayabilir.
+              boyutlandırılmış bir çatı GES, gün içi tüketiminizi büyük ölçüde güneşten
+              karşılayarak elektrik faturanızı sıfıra yaklaştırır.
             </p>
 
             <h2 className="h3 text-gold mt-5 mb-3">Hizmetlerimiz</h2>
@@ -98,7 +98,7 @@ export default function GunesPaneliMersinPage() {
             <ol className="text-white opacity-75">
               <li className="mb-2"><strong>Ücretsiz keşif:</strong> Çatınızı veya arazinizi yerinde inceliyor, tüketiminizi analiz ediyoruz.</li>
               <li className="mb-2"><strong>Projelendirme ve teklif:</strong> İhtiyacınıza göre sistem tasarlıyor, net fiyat veriyoruz.</li>
-              <li className="mb-2"><strong>İzin ve başvurular:</strong> Şebeke bağlantısı ve resmi başvuruları sizin adınıza yürütüyoruz.</li>
+              <li className="mb-2"><strong>Kaliteli ekipman:</strong> Projenize uygun panel, inverter ve taşıyıcı konstrüksiyonu tedarik ediyoruz.</li>
               <li className="mb-2"><strong>Montaj:</strong> Uzman ekibimiz kurulumu genellikle 1-3 günde tamamlar.</li>
               <li className="mb-2"><strong>Devreye alma ve takip:</strong> Sistemi teslim ediyor, üretimi birlikte izliyoruz.</li>
             </ol>
