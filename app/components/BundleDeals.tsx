@@ -33,7 +33,7 @@ function BundleCard({
           borderRadius: "18px",
           scrollMarginTop: "90px",
           background: cardBg,
-          border: b.featured ? "2px solid var(--accent, #FB6602)" : "1px solid rgba(148,163,184,0.26)",
+          border: "2px solid var(--accent, #FB6602)",
         }}
       >
         <div
@@ -58,6 +58,13 @@ function BundleCard({
             {b.power}
           </span>
           <i className={`bi bi-chevron-${expanded ? "up" : "down"} text-gold d-md-none`}></i>
+        </div>
+
+        <div className="mt-2 mb-1 d-flex align-items-baseline" style={{ gap: "5px" }}>
+          <span style={{ color: "var(--accent, #FB6602)", fontWeight: 800, fontSize: "1.16rem", lineHeight: 1.1 }}>
+            {`${b.fromPrice}'den`}
+          </span>
+          <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.76rem" }}>başlayan*</span>
         </div>
 
         <div className={detailCls}>
@@ -133,7 +140,7 @@ export default function BundleDeals() {
         </div>
 
         <p className="text-center mt-4 mb-0" style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.82rem" }}>
-          Tüm paketler anahtar teslim: nakliye ve montaj dahildir. Net fiyat ücretsiz keşifte belirlenir.
+          * Başlangıç fiyatlarıdır; kesin fiyat ücretsiz keşif sonrası belirlenir. Tüm paketler anahtar teslim (nakliye + montaj dahil).
         </p>
       </div>
     </section>

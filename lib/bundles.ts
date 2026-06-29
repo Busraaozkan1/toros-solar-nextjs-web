@@ -9,6 +9,7 @@ export interface Bundle {
   name: string;
   persona: string;
   power: string; // "6 kW"
+  fromPrice: string; // baslangic fiyati, orn. "149.000 ₺"
   type: BundleType;
   badge?: string;
   blurb: string;
@@ -23,6 +24,7 @@ export const BUNDLES: Bundle[] = [
     name: "Konteyner Ev Off-Grid Paketi",
     persona: "Şebekesiz bağ evi · konteyner ev",
     power: "6 kW",
+    fromPrice: "149.000 ₺",
     type: "off-grid",
     blurb:
       "Şebeke yok mu? Sorun değil. Buzdolabı, televizyon, çamaşır makinesi ve aydınlatmayı güneşle kesintisiz çalıştırın.",
@@ -31,7 +33,6 @@ export const BUNDLES: Bundle[] = [
       "6 × 610 W TOPCon panel — 3,6 kWp",
       "10 kWh LiFePO₄ batarya",
       "Anahtar teslim: nakliye + montaj dahil",
-      "Sıcak su için tüp şofben önerilir",
     ],
     icon: "bi-box-seam",
     featured: true,
@@ -41,6 +42,7 @@ export const BUNDLES: Bundle[] = [
     name: "5 kW Ev / Daire Paketi",
     persona: "Ev · daire · küçük çatı",
     power: "5 kW",
+    fromPrice: "109.000 ₺",
     type: "on-grid",
     blurb:
       "Elektrik faturanızı sıfıra yaklaştırın. Şebeke bağlantılı; isteğe bağlı bataryayla gece de güneşten yararlanın.",
@@ -57,6 +59,7 @@ export const BUNDLES: Bundle[] = [
     name: "8 kW Müstakil Ev / Villa Paketi",
     persona: "Müstakil ev · villa",
     power: "8 kW",
+    fromPrice: "279.000 ₺",
     type: "on-grid",
     blurb:
       "Daha büyük evler için. Klima, ısı pompası ve yüksek tüketime rahatça yetişir.",
@@ -73,6 +76,7 @@ export const BUNDLES: Bundle[] = [
     name: "15 kW İşletme / Tarım Paketi",
     persona: "İşletme · çiftlik · yüksek tüketim",
     power: "15 kW",
+    fromPrice: "449.000 ₺",
     type: "on-grid",
     blurb:
       "İşletmeler, çiftlikler ve yüksek tüketim için trifaze güç. Tarımsal sulamaya da uygundur.",

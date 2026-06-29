@@ -77,6 +77,8 @@ export default function HomeClient({
   // Bir urun modali acikken carousel donmesin: modal acikken kart degisirse
   // Bootstrap backdrop sahipsiz kaliyor ve sayfa kilitleniyordu.
   const isModalOpenRef = React.useRef(false);
+  const isProjectHoverRef = React.useRef(false);
+  const isProductHoverRef = React.useRef(false);
 
   useEffect(() => {
     const onShow = () => {
@@ -97,7 +99,7 @@ export default function HomeClient({
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
-      setProductSeed((prev) => (isModalOpenRef.current ? prev : prev + 1));
+      setProductSeed((prev) => (isModalOpenRef.current || isProductHoverRef.current ? prev : prev + 1));
     }, 4500);
 
     return () => window.clearInterval(intervalId);
@@ -105,7 +107,7 @@ export default function HomeClient({
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
-      setProjectSeed((prev) => (isModalOpenRef.current ? prev : prev + 1));
+      setProjectSeed((prev) => (isModalOpenRef.current || isProjectHoverRef.current ? prev : prev + 1));
     }, 5200);
 
     return () => window.clearInterval(intervalId);
@@ -202,7 +204,11 @@ export default function HomeClient({
             <h2 className="section-title text-white headline-hover-fx">Öne Çıkan Ürünler</h2>
           </div>
 
-          <div className="row g-4 justify-content-center">
+          <div
+            className="row g-4 justify-content-center"
+            onMouseEnter={() => { isProductHoverRef.current = true; }}
+            onMouseLeave={() => { isProductHoverRef.current = false; }}
+          >
             {featuredProducts.map((item) => (
               <div key={item.id} className="col-xl-3 col-md-6">
                 <div className="product-card position-relative">
@@ -295,14 +301,6 @@ export default function HomeClient({
           overflow: 'hidden'
         }}
       >
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'radial-gradient(circle at 14% 20%, rgba(255,255,255,0.11), transparent 30%), radial-gradient(circle at 86% 80%, rgba(255,210,140,0.1), transparent 34%)',
-            pointerEvents: 'none'
-          }}
-        ></div>
         <div className="container position-relative">
           <div className="text-center mb-5">
             <h6 className="text-uppercase fw-bold" style={{ letterSpacing: '2px', color: '#ffffff' }}>Seçkin Referanslar</h6>
@@ -312,14 +310,22 @@ export default function HomeClient({
             </p>
           </div>
 
-          <div className="row g-4 justify-content-center">
+          <div
+            className="row g-4 justify-content-center"
+            onMouseEnter={() => { isProjectHoverRef.current = true; }}
+            onMouseLeave={() => { isProjectHoverRef.current = false; }}
+          >
             {featuredProjects.map((item) => (
               <div key={item.id} className="col-xl-3 col-md-6">
                 <div
                   className="project-showcase-card h-100 position-relative shadow-lg"
+                  role="button"
+                  data-bs-toggle="modal"
+                  data-bs-target={`#proje-modal-${item.id}`}
                   style={{
                     borderRadius: '24px',
                     overflow: 'hidden',
+                    cursor: 'pointer',
                     border: '1px solid rgba(148,163,184,0.26)',
                     background: 'linear-gradient(165deg, rgba(30,41,59,0.92) 0%, rgba(15,23,42,0.97) 60%, rgba(2,6,23,0.98) 100%)',
                     backdropFilter: 'blur(8px)',
@@ -339,6 +345,26 @@ export default function HomeClient({
                     <p className="mb-0" style={{ color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, minHeight: '120px', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>
                       {truncateText(item.description, 145)}
                     </p>
+                  </div>
+                </div>
+
+                {/* Proje detay modali */}
+                <div className="modal fade" id={`proje-modal-${item.id}`} tabIndex={-1} aria-hidden="true">
+                  <div className="modal-dialog modal-dialog-centered modal-lg">
+                    <div className="modal-content text-white border-gold-thin" style={{ background: 'linear-gradient(165deg, rgba(15,23,42,0.98), rgba(17,24,39,0.96))' }}>
+                      <div className="modal-header border-secondary border-opacity-50">
+                        <h5 className="modal-title">{item.name}</h5>
+                        <button type="button" className="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div className="modal-body p-4 text-start">
+                        {item.imageUrl && item.imageUrl.trim() ? (
+                          <div className="text-center mb-4">
+                            <img src={item.imageUrl} className="img-fluid rounded-3" style={{ maxHeight: '360px', width: '100%', objectFit: 'cover' }} alt={item.name} />
+                          </div>
+                        ) : null}
+                        <p className="mb-0" style={{ color: '#b9c3d1', lineHeight: 1.8 }}>{item.description}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
