@@ -130,30 +130,31 @@ export default function HomeClient({
             </div>
             <div className="col-lg-6 ps-lg-5 text-start" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.5)' }}>
               <h6 className="text-gold text-uppercase fw-bold" style={{ letterSpacing: '2px' }}>Biz Kimiz?</h6>
-              <h2 className="display-5 fw-bold mb-4 text-white">Toros Solar olarak sizi <br /> Güneşin Gücüyle Buluşturuyoruz</h2>
+              <h2 className="display-5 fw-bold mb-4 text-white">Şehirdeki çatıdan <br /> dağdaki yayla evine</h2>
               <p className="text-gold lead mb-4">
-                Toros Solar sürdürülebilir enerji dönüşümünde öncü rol oynamak için kuruldu.
-                Sadece panel kurmuyoruz, uygun depolama çözümleri ve rüzgar tribünü seçenekleri de sunuyoruz.
-                Yenilenebilir enerjide geleceği inşa ediyoruz.
+                Toros Solar, Mersin merkezli bir güneş enerjisi firması. 15 yıldır Mersin, Adana
+                ve çevre illerde sistem kuruyoruz — şehir çatılarından Toroslar&apos;daki yayla
+                evlerine, tavuk çiftliklerinden tarla sulama pompalarına kadar. Şebekeye uzak,
+                zor sahalarda çalışmaya alışkınız.
               </p>
               <div className="about-features">
                 <div className="about-feature-row d-flex align-items-center mb-4">
                   <div className="feature-icon-sm me-3">
                     <i className="bi bi-patch-check text-gold fs-3"></i>
                   </div>
-                  <span className="text-white fw-light fs-5">Sektörde 15 Yıllık Tecrübesi</span>
+                  <span className="text-white fw-light fs-5">50+ tamamlanmış kurulum — Mersin, Adana, Niğde</span>
                 </div>
                 <div className="about-feature-row d-flex align-items-center mb-4">
                   <div className="feature-icon-sm me-3">
-                    <i className="bi bi-shield-check text-gold fs-3"></i>
+                    <i className="bi bi-droplet-half text-gold fs-3"></i>
                   </div>
-                  <span className="text-white fw-light fs-5">Yüksek Verimli Panel Garantisi</span>
+                  <span className="text-white fw-light fs-5">Off-grid ve tarımsal sulamada deneyimli ekip</span>
                 </div>
                 <div className="about-feature-row d-flex align-items-center mb-4">
                   <div className="feature-icon-sm me-3">
-                    <i className="bi bi-headset text-gold fs-3"></i>
+                    <i className="bi bi-truck text-gold fs-3"></i>
                   </div>
-                  <span className="text-white fw-light fs-5">7/24 Teknik Destek ve İzleme Hizmeti</span>
+                  <span className="text-white fw-light fs-5">Anahtar teslim — nakliye ve montaj dahil</span>
                 </div>
               </div>
               <div className="mt-4">

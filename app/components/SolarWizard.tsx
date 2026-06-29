@@ -74,7 +74,7 @@ function ItemList({ items }: { items: SystemItem[] }) {
 
 export default function SolarWizard({ products }: { products: WizProduct[] }) {
   const [mode, setMode] = useState<Mode>("cihaz");
-  const [counts, setCounts] = useState<Record<string, number>>({ buzdolabi: 1, aydinlatma: 1 });
+  const [counts, setCounts] = useState<Record<string, number>>({});
   const [monthly, setMonthly] = useState(350);
   const [hp, setHp] = useState(3);
   const [phase, setPhase] = useState<"idle" | "calc" | "done">("idle");
