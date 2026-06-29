@@ -33,7 +33,7 @@ function BundleCard({
           borderRadius: "18px",
           scrollMarginTop: "90px",
           background: cardBg,
-          border: "2px solid var(--accent, #FB6602)",
+          border: "2px solid var(--accent, #E8661A)",
         }}
       >
         <div
@@ -47,13 +47,13 @@ function BundleCard({
             <h4 className="text-white fw-bold mb-0" style={{ fontSize: "1.02rem", lineHeight: 1.25 }}>
               {b.name}
             </h4>
-            <span style={{ color: "var(--accent, #FB6602)", fontSize: "0.78rem", fontWeight: 600 }}>
+            <span style={{ color: "var(--accent, #E8661A)", fontSize: "0.78rem", fontWeight: 600 }}>
               {b.persona}
             </span>
           </div>
           <span
             className="badge rounded-pill px-2 py-1"
-            style={{ background: "rgba(251,102,2,0.16)", color: "var(--accent, #FB6602)", fontWeight: 700, fontSize: "0.8rem" }}
+            style={{ background: "rgba(232,102,26,0.16)", color: "var(--accent, #E8661A)", fontWeight: 700, fontSize: "0.8rem" }}
           >
             {b.power}
           </span>
@@ -61,7 +61,7 @@ function BundleCard({
         </div>
 
         <div className="mt-2 mb-1 d-flex align-items-baseline" style={{ gap: "5px" }}>
-          <span style={{ color: "var(--accent, #FB6602)", fontWeight: 800, fontSize: "1.16rem", lineHeight: 1.1 }}>
+          <span style={{ color: "var(--accent, #E8661A)", fontWeight: 800, fontSize: "1.16rem", lineHeight: 1.1 }}>
             {`${b.fromPrice}'den`}
           </span>
           <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.76rem" }}>başlayan*</span>
@@ -127,7 +127,7 @@ export default function BundleDeals() {
         <div className="text-center mt-5">
           <div
             className="d-inline-block px-4 py-4 rounded-4"
-            style={{ background: "rgba(251,102,2,0.10)", border: "1px solid rgba(251,102,2,0.35)", maxWidth: "640px" }}
+            style={{ background: "rgba(232,102,26,0.10)", border: "1px solid rgba(232,102,26,0.35)", maxWidth: "640px" }}
           >
             <h5 className="text-white fw-bold mb-2">Hangi paket size uygun?</h5>
             <p className="mb-3" style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.9rem" }}>

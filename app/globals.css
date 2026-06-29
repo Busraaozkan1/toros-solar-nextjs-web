@@ -16,7 +16,7 @@
     --bg-step-3: #fdb98e;      /* 3. Aşama: Yumuşak Şeftali */
     --bg-warm-beige: #fff3e6;  /* 4. Aşama: Final Sıcak Bej */
     
-    --accent: #FB6602; 
+    --accent: #E8661A;
     --accent-hover: #F6A705; 
     --soft-white: #e66920; 
     --text-gray: #655d5d; 
@@ -56,7 +56,7 @@ body {
     display: flex;
     align-items: center;
     backdrop-filter: blur(15px);
-    box-shadow: 0 4px 20px rgba(251, 102, 2, 0.1);
+    box-shadow: 0 4px 20px rgba(232, 102, 26, 0.1);
     transition: all 0.3s ease;
     padding: 8px 0;
 }
@@ -142,13 +142,13 @@ body {
     inset: 0;
     z-index: -1;
     background-color: #0b1220;
-    background-image: linear-gradient(180deg, rgba(11,18,32,0.45), rgba(13,20,38,0.50)), url('/landing-bg.jpg');
+    background-image: linear-gradient(180deg, rgba(11,18,32,0.55), rgba(13,20,38,0.60)), url('/landing-bg.jpg');
     background-size: cover;
     background-position: center;
 }
 @media (max-width: 768px) {
     .site-bg {
-        background-image: linear-gradient(180deg, rgba(11,18,32,0.45), rgba(13,20,38,0.50)), url('/landing-bg-mobile.jpg');
+        background-image: linear-gradient(180deg, rgba(11,18,32,0.55), rgba(13,20,38,0.60)), url('/landing-bg-mobile.jpg');
     }
 }
 
@@ -185,13 +185,13 @@ body {
     transition: 0.4s;
     border: none;
     letter-spacing: 1px;
-    box-shadow: 0 6px 15px rgba(251, 102, 2, 0.3);
+    box-shadow: 0 6px 15px rgba(232, 102, 26, 0.3);
     text-transform: uppercase;
 }
 
 .btn-gold:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 25px rgba(251, 102, 2, 0.4);
+    box-shadow: 0 12px 25px rgba(232, 102, 26, 0.4);
     color: white !important;
 }
 
@@ -242,7 +242,7 @@ body {
 .service-card:hover, .product-card:hover {
     border-color: var(--accent);
     transform: translateY(-12px);
-    box-shadow: 0 25px 50px rgba(251, 102, 2, 0.15);
+    box-shadow: 0 25px 50px rgba(232, 102, 26, 0.15);
 }
 
 .service-icon {
