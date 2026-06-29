@@ -30,9 +30,9 @@ function Stepper({ value, onChange }: { value: number; onChange: (v: number) => 
     width: 30,
     height: 30,
     borderRadius: "50%",
-    border: "1px solid rgba(251,102,2,0.5)",
+    border: "1px solid rgba(232,102,26,0.5)",
     background: "transparent",
-    color: "var(--accent, #FB6602)",
+    color: "var(--accent, #E8661A)",
     fontWeight: 700,
     lineHeight: 1,
   };
@@ -113,16 +113,16 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
 
   const box: React.CSSProperties = {
     borderRadius: "16px",
-    background: "rgba(251,102,2,0.10)",
-    border: "1px solid rgba(251,102,2,0.4)",
+    background: "rgba(232,102,26,0.10)",
+    border: "1px solid rgba(232,102,26,0.4)",
   };
 
   return (
     <section id="sihirbaz" className="section-padding">
       <style>{`
-        .tsw-range{-webkit-appearance:none;appearance:none;width:100%;max-width:360px;height:6px;border-radius:5px;background:rgba(251,102,2,.28);outline:none;display:block;margin:0 auto}
-        .tsw-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent,#FB6602);cursor:pointer;border:3px solid #fff}
-        .tsw-range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--accent,#FB6602);cursor:pointer;border:3px solid #fff}
+        .tsw-range{-webkit-appearance:none;appearance:none;width:100%;max-width:360px;height:6px;border-radius:5px;background:rgba(232,102,26,.28);outline:none;display:block;margin:0 auto}
+        .tsw-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent,#E8661A);cursor:pointer;border:3px solid #fff}
+        .tsw-range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--accent,#E8661A);cursor:pointer;border:3px solid #fff}
       `}</style>
 
       <div className="container">
