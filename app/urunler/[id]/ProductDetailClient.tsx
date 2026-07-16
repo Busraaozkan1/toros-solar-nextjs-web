@@ -2,6 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { whatsappLink } from '@/lib/contact';
 
 export interface ProductDetail {
     id: number;
@@ -24,9 +25,9 @@ export default function ProductDetailClient({ product }: { product: ProductDetai
             : [];
     }, [product?.description]);
 
-    // WhatsApp mesajı için ürün ismini escape etme
-    const encodedProductName = encodeURIComponent(product?.name || 'Urun');
-    const whatsappUrl = `https://wa.me/905532772244?text=Merhaba,%20TorosSolar%20sitenizden%20'${encodedProductName}'%20ürünü%20hakkında%20bilgi%20almak%20istiyorum.`;
+    const whatsappUrl = whatsappLink(
+        `Merhaba, TorosSolar sitenizden '${product?.name || 'Urun'}' ürünü hakkında bilgi almak istiyorum.`
+    );
 
     if (loading) {
         return (

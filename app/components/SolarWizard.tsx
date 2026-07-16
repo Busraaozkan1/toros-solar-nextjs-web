@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { APPLIANCES } from "@/lib/bundles";
+import { PHONE_E164, whatsappLink } from "@/lib/contact";
 import {
   buildSystemByDailyKwh,
   buildSystemByMonthlyKwh,
@@ -10,8 +11,8 @@ import {
   type SystemItem,
 } from "@/lib/systemBuilder";
 
-const PHONE = "+905367333678";
-const wa = (text: string) => `https://wa.me/905532772244?text=${encodeURIComponent(text)}`;
+const PHONE = PHONE_E164;
+const wa = whatsappLink;
 
 type Mode = "cihaz" | "fatura" | "pompa";
 const MODES: { key: Mode; label: string; icon: string }[] = [

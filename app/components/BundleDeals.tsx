@@ -3,12 +3,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { BUNDLES, type Bundle } from "@/lib/bundles";
-
-const PHONE = "+905367333678";
+import { PHONE_E164, whatsappLink } from "@/lib/contact";
 
 function waLink(b: Bundle) {
   const text = `Merhaba, ${b.name} hakkında bilgi almak istiyorum.`;
-  return `https://wa.me/905532772244?text=${encodeURIComponent(text)}`;
+  return whatsappLink(text);
 }
 
 const cardBg = "linear-gradient(165deg, rgba(30,41,59,0.92) 0%, rgba(15,23,42,0.97) 70%)";
@@ -65,6 +64,12 @@ function BundleCard({
             {`${b.fromPrice}'den`}
           </span>
           <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.76rem" }}>başlayan*</span>
+          <span
+            className="badge rounded-pill"
+            style={{ background: "rgba(255,255,255,0.12)", color: "#fff", fontSize: "0.7rem" }}
+          >
+            + KDV
+          </span>
         </div>
 
         <div className={detailCls}>
@@ -83,7 +88,7 @@ function BundleCard({
             <a href={waLink(b)} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
               <i className="bi bi-whatsapp me-2"></i>Teklif Al
             </a>
-            <a href={`tel:${PHONE}`} className="btn btn-outline-light btn-sm">
+            <a href={`tel:${PHONE_E164}`} className="btn btn-outline-light btn-sm">
               <i className="bi bi-telephone me-2"></i>Hemen Ara
             </a>
           </div>
@@ -140,7 +145,7 @@ export default function BundleDeals() {
         </div>
 
         <p className="text-center mt-4 mb-0" style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.82rem" }}>
-          * Başlangıç fiyatlarıdır; kesin fiyat ücretsiz keşif sonrası belirlenir. Tüm paketler anahtar teslim (nakliye + montaj dahil).
+          * Fiyatlara KDV dahil değildir. Başlangıç fiyatlarıdır; kesin fiyat ücretsiz keşif sonrası belirlenir. Tüm paketler anahtar teslim (nakliye + montaj dahil).
         </p>
       </div>
     </section>

@@ -5,6 +5,7 @@ import { Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import SiteChrome from "./components/SiteChrome";
 import ConversionTracking from "./components/ConversionTracking";
+import { WHATSAPP_URL } from "@/lib/contact";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
@@ -79,7 +80,7 @@ const localBusinessJsonLd = {
     { "@type": "AdministrativeArea", name: "Mersin" },
     { "@type": "AdministrativeArea", name: "Adana" },
   ],
-  sameAs: ["https://wa.me/905532772244"],
+  sameAs: [WHATSAPP_URL],
   priceRange: "₺₺",
 };
 
