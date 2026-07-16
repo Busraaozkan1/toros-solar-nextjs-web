@@ -1,4 +1,5 @@
 import React from "react";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export default function LandingCtaEn({ title }: { title?: string }) {
   return (
@@ -18,7 +19,7 @@ export default function LandingCtaEn({ title }: { title?: string }) {
           <i className="bi bi-telephone me-2"></i>+90 536 733 36 78
         </a>
         <a
-          href="https://wa.me/905532772244"
+          href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-outline-light px-4 py-2"
