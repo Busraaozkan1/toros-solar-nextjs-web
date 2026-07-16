@@ -18,7 +18,7 @@ export default function LandingCtaEn({ title }: { title?: string }) {
           <i className="bi bi-telephone me-2"></i>+90 536 733 36 78
         </a>
         <a
-          href="https://wa.me/905367333678"
+          href="https://wa.me/905532772244"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-outline-light px-4 py-2"

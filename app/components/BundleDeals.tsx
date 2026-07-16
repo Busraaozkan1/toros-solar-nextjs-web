@@ -8,7 +8,7 @@ const PHONE = "+905367333678";
 
 function waLink(b: Bundle) {
   const text = `Merhaba, ${b.name} hakkında bilgi almak istiyorum.`;
-  return `https://wa.me/905367333678?text=${encodeURIComponent(text)}`;
+  return `https://wa.me/905532772244?text=${encodeURIComponent(text)}`;
 }
 
 const cardBg = "linear-gradient(165deg, rgba(30,41,59,0.92) 0%, rgba(15,23,42,0.97) 70%)";
