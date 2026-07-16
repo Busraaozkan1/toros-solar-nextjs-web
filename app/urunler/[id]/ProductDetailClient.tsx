@@ -26,7 +26,7 @@ export default function ProductDetailClient({ product }: { product: ProductDetai
 
     // WhatsApp mesajı için ürün ismini escape etme
     const encodedProductName = encodeURIComponent(product?.name || 'Urun');
-    const whatsappUrl = `https://wa.me/905367333678?text=Merhaba,%20TorosSolar%20sitenizden%20'${encodedProductName}'%20ürünü%20hakkında%20bilgi%20almak%20istiyorum.`;
+    const whatsappUrl = `https://wa.me/905532772244?text=Merhaba,%20TorosSolar%20sitenizden%20'${encodedProductName}'%20ürünü%20hakkında%20bilgi%20almak%20istiyorum.`;
 
     if (loading) {
         return (

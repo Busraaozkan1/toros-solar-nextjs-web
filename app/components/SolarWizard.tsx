@@ -11,7 +11,7 @@ import {
 } from "@/lib/systemBuilder";
 
 const PHONE = "+905367333678";
-const wa = (text: string) => `https://wa.me/905367333678?text=${encodeURIComponent(text)}`;
+const wa = (text: string) => `https://wa.me/905532772244?text=${encodeURIComponent(text)}`;
 
 type Mode = "cihaz" | "fatura" | "pompa";
 const MODES: { key: Mode; label: string; icon: string }[] = [

@@ -79,7 +79,7 @@ const localBusinessJsonLd = {
     { "@type": "AdministrativeArea", name: "Mersin" },
     { "@type": "AdministrativeArea", name: "Adana" },
   ],
-  sameAs: ["https://wa.me/905367333678"],
+  sameAs: ["https://wa.me/905532772244"],
   priceRange: "₺₺",
 };
 
