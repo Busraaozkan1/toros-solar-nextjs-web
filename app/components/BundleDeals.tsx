@@ -59,16 +59,9 @@ function BundleCard({
           <i className={`bi bi-chevron-${expanded ? "up" : "down"} text-gold d-md-none`}></i>
         </div>
 
-        <div className="mt-2 mb-1 d-flex align-items-baseline" style={{ gap: "5px" }}>
-          <span style={{ color: "var(--accent, #E8661A)", fontWeight: 800, fontSize: "1.16rem", lineHeight: 1.1 }}>
-            {`${b.fromPrice}'den`}
-          </span>
-          <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.76rem" }}>başlayan*</span>
-          <span
-            className="badge rounded-pill"
-            style={{ background: "rgba(255,255,255,0.12)", color: "#fff", fontSize: "0.7rem" }}
-          >
-            + KDV
+        <div className="mt-2 mb-1">
+          <span style={{ color: "var(--accent, #E8661A)", fontWeight: 800, fontSize: "1rem", lineHeight: 1.3 }}>
+            {b.fromPrice}
           </span>
         </div>
 
@@ -145,7 +138,7 @@ export default function BundleDeals() {
         </div>
 
         <p className="text-center mt-4 mb-0" style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.82rem" }}>
-          * Fiyatlara KDV dahil değildir. Başlangıç fiyatlarıdır; kesin fiyat ücretsiz keşif sonrası belirlenir. Tüm paketler anahtar teslim (nakliye + montaj dahil).
+          Tüm paketler anahtar teslimdir (nakliye + montaj dahil); kurulum koşulları ücretsiz keşifte doğrulanır.
         </p>
       </div>
     </section>
