@@ -103,10 +103,17 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
     reset();
   };
 
+  const selectedAppliances = APPLIANCES.flatMap((appliance) => {
+    const qty = counts[appliance.key] || 0;
+    return qty > 0 ? [`${qty}× ${appliance.label}`] : [];
+  });
+  const selectedAppliancesText = selectedAppliances.join(", ");
+  const recommendedSystemText = home?.items.map((i) => `${i.qty}× ${i.name}`).join(", ") || "";
+
   const homeText = home
-    ? `Merhaba, ihtiyaç sihirbazına göre ~${home.dailyKwh} kWh/gün için şu sistemi istiyorum: ${home.items
-        .map((i) => `${i.qty}× ${i.name}`)
-        .join(", ")}. Teklif alabilir miyim?`
+    ? mode === "cihaz"
+      ? `Merhaba, ihtiyaç sihirbazında seçtiğim cihazlar: ${selectedAppliancesText}. Tahminî tüketim: ~${home.dailyKwh} kWh/gün. Önerilen sistem: ${recommendedSystemText}. Teklif alabilir miyim?`
+      : `Merhaba, ihtiyaç sihirbazına göre ~${home.dailyKwh} kWh/gün için şu sistemi istiyorum: ${recommendedSystemText}. Teklif alabilir miyim?`
     : "";
   const pumpText = pump
     ? `Merhaba, ${pump.hp} HP tarımsal sulama pompası için solar sistem (~${pump.panelCount} panel) teklifi almak istiyorum.`
@@ -273,6 +280,11 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
                   <p className="text-white text-center mb-1" style={{ fontSize: "0.9rem" }}>
                     Tahminî günlük tüketim: <strong>{home.dailyKwh} kWh</strong> · önerilen sistem ~{home.suggestedKwp} kWp
                   </p>
+                  {mode === "cihaz" && selectedAppliances.length > 0 && (
+                    <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.8rem" }}>
+                      Seçilen cihazlar: {selectedAppliancesText}
+                    </p>
+                  )}
                   <h6 className="text-gold fw-bold text-center mb-3">Size önerilen ürünler</h6>
                   {home.items.length > 0 ? (
                     <ItemList items={home.items} />
