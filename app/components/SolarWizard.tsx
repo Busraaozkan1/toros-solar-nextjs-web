@@ -3,10 +3,15 @@
 import React, { useMemo, useState } from "react";
 import {
   APPLIANCES,
-  recommendByDailyKwh,
-  recommendByMonthlyKwh,
-  recommendByPumpHp,
-} from "@/lib/bundles";
+  buildApplianceQuoteMessage,
+  buildBillQuoteMessage,
+  buildPumpQuoteMessage,
+  estimateApplianceNeeds,
+  estimateMonthlyNeeds,
+  estimatePumpNeeds,
+  selectedApplianceLabels,
+  type PumpPhase,
+} from "@/lib/solarEstimator";
 import { PHONE_E164, whatsappLink } from "@/lib/contact";
 
 const PHONE = PHONE_E164;
@@ -22,6 +27,20 @@ const MODES: { key: Mode; label: string; icon: string }[] = [
 const cardStyle: React.CSSProperties = {
   borderRadius: "20px",
   background: "linear-gradient(165deg, rgba(30,41,59,0.92) 0%, rgba(15,23,42,0.97) 70%)",
+};
+
+const numberInputStyle: React.CSSProperties = {
+  width: "130px",
+  background: "rgba(255,255,255,0.06)",
+  border: "1px solid rgba(232,102,26,0.45)",
+  color: "white",
+  fontSize: "1.5rem",
+  fontWeight: 700,
+};
+
+const boundedNumber = (value: string, min: number, max: number) => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? Math.min(max, Math.max(min, parsed)) : min;
 };
 
 function Stepper({ value, onChange }: { value: number; onChange: (v: number) => void }) {
@@ -43,7 +62,7 @@ function Stepper({ value, onChange }: { value: number; onChange: (v: number) => 
       <span className="text-white fw-bold" style={{ minWidth: 18, textAlign: "center" }}>
         {value}
       </span>
-      <button type="button" style={btn} onClick={() => onChange(value + 1)} aria-label="arttır">
+      <button type="button" style={btn} onClick={() => onChange(Math.min(20, value + 1))} aria-label="arttır">
         +
       </button>
     </div>
@@ -55,46 +74,25 @@ export default function SolarWizard() {
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [monthly, setMonthly] = useState(350);
   const [hp, setHp] = useState(3);
-  const [phase, setPhase] = useState<"idle" | "calc" | "done">("idle");
+  const [pumpHours, setPumpHours] = useState(6);
+  const [pumpPhase, setPumpPhase] = useState<PumpPhase>("trifaze");
+  const [phase, setPhase] = useState<"idle" | "done">("idle");
   const reset = () => setPhase("idle");
-  const calc = () => {
-    setPhase("calc");
-    window.setTimeout(() => setPhase("done"), 700);
-  };
 
-  const daily = useMemo(
-    () => APPLIANCES.reduce((s, a) => s + (counts[a.key] || 0) * a.kwh, 0),
-    [counts]
-  );
-
-  const home = useMemo(() => {
-    if (mode === "cihaz") return daily > 0 ? recommendByDailyKwh(daily) : null;
-    if (mode === "fatura") return monthly > 0 ? recommendByMonthlyKwh(monthly) : null;
-    return null;
-  }, [mode, daily, monthly]);
-
-  const pump = useMemo(() => (mode === "pompa" ? recommendByPumpHp(hp) : null), [mode, hp]);
+  const applianceEstimate = useMemo(() => estimateApplianceNeeds(counts), [counts]);
+  const billEstimate = useMemo(() => estimateMonthlyNeeds(monthly), [monthly]);
+  const pumpEstimate = useMemo(() => estimatePumpNeeds(hp, pumpHours), [hp, pumpHours]);
 
   const setCount = (key: string, v: number) => {
     setCounts((c) => ({ ...c, [key]: v }));
     reset();
   };
 
-  const selectedAppliances = APPLIANCES.flatMap((appliance) => {
-    const qty = counts[appliance.key] || 0;
-    return qty > 0 ? [`${qty}× ${appliance.label}`] : [];
-  });
+  const selectedAppliances = selectedApplianceLabels(counts);
   const selectedAppliancesText = selectedAppliances.join(", ");
-  const selectedAppliancesMessage = selectedAppliances.map((item) => `- ${item}`).join("\n");
-
-  const homeText = home
-    ? mode === "cihaz"
-      ? `Merhaba, ihtiyaç sihirbazında seçtiğim cihazlar:\n${selectedAppliancesMessage}`
-      : `Merhaba, ihtiyaç sihirbazına girdiğim aylık tüketim: ${monthly} kWh.`
-    : "";
-  const pumpText = pump
-    ? `Merhaba, cihazım: ${pump.hp} HP tarımsal sulama pompası.`
-    : "";
+  const applianceText = selectedAppliances.length > 0 ? buildApplianceQuoteMessage(counts) : "";
+  const billText = buildBillQuoteMessage(monthly);
+  const pumpText = buildPumpQuoteMessage(hp, pumpHours, pumpPhase);
 
   const box: React.CSSProperties = {
     borderRadius: "16px",
@@ -104,12 +102,6 @@ export default function SolarWizard() {
 
   return (
     <section id="sihirbaz" className="section-padding">
-      <style>{`
-        .tsw-range{-webkit-appearance:none;appearance:none;width:100%;max-width:360px;height:6px;border-radius:5px;background:rgba(232,102,26,.28);outline:none;display:block;margin:0 auto}
-        .tsw-range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--accent,#E8661A);cursor:pointer;border:3px solid #fff}
-        .tsw-range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--accent,#E8661A);cursor:pointer;border:3px solid #fff}
-      `}</style>
-
       <div className="container">
         <div className="text-center mb-5">
           <h6 className="text-white text-uppercase fw-bold" style={{ letterSpacing: "2px" }}>
@@ -117,7 +109,7 @@ export default function SolarWizard() {
           </h6>
           <h2 className="section-title text-white headline-hover-fx">Solar İhtiyaç Sihirbazı</h2>
           <p className="mx-auto mt-3" style={{ maxWidth: "680px", color: "rgba(255,255,255,0.7)" }}>
-            Birkaç saniyede yaklaşık enerji ihtiyacınızı görün. Net sistem kapasitesi ücretsiz keşifte belirlenir.
+            Yaklaşık güç ihtiyacınızı ve yaz koşullarındaki tahmini panel sayısını görün. Net sistem ücretsiz keşifte belirlenir.
           </p>
         </div>
 
@@ -139,67 +131,100 @@ export default function SolarWizard() {
               </div>
 
               {mode === "cihaz" && (
-                <div className="row g-3">
-                  {APPLIANCES.map((a) => (
-                    <div key={a.key} className="col-6">
-                      <div
-                        className="d-flex flex-column align-items-center text-center justify-content-between p-3 rounded-3 h-100"
-                        style={{ background: "rgba(255,255,255,0.04)", gap: "10px", minHeight: "112px" }}
-                      >
-                        <span className="text-white" style={{ fontSize: "0.82rem", lineHeight: 1.25 }}>
-                          <i className={`bi ${a.icon} text-gold me-1`}></i>
-                          {a.label}
-                        </span>
-                        <Stepper value={counts[a.key] || 0} onChange={(v) => setCount(a.key, v)} />
+                <>
+                  <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.82rem" }}>
+                    Kullanacağınız cihazların adetlerini seçin. Hesapta tipik kullanım süreleri esas alınır.
+                  </p>
+                  <div className="row g-3">
+                    {APPLIANCES.map((a) => (
+                      <div key={a.key} className="col-6">
+                        <div
+                          className="d-flex flex-column align-items-center text-center justify-content-between p-3 rounded-3 h-100"
+                          style={{ background: "rgba(255,255,255,0.04)", gap: "10px", minHeight: "112px" }}
+                        >
+                          <span className="text-white" style={{ fontSize: "0.82rem", lineHeight: 1.25 }}>
+                            <i className={`bi ${a.icon} text-gold me-1`}></i>
+                            {a.label}
+                          </span>
+                          <Stepper value={counts[a.key] || 0} onChange={(v) => setCount(a.key, v)} />
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </>
               )}
 
               {mode === "fatura" && (
                 <div className="text-center py-3">
-                  <div className="mb-2">
-                    <span className="text-gold fw-bold" style={{ fontSize: "2rem" }}>
-                      {monthly}
-                    </span>
+                  <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
+                    <input
+                      type="number"
+                      className="form-control text-center"
+                      style={numberInputStyle}
+                      min={1}
+                      max={10000}
+                      step={1}
+                      value={monthly}
+                      aria-label="Aylık ortalama tüketim"
+                      onChange={(e) => { setMonthly(boundedNumber(e.target.value, 1, 10000)); reset(); }}
+                    />
                     <span className="text-white ms-2">kWh / ay</span>
                   </div>
-                  <input
-                    className="tsw-range"
-                    type="range"
-                    min={50}
-                    max={2000}
-                    step={10}
-                    value={monthly}
-                    onChange={(e) => { setMonthly(Number(e.target.value)); reset(); }}
-                  />
                   <p className="mt-3 mb-0" style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.82rem" }}>
-                    Faturanızdaki <strong>“Tüketim (kWh)”</strong> değerini kaydırarak seçin.
+                    Son 12 faturanızdaki tüketimin aylık ortalamasını seçin. Tek bir ay mevsimsel olarak yanıltıcı olabilir.
                   </p>
                 </div>
               )}
 
               {mode === "pompa" && (
                 <div className="text-center py-3">
-                  <div className="mb-2">
-                    <span className="text-gold fw-bold" style={{ fontSize: "2rem" }}>
-                      {hp}
-                    </span>
+                  <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
+                    <input
+                      type="number"
+                      className="form-control text-center"
+                      style={numberInputStyle}
+                      min={0.5}
+                      max={100}
+                      step={0.5}
+                      value={hp}
+                      aria-label="Pompa gücü"
+                      onChange={(e) => { setHp(boundedNumber(e.target.value, 0.5, 100)); reset(); }}
+                    />
                     <span className="text-white ms-2">HP</span>
                   </div>
-                  <input
-                    className="tsw-range"
-                    type="range"
-                    min={1}
-                    max={50}
-                    step={1}
-                    value={hp}
-                    onChange={(e) => { setHp(Number(e.target.value)); reset(); }}
-                  />
                   <p className="mt-3 mb-0" style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.82rem" }}>
-                    Pompa gücünü kaydırarak seçin.
+                    Pompanızın etiketindeki HP değerini girin.
                   </p>
+                  <div className="d-flex align-items-center justify-content-center gap-2 mt-4 mb-2">
+                    <input
+                      type="number"
+                      className="form-control text-center"
+                      style={numberInputStyle}
+                      min={0.5}
+                      max={12}
+                      step={0.5}
+                      value={pumpHours}
+                      aria-label="Günlük pompa çalışma süresi"
+                      onChange={(e) => { setPumpHours(boundedNumber(e.target.value, 0.5, 12)); reset(); }}
+                    />
+                    <span className="text-white ms-2">saat / gün</span>
+                  </div>
+                  <p className="mt-3" style={{ color: "rgba(255,255,255,0.55)", fontSize: "0.82rem" }}>
+                    Pompanın bir günde çalışmasını istediğiniz süreyi girin.
+                  </p>
+                  <div className="d-flex justify-content-center gap-2 mt-3">
+                    {(["monofaze", "trifaze"] as PumpPhase[]).map((value) => (
+                      <button
+                        key={value}
+                        type="button"
+                        className={`btn btn-sm rounded-pill px-3 ${pumpPhase === value ? "btn-gold" : "btn-outline-light"}`}
+                        aria-pressed={pumpPhase === value}
+                        onClick={() => { setPumpPhase(value); reset(); }}
+                      >
+                        {value === "monofaze" ? "Monofaze" : "Trifaze"}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
 
@@ -208,77 +233,88 @@ export default function SolarWizard() {
                   <button
                     type="button"
                     className="btn btn-gold px-4 py-2"
-                    disabled={phase === "calc" || (mode === "cihaz" && daily <= 0)}
-                    onClick={calc}
+                    disabled={mode === "cihaz" && applianceEstimate.panelCount <= 0}
+                    onClick={() => setPhase("done")}
                   >
-                    {phase === "calc" ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm me-2"></span>Sistem hesaplanıyor...
-                      </>
-                    ) : (
-                      <>
-                        <i className="bi bi-calculator me-2"></i>İhtiyacımı Hesapla
-                      </>
-                    )}
+                    <i className="bi bi-calculator me-2"></i>İhtiyacımı Hesapla
                   </button>
                   <p className="mt-3 mb-0" style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.82rem" }}>
-                    Seçimlerinizi yapın, yaklaşık enerji ihtiyacınızı hesaplayalım.
+                    Sonucu gördükten sonra WhatsApp&apos;tan teklif isteyebilir veya bizi arayabilirsiniz.
                   </p>
                 </div>
               )}
 
               {/* SONUC */}
-              {phase === "done" && mode === "pompa" && pump && (
+              {phase === "done" && mode === "pompa" && (
                 <div className="mt-4 p-4" style={box}>
                   <p className="text-white text-center mb-1" style={{ fontSize: "0.9rem" }}>
-                    Pompa motor gücü: yaklaşık <strong>{pump.kw} kW</strong>
+                    Yaklaşık elektrik gücü: <strong>{pumpEstimate.electricalKw} kW</strong>
                   </p>
-                  <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.9rem" }}>
-                    Yaklaşık solar sistem gücü: <strong>{pump.suggestedKwp} kWp</strong>
+                  <p className="text-white text-center mb-2" style={{ fontSize: "0.9rem" }}>
+                    Yaz koşullarında tahmini panel ihtiyacı: yaklaşık <strong>{pumpEstimate.panelCount} adet</strong>
+                  </p>
+                  <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.62)", fontSize: "0.8rem" }}>
+                    Yaz koşullarına göre ilk tahmindir. Pompa etiketi, kuyu derinliği, debi ve yıl boyu kullanım net teklifte doğrulanır.
                   </p>
                   <div className="d-flex flex-wrap justify-content-center gap-2">
                     <a href={wa(pumpText)} target="_blank" rel="noopener noreferrer" className="btn btn-gold px-4">
-                      <i className="bi bi-whatsapp me-2"></i>Pompa Bilgisini Gönder
+                      <i className="bi bi-whatsapp me-2"></i>WhatsApp&apos;tan Teklif İste
                     </a>
                     <a href={`tel:${PHONE}`} className="btn btn-outline-light px-4">
-                      <i className="bi bi-telephone me-2"></i>Ara
+                      <i className="bi bi-telephone me-2"></i>Bizi Ara
                     </a>
                   </div>
                 </div>
               )}
 
-              {phase === "done" && (mode === "cihaz" || mode === "fatura") && home && (
+              {phase === "done" && mode === "cihaz" && applianceEstimate.panelCount > 0 && (
                 <div className="mt-4 p-4" style={box}>
                   <p className="text-white text-center mb-1" style={{ fontSize: "0.9rem" }}>
-                    Tahminî günlük enerji ihtiyacı: <strong>{home.dailyKwh} kWh</strong>
+                    Yaklaşık eşzamanlı cihaz gücü: <strong>{applianceEstimate.loadKw} kW</strong>
                   </p>
-                  <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.9rem" }}>
-                    Yaklaşık solar sistem gücü: <strong>{home.suggestedKwp} kWp</strong>
+                  <p className="text-white text-center mb-2" style={{ fontSize: "0.9rem" }}>
+                    Yaz koşullarında tahmini panel ihtiyacı: yaklaşık <strong>{applianceEstimate.panelCount} adet</strong>
                   </p>
-                  {mode === "cihaz" && selectedAppliances.length > 0 && (
-                    <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.8rem" }}>
-                      Seçilen cihazlar: {selectedAppliancesText}
-                    </p>
-                  )}
+                  <p className="text-center mb-2" style={{ color: "rgba(255,255,255,0.68)", fontSize: "0.8rem" }}>
+                    Seçilen cihazlar: {selectedAppliancesText}
+                  </p>
+                  <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.58)", fontSize: "0.78rem" }}>
+                    İlk tahmin, tipik kullanım süreleri ve Mersin-Adana yaz koşulları esas alınarak hazırlanmıştır.
+                    Kış ve yıl boyu kullanım, gölgelenme ve kurulum koşulları net teklifte doğrulanır.
+                  </p>
                   <div className="d-flex flex-wrap justify-content-center gap-2">
-                    <a href={wa(homeText)} target="_blank" rel="noopener noreferrer" className="btn btn-gold px-4">
-                      <i className="bi bi-whatsapp me-2"></i>
-                      {mode === "cihaz" ? "Cihazlarımı Gönder" : "Tüketimimi Gönder"}
+                    <a href={wa(applianceText)} target="_blank" rel="noopener noreferrer" className="btn btn-gold px-4">
+                      <i className="bi bi-whatsapp me-2"></i>WhatsApp&apos;tan Teklif İste
                     </a>
                     <a href={`tel:${PHONE}`} className="btn btn-outline-light px-4">
-                      <i className="bi bi-telephone me-2"></i>Ara
+                      <i className="bi bi-telephone me-2"></i>Bizi Ara
                     </a>
                   </div>
                 </div>
               )}
 
-              {phase === "done" &&
-                ((mode === "pompa" && !pump) ||
-                  ((mode === "cihaz" || mode === "fatura") && !home)) && (
-                  <p className="mt-4 text-center" style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.85rem" }}>
-                    Size özel sistemi birlikte planlayalım — bizi arayın.
+              {phase === "done" && mode === "fatura" && (
+                <div className="mt-4 p-4" style={box}>
+                  <p className="text-white text-center mb-1" style={{ fontSize: "0.9rem" }}>
+                    Aylık ortalama tüketim: <strong>{monthly} kWh</strong>
                   </p>
-                )}
+                  <p className="text-white text-center mb-2" style={{ fontSize: "0.9rem" }}>
+                    Yaz koşullarında tahmini panel ihtiyacı: yaklaşık <strong>{billEstimate.panelCount} adet</strong>
+                  </p>
+                  <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.58)", fontSize: "0.78rem" }}>
+                    İlk tahmin, 12 aylık ortalama tüketim ve Mersin-Adana yaz koşulları esas alınarak hazırlanmıştır.
+                    Kış ve yıl boyu kullanım, çatı yönü ve gölgelenme net teklifte doğrulanır.
+                  </p>
+                  <div className="d-flex flex-wrap justify-content-center gap-2">
+                    <a href={wa(billText)} target="_blank" rel="noopener noreferrer" className="btn btn-gold px-4">
+                      <i className="bi bi-whatsapp me-2"></i>WhatsApp&apos;tan Teklif İste
+                    </a>
+                    <a href={`tel:${PHONE}`} className="btn btn-outline-light px-4">
+                      <i className="bi bi-telephone me-2"></i>Bizi Ara
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

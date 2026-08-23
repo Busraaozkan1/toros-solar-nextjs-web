@@ -1,4 +1,4 @@
-// Anasayfa paket firsatlari + Solar Ihtiyac Sihirbazi icin tek veri kaynagi.
+// Anasayfa paket firsatlari icin tek veri kaynagi.
 // BOM'lar Jun 2026'da kilitlendi: off-grid = off-grid inverter/charger (dahili MPPT,
 // ayri sarj kontrol YOK); sebeke bagli kademeler = Deye hibrit (+ bataryasiz secenek).
 
@@ -92,65 +92,4 @@ export const BUNDLES: Bundle[] = [
 
 export function bundleById(id: string): Bundle | undefined {
   return BUNDLES.find((b) => b.id === id);
-}
-
-// --- Solar Ihtiyac Sihirbazi -------------------------------------------------
-
-// Ortalama GUNLUK tuketim (kWh) — cihaz basina (sabit; saat sormuyoruz).
-export interface Appliance {
-  key: string;
-  label: string;
-  kwh: number;
-  icon: string;
-}
-
-export const APPLIANCES: Appliance[] = [
-  { key: "buzdolabi", label: "Buzdolabı / dondurucu", kwh: 1.4, icon: "bi-thermometer-snow" },
-  { key: "klima", label: "Klima (1 ünite)", kwh: 3.5, icon: "bi-wind" },
-  { key: "tv", label: "Televizyon", kwh: 0.4, icon: "bi-tv" },
-  { key: "camasir", label: "Çamaşır makinesi", kwh: 1.0, icon: "bi-bucket" },
-  { key: "bulasik", label: "Bulaşık makinesi", kwh: 1.1, icon: "bi-droplet" },
-  { key: "isitici", label: "Elektrikli ısıtıcı / şofben", kwh: 3.0, icon: "bi-fire" },
-  { key: "aydinlatma", label: "Aydınlatma (ev geneli)", kwh: 0.6, icon: "bi-lightbulb" },
-  { key: "ofis", label: "Bilgisayar / ofis", kwh: 0.5, icon: "bi-laptop" },
-];
-
-// Mersin/Adana icin ~ uretim faktoru: 1 kWp ≈ 4,4 kWh/gun (kayiplar dahil).
-const KWH_PER_KWP_DAY = 4.4;
-
-export interface Recommendation {
-  bundleId: string;
-  dailyKwh: number;
-  suggestedKwp: number;
-}
-
-export function recommendByDailyKwh(dailyKwh: number): Recommendation {
-  const suggestedKwp = dailyKwh / KWH_PER_KWP_DAY;
-  let bundleId = "ev-5kw";
-  if (suggestedKwp > 10) bundleId = "isletme-15kw";
-  else if (suggestedKwp > 6) bundleId = "villa-8kw";
-  return { bundleId, dailyKwh: round1(dailyKwh), suggestedKwp: round1(suggestedKwp) };
-}
-
-export function recommendByMonthlyKwh(monthlyKwh: number): Recommendation {
-  return recommendByDailyKwh(monthlyKwh / 30);
-}
-
-// Tarimsal pompa: HP -> onerilen panel sayisi (610W) ve dizi gucu.
-export interface PumpRecommendation {
-  hp: number;
-  kw: number;
-  suggestedKwp: number;
-  panelCount: number;
-}
-
-export function recommendByPumpHp(hp: number): PumpRecommendation {
-  const kw = hp * 0.746;
-  const suggestedKwp = kw / 0.8; // pompa surekli calissin diye dizi biraz buyuk
-  const panelCount = Math.max(2, Math.ceil(suggestedKwp / 0.61));
-  return { hp, kw: round1(kw), suggestedKwp: round1(suggestedKwp), panelCount };
-}
-
-function round1(x: number): number {
-  return Math.round(x * 10) / 10;
 }
