@@ -1,15 +1,13 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { APPLIANCES } from "@/lib/bundles";
-import { PHONE_E164, whatsappLink } from "@/lib/contact";
 import {
-  buildSystemByDailyKwh,
-  buildSystemByMonthlyKwh,
-  buildPumpSystem,
-  type WizProduct,
-  type SystemItem,
-} from "@/lib/systemBuilder";
+  APPLIANCES,
+  recommendByDailyKwh,
+  recommendByMonthlyKwh,
+  recommendByPumpHp,
+} from "@/lib/bundles";
+import { PHONE_E164, whatsappLink } from "@/lib/contact";
 
 const PHONE = PHONE_E164;
 const wa = whatsappLink;
@@ -52,28 +50,7 @@ function Stepper({ value, onChange }: { value: number; onChange: (v: number) => 
   );
 }
 
-function ItemList({ items }: { items: SystemItem[] }) {
-  return (
-    <div className="mb-3">
-      {items.map((it) => (
-        <a
-          key={it.id}
-          href={it.href}
-          className="d-flex align-items-center justify-content-between text-decoration-none mb-2 p-2 px-3 rounded-3"
-          style={{ background: "rgba(255,255,255,0.05)" }}
-        >
-          <span className="text-white text-start" style={{ fontSize: "0.86rem", lineHeight: 1.35 }}>
-            <span className="text-gold fw-bold me-2">{it.qty}×</span>
-            {it.name}
-          </span>
-          <i className="bi bi-arrow-right text-gold ms-2"></i>
-        </a>
-      ))}
-    </div>
-  );
-}
-
-export default function SolarWizard({ products }: { products: WizProduct[] }) {
+export default function SolarWizard() {
   const [mode, setMode] = useState<Mode>("cihaz");
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [monthly, setMonthly] = useState(350);
@@ -91,12 +68,12 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
   );
 
   const home = useMemo(() => {
-    if (mode === "cihaz") return daily > 0 ? buildSystemByDailyKwh(products, daily) : null;
-    if (mode === "fatura") return monthly > 0 ? buildSystemByMonthlyKwh(products, monthly) : null;
+    if (mode === "cihaz") return daily > 0 ? recommendByDailyKwh(daily) : null;
+    if (mode === "fatura") return monthly > 0 ? recommendByMonthlyKwh(monthly) : null;
     return null;
-  }, [mode, daily, monthly, products]);
+  }, [mode, daily, monthly]);
 
-  const pump = useMemo(() => (mode === "pompa" ? buildPumpSystem(products, hp) : null), [mode, hp, products]);
+  const pump = useMemo(() => (mode === "pompa" ? recommendByPumpHp(hp) : null), [mode, hp]);
 
   const setCount = (key: string, v: number) => {
     setCounts((c) => ({ ...c, [key]: v }));
@@ -108,15 +85,15 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
     return qty > 0 ? [`${qty}× ${appliance.label}`] : [];
   });
   const selectedAppliancesText = selectedAppliances.join(", ");
-  const recommendedSystemText = home?.items.map((i) => `${i.qty}× ${i.name}`).join(", ") || "";
+  const selectedAppliancesMessage = selectedAppliances.map((item) => `- ${item}`).join("\n");
 
   const homeText = home
     ? mode === "cihaz"
-      ? `Merhaba, ihtiyaç sihirbazında seçtiğim cihazlar: ${selectedAppliancesText}. Tahminî tüketim: ~${home.dailyKwh} kWh/gün. Önerilen sistem: ${recommendedSystemText}. Teklif alabilir miyim?`
-      : `Merhaba, ihtiyaç sihirbazına göre ~${home.dailyKwh} kWh/gün için şu sistemi istiyorum: ${recommendedSystemText}. Teklif alabilir miyim?`
+      ? `Merhaba, ihtiyaç sihirbazında seçtiğim cihazlar:\n${selectedAppliancesMessage}`
+      : `Merhaba, ihtiyaç sihirbazına girdiğim aylık tüketim: ${monthly} kWh.`
     : "";
   const pumpText = pump
-    ? `Merhaba, ${pump.hp} HP tarımsal sulama pompası için solar sistem (~${pump.panelCount} panel) teklifi almak istiyorum.`
+    ? `Merhaba, cihazım: ${pump.hp} HP tarımsal sulama pompası.`
     : "";
 
   const box: React.CSSProperties = {
@@ -140,7 +117,7 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
           </h6>
           <h2 className="section-title text-white headline-hover-fx">Solar İhtiyaç Sihirbazı</h2>
           <p className="mx-auto mt-3" style={{ maxWidth: "680px", color: "rgba(255,255,255,0.7)" }}>
-            Birkaç saniyede size uygun ürünleri görün. Öneri tahminîdir; net sistem ücretsiz keşifte belirlenir.
+            Birkaç saniyede yaklaşık enerji ihtiyacınızı görün. Net sistem kapasitesi ücretsiz keşifte belirlenir.
           </p>
         </div>
 
@@ -240,12 +217,12 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
                       </>
                     ) : (
                       <>
-                        <i className="bi bi-stars me-2"></i>Sistemimi Oluştur
+                        <i className="bi bi-calculator me-2"></i>İhtiyacımı Hesapla
                       </>
                     )}
                   </button>
                   <p className="mt-3 mb-0" style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.82rem" }}>
-                    Seçimlerinizi yapın, size en uygun ürünleri önerelim.
+                    Seçimlerinizi yapın, yaklaşık enerji ihtiyacınızı hesaplayalım.
                   </p>
                 </div>
               )}
@@ -254,19 +231,14 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
               {phase === "done" && mode === "pompa" && pump && (
                 <div className="mt-4 p-4" style={box}>
                   <p className="text-white text-center mb-1" style={{ fontSize: "0.9rem" }}>
-                    {pump.hp} HP pompa ≈ <strong>{pump.kw} kW</strong> · önerilen ~{pump.panelCount} panel
+                    Pompa motor gücü: yaklaşık <strong>{pump.kw} kW</strong>
                   </p>
-                  <h6 className="text-gold fw-bold text-center mb-3">Önerilen ürünler</h6>
-                  {pump.items.length > 0 ? (
-                    <ItemList items={pump.items} />
-                  ) : (
-                    <p className="text-center" style={{ color: "rgba(255,255,255,0.6)" }}>
-                      Size özel pompa sistemini birlikte planlayalım.
-                    </p>
-                  )}
+                  <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.9rem" }}>
+                    Yaklaşık solar sistem gücü: <strong>{pump.suggestedKwp} kWp</strong>
+                  </p>
                   <div className="d-flex flex-wrap justify-content-center gap-2">
                     <a href={wa(pumpText)} target="_blank" rel="noopener noreferrer" className="btn btn-gold px-4">
-                      <i className="bi bi-whatsapp me-2"></i>Teklif Al
+                      <i className="bi bi-whatsapp me-2"></i>Pompa Bilgisini Gönder
                     </a>
                     <a href={`tel:${PHONE}`} className="btn btn-outline-light px-4">
                       <i className="bi bi-telephone me-2"></i>Ara
@@ -278,24 +250,20 @@ export default function SolarWizard({ products }: { products: WizProduct[] }) {
               {phase === "done" && (mode === "cihaz" || mode === "fatura") && home && (
                 <div className="mt-4 p-4" style={box}>
                   <p className="text-white text-center mb-1" style={{ fontSize: "0.9rem" }}>
-                    Tahminî günlük tüketim: <strong>{home.dailyKwh} kWh</strong> · önerilen sistem ~{home.suggestedKwp} kWp
+                    Tahminî günlük enerji ihtiyacı: <strong>{home.dailyKwh} kWh</strong>
+                  </p>
+                  <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.9rem" }}>
+                    Yaklaşık solar sistem gücü: <strong>{home.suggestedKwp} kWp</strong>
                   </p>
                   {mode === "cihaz" && selectedAppliances.length > 0 && (
                     <p className="text-center mb-3" style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.8rem" }}>
                       Seçilen cihazlar: {selectedAppliancesText}
                     </p>
                   )}
-                  <h6 className="text-gold fw-bold text-center mb-3">Size önerilen ürünler</h6>
-                  {home.items.length > 0 ? (
-                    <ItemList items={home.items} />
-                  ) : (
-                    <p className="text-center" style={{ color: "rgba(255,255,255,0.6)" }}>
-                      Size özel sistemi birlikte planlayalım.
-                    </p>
-                  )}
                   <div className="d-flex flex-wrap justify-content-center gap-2">
                     <a href={wa(homeText)} target="_blank" rel="noopener noreferrer" className="btn btn-gold px-4">
-                      <i className="bi bi-whatsapp me-2"></i>Bu Sistem İçin Teklif Al
+                      <i className="bi bi-whatsapp me-2"></i>
+                      {mode === "cihaz" ? "Cihazlarımı Gönder" : "Tüketimimi Gönder"}
                     </a>
                     <a href={`tel:${PHONE}`} className="btn btn-outline-light px-4">
                       <i className="bi bi-telephone me-2"></i>Ara
